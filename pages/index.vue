@@ -1,18 +1,18 @@
 <template>
   <section class="page">
     <section class="base">
-      <transition name="animate-slide-up">
-        <div class="base_circle circle"></div>
-      </transition>
-      <transition name="animate-slide-down">
-        <div class="base_circle circle"></div>
-      </transition>
+        <div class="base_circle circle" :class="{'slide-up' : isAnimate}"></div>
+        <div class="base_circle circle " :class="{'slide-down' : isAnimate}"></div>
     </section>
+<!--    <button @click="isAnimate = !isAnimate">Click me</button> Check button-->
   </section>
 </template>
 
 <script>
 export default {
+  data: () => ({
+    isAnimate: false // the variable is responsible for the animation
+  })
 }
 </script>
 
@@ -75,6 +75,33 @@ export default {
         top 0
         right 0
         transform translate(30%, -30%)
+      }
+    }
+    .slide-up {
+      animation slide-up 10s linear infinite
+    }
+
+    .slide-down {
+      animation slide-down 10s linear infinite
+    }
+
+    @keyframes slide-up {
+      0%, 100% {
+        transform translate(-40%, 30%)
+      }
+      50% {
+        transition 5s
+        transform translate(-40%, -20%)
+      }
+    }
+
+    @keyframes slide-down {
+      0%, 100% {
+        transform translate(30%, -30%)
+      }
+      50% {
+        transition 5s
+        transform translate(40%, 20%)
       }
     }
   }
