@@ -77,6 +77,18 @@ export default {
         transform translate(30%, -30%)
       }
     }
+
+    @media screen and (max-width 465px) {
+      .circle {
+        width 250px
+        height 250px
+
+        &:first-child {
+          width 250px
+          height 250px
+        }
+      }
+    }
     .slide-up {
       animation slide-up 10s linear infinite
     }
