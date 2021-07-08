@@ -1,8 +1,12 @@
 <template>
   <section class="page">
     <section class="base">
-        <div class="base_circle circle" :class="{'slide-up' : isAnimate}"></div>
-        <div class="base_circle circle " :class="{'slide-down' : isAnimate}"></div>
+      <div class="base_circle circle" :class="{'slide-up' : isAnimate}"></div>
+      <div class="base_circle circle " :class="{'slide-down' : isAnimate}"></div>
+      <div class="technology">
+        <img class="technology__logo" src="@/static/icons/nuxt.svg" alt="">
+        <p class="technology__text text">Create with Nuxt.js</p>
+      </div>
     </section>
 <!--    <button @click="isAnimate = !isAnimate">Click me</button> Check button-->
   </section>
@@ -40,6 +44,25 @@ export default {
     border-radius 18px
     border solid 1px #B7B3B3
     overflow hidden
+
+    .technology {
+      display flex
+      justify-content center
+      align-items center
+      position absolute
+      top 27px
+      left 36px
+      z-index 2
+
+      &__text {
+        margin-left 10px
+      }
+
+      .text {
+        color #929090
+        font normal 1em 'Roboto', sans-serif
+      }
+    }
 
     &:before {
       content ''
