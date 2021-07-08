@@ -17,6 +17,8 @@ export default {
 </script>
 
 <style lang="stylus">
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 *,
 *:before,
 *:after {
@@ -33,8 +35,8 @@ export default {
 
   .base {
     position relative
-    width 700px
-    height 400px
+    width 900px
+    height 450px
     border-radius 18px
     border solid 1px #B7B3B3
     overflow hidden
@@ -44,9 +46,9 @@ export default {
       position absolute
       top 0
       left 0
-      width 110%
-      height 110%
-      background rgba(255, 255, 255, 0.2)
+      width 100%
+      height 100%
+      background rgba(255, 255, 255, 0.7)
       border-radius 18px
       backdrop-filter blur(5px)
       z-index 1
@@ -71,7 +73,7 @@ export default {
         transform translate(-40%, 30%)
       }
 
-      &:last-child {
+      &:nth-child(2) {
         top 0
         right 0
         transform translate(30%, -30%)
@@ -89,6 +91,7 @@ export default {
         }
       }
     }
+
     .slide-up {
       animation slide-up 10s linear infinite
     }
@@ -113,7 +116,7 @@ export default {
       }
       50% {
         transition 5s
-        transform translate(40%, 20%)
+        transform translate(40%, 40%)
       }
     }
   }
