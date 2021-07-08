@@ -7,13 +7,15 @@
         <img class="technology__logo" src="@/static/icons/nuxt.svg" alt="">
         <p class="technology__text text">Create with Nuxt.js</p>
       </div>
+      <v-control-panel @playAnimation="isAnimate = true" @stopAnimation="isAnimate = false"/>
     </section>
-<!--    <button @click="isAnimate = !isAnimate">Click me</button> Check button-->
   </section>
 </template>
 
 <script>
+import VControlPanel from "../components/v-control-panel";
 export default {
+  components: {VControlPanel},
   data: () => ({
     isAnimate: false // the variable is responsible for the animation
   })
