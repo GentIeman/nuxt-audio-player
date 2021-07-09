@@ -141,7 +141,7 @@ export default {
       }
       50% {
         transition 5s
-        transform translate(40%, 40%)
+        transform translate(40%, 60%)
       }
     }
   }
