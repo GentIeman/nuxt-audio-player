@@ -8,14 +8,13 @@
         <p class="technology__text text">Create with Nuxt.js</p>
       </div>
       <v-control-panel @playAnimation="isAnimate = true" @stopAnimation="isAnimate = false"/>
+      <v-slider />
     </section>
   </section>
 </template>
 
 <script>
-import VControlPanel from "../components/v-control-panel";
 export default {
-  components: {VControlPanel},
   data: () => ({
     isAnimate: false // the variable is responsible for the animation
   })
@@ -41,10 +40,11 @@ export default {
 
   .base {
     position relative
-    width 900px
-    height 450px
+    width 1000px
+    height 520px
     border-radius 18px
     border solid 1px #B7B3B3
+    z-index 1
     overflow hidden
 
     .technology {
@@ -54,7 +54,7 @@ export default {
       position absolute
       top 27px
       left 36px
-      z-index 2
+      z-index 1
 
       &__text {
         margin-left 10px
@@ -71,8 +71,8 @@ export default {
       position absolute
       top 0
       left 0
-      width 100%
-      height 100%
+      width 110%
+      height 110%
       background rgba(255, 255, 255, 0.7)
       border-radius 18px
       backdrop-filter blur(5px)
