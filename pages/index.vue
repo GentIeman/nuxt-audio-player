@@ -8,9 +8,11 @@
         <p class="technology__text text">Create with Nuxt.js</p>
       </div>
       <section class="slider">
-        <div class="slider__slide" v-for="slide in sliderList" :style="{'margin-left': '-' + (20 * currentSlideIndex) + '%'} ">
-          <img class="album" :src="`/albums/${slide.album}.jpg`" alt="slide">
-        </div>
+        <transition-group name="carousel-transition" class="slider__body">
+          <div class="slider__slide" v-for="slide in sliderList" :key="slide.id">
+            <img v-if="slide" class="album" :src="`/albums/${slide.album}.jpg`" alt="slide">
+          </div>
+        </transition-group>
       </section>
       <section class="panel">
         <div class="panel__shuffle">
@@ -20,7 +22,7 @@
           <div class="main-btns__previous-song">
             <img src="@/static/icons/previous-song.svg" alt="previous-song" width="30px" @click="prevSong">
           </div>
-          <div class="main-btns__play-song"  v-if="isPlayed === false" @click="isAnimate = true, isPlayed = true">
+          <div class="main-btns__play-song" v-if="isPlayed === false" @click="isAnimate = true, isPlayed = true">
             <img src="@/static/icons/play.svg" alt="play-btn" width="40px">
           </div>
           <div class="main-btns__pause-song" v-if="isPlayed === true" @click="isAnimate = false, isPlayed = false">
@@ -52,12 +54,14 @@ export default {
   }),
   methods: {
     nextSong() {
-        this.currentSlideIndex++
+      this.currentSlideIndex++
+      let lastElem = this.sliderList.pop()
+      this.sliderList.unshift(lastElem)
     },
     prevSong() {
-      if (this.currentSlideIndex > 0) {
-        this.currentSlideIndex--
-      }
+      this.currentSlideIndex--
+      let firstElem = this.sliderList.shift()
+      this.sliderList.push(firstElem)
     }
   }
 }
@@ -199,52 +203,59 @@ export default {
       height 200px
       z-index 2
 
-      &__slide {
-        position relative
-        border-radius 18px
-        width 150px
-        height 150px
-        overflow hidden
-        transition 0.5s
+      &__body {
+        display flex
+        justify-content center
+        align-items center
 
-        .album {
-          position absolute
-          top 0
-          left 0
-          width 100%
-          height 100%
-        }
+        .slider__slide {
+          position relative
+          border-radius 18px
+          width 150px
+          height 150px
+          overflow hidden
+          transition all .5s
 
+          &:nth-child(even) {
+            filter drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))
+            z-index 1
+            width 200px
+            height 200px
+          }
 
-        &:first-child,
-        &:last-child {
-
-          &:after {
-            content ''
+          .album {
             position absolute
-            top: 0
-            left: 0
+            top 0
+            left 0
             width 100%
             height 100%
-            background-color rgba(0,0,0,0.8)
+          }
+
+
+          &:first-child,
+          &:last-child {
+
+            &:after {
+              content ''
+              position absolute
+              top: 0
+              left: 0
+              width 100%
+              height 100%
+              background-color rgba(0, 0, 0, 0.8)
+            }
+          }
+
+          &:first-child {
+            position relative
+            left 40px
+          }
+
+          &:last-child {
+            position relative
+            right 40px
           }
         }
-
-        &:first-child {
-          position relative
-          left 40px
-        }
-
-        &:last-child {
-          position relative
-          right 40px
-        }
-      }
-      .active {
-        filter drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))
-        z-index 1
-        width 200px
-        height 200px
       }
     }
 
@@ -281,6 +292,10 @@ export default {
         width 370px
       }
     }
+  }
+
+  .carousel-transition-move {
+    transition: transform 0.1s;
   }
 }
 
