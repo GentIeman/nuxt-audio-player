@@ -7,8 +7,35 @@
         <img class="technology__logo" src="@/static/icons/nuxt.svg" alt="">
         <p class="technology__text text">Create with Nuxt.js</p>
       </div>
-      <v-control-panel @playAnimation="isAnimate = true" @stopAnimation="isAnimate = false"/>
-      <v-slider />
+      <section class="slider">
+        <transition-group name="carousel-transition" class="slider__body">
+          <div class="slider__slide" v-for="slide in sliderList" :key="slide.id">
+            <img v-if="slide" class="album" :src="`/albums/${slide.album}.jpg`" alt="slide">
+          </div>
+        </transition-group>
+      </section>
+      <section class="panel">
+        <div class="panel__shuffle">
+          <img src="@/static/icons/shuffle.svg" alt="shuffle-icon" width="30px">
+        </div>
+        <div class="main-btns">
+          <div class="main-btns__previous-song">
+            <img src="@/static/icons/previous-song.svg" alt="previous-song" width="30px" @click="prevSong">
+          </div>
+          <div class="main-btns__play-song" v-if="isPlayed === false" @click="isAnimate = true, isPlayed = true">
+            <img src="@/static/icons/play.svg" alt="play-btn" width="40px">
+          </div>
+          <div class="main-btns__pause-song" v-if="isPlayed === true" @click="isAnimate = false, isPlayed = false">
+            <img src="@/static/icons/pause.svg" alt="pause-btn" width="40px">
+          </div>
+          <div class="main-btns__next-song">
+            <img src="@/static/icons/next-song.svg" alt="next-song" width="30px" @click="nextSong">
+          </div>
+        </div>
+        <div class="panel__repeat">
+          <img src="@/static/icons/repeat.svg" alt="repeat" width="30px">
+        </div>
+      </section>
     </section>
   </section>
 </template>
@@ -16,8 +43,27 @@
 <script>
 export default {
   data: () => ({
-    isAnimate: false // the variable is responsible for the animation
-  })
+    isAnimate: false, // the variable is responsible for the animation
+    currentSlideIndex: 0,
+    isPlayed: false,
+    sliderList: [
+      {id: 0, album: 'hate_me'},
+      {id: 1, album: 'shockwave'},
+      {id: 2, album: 'the_people_1991'}
+    ]
+  }),
+  methods: {
+    nextSong() {
+      this.currentSlideIndex++
+      let lastElem = this.sliderList.pop()
+      this.sliderList.unshift(lastElem)
+    },
+    prevSong() {
+      this.currentSlideIndex--
+      let firstElem = this.sliderList.shift()
+      this.sliderList.push(firstElem)
+    }
+  }
 }
 </script>
 
@@ -144,6 +190,112 @@ export default {
         transform translate(40%, 60%)
       }
     }
+
+    .slider {
+      display flex
+      justify-content center
+      align-items center
+      position absolute
+      top 45%
+      left 50%
+      transform translate(-50%, -50%)
+      width 500px
+      height 200px
+      z-index 2
+
+      &__body {
+        display flex
+        justify-content center
+        align-items center
+
+        .slider__slide {
+          position relative
+          border-radius 18px
+          width 150px
+          height 150px
+          overflow hidden
+          transition all .5s
+
+          &:nth-child(even) {
+            filter drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))
+            z-index 1
+            width 200px
+            height 200px
+          }
+
+          .album {
+            position absolute
+            top 0
+            left 0
+            width 100%
+            height 100%
+          }
+
+
+          &:first-child,
+          &:last-child {
+
+            &:after {
+              content ''
+              position absolute
+              top: 0
+              left: 0
+              width 100%
+              height 100%
+              background-color rgba(0, 0, 0, 0.8)
+            }
+          }
+
+          &:first-child {
+            position relative
+            left 40px
+          }
+
+          &:last-child {
+            position relative
+            right 40px
+          }
+        }
+      }
+    }
+
+    .panel {
+      display flex
+      justify-content space-between
+      align-items center
+      position absolute
+      bottom 0
+      left 50%
+      transform translate(-50%, -40%)
+      width 350px
+      z-index 2
+
+      & > div {
+        cursor pointer
+      }
+
+      .main-btns {
+        display flex
+        justify-content space-between
+        align-items center
+        width 200px
+        cursor default
+
+        & > div {
+          cursor pointer
+        }
+      }
+    }
+
+    @media screen and (max-width 465px ) {
+      .panel {
+        width 370px
+      }
+    }
+  }
+
+  .carousel-transition-move {
+    transition: transform 0.1s;
   }
 }
 
