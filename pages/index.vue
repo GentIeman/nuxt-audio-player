@@ -12,6 +12,28 @@
           <img class="album" :src="`/albums/${slide.album}.jpg`" alt="slide">
         </div>
       </section>
+      <section class="panel">
+        <div class="panel__shuffle">
+          <img src="@/static/icons/shuffle.svg" alt="shuffle-icon" width="30px">
+        </div>
+        <div class="main-btns">
+          <div class="main-btns__previous-song">
+            <img src="@/static/icons/previous-song.svg" alt="previous-song" width="30px" @click="prevSong">
+          </div>
+          <div class="main-btns__play-song"  v-if="isPlayed === false" @click="isAnimate = true, isPlayed = true">
+            <img src="@/static/icons/play.svg" alt="play-btn" width="40px">
+          </div>
+          <div class="main-btns__pause-song" v-if="isPlayed === true" @click="isAnimate = false, isPlayed = false">
+            <img src="@/static/icons/pause.svg" alt="pause-btn" width="40px">
+          </div>
+          <div class="main-btns__next-song">
+            <img src="@/static/icons/next-song.svg" alt="next-song" width="30px" @click="nextSong">
+          </div>
+        </div>
+        <div class="panel__repeat">
+          <img src="@/static/icons/repeat.svg" alt="repeat" width="30px">
+        </div>
+      </section>
     </section>
   </section>
 </template>
@@ -223,6 +245,40 @@ export default {
         z-index 1
         width 200px
         height 200px
+      }
+    }
+
+    .panel {
+      display flex
+      justify-content space-between
+      align-items center
+      position absolute
+      bottom 0
+      left 50%
+      transform translate(-50%, -40%)
+      width 350px
+      z-index 2
+
+      & > div {
+        cursor pointer
+      }
+
+      .main-btns {
+        display flex
+        justify-content space-between
+        align-items center
+        width 200px
+        cursor default
+
+        & > div {
+          cursor pointer
+        }
+      }
+    }
+
+    @media screen and (max-width 465px ) {
+      .panel {
+        width 370px
       }
     }
   }
