@@ -7,8 +7,11 @@
         <img class="technology__logo" src="@/static/icons/nuxt.svg" alt="">
         <p class="technology__text text">Create with Nuxt.js</p>
       </div>
-      <v-control-panel @playAnimation="isAnimate = true" @stopAnimation="isAnimate = false"/>
-      <v-slider />
+      <section class="slider">
+        <div class="slider__slide" v-for="slide in sliderList" :style="{'margin-left': '-' + (20 * currentSlideIndex) + '%'} ">
+          <img class="album" :src="`/albums/${slide.album}.jpg`" alt="slide">
+        </div>
+      </section>
     </section>
   </section>
 </template>
@@ -16,8 +19,25 @@
 <script>
 export default {
   data: () => ({
-    isAnimate: false // the variable is responsible for the animation
-  })
+    isAnimate: false, // the variable is responsible for the animation
+    currentSlideIndex: 0,
+    isPlayed: false,
+    sliderList: [
+      {id: 0, album: 'hate_me'},
+      {id: 1, album: 'shockwave'},
+      {id: 2, album: 'the_people_1991'}
+    ]
+  }),
+  methods: {
+    nextSong() {
+        this.currentSlideIndex++
+    },
+    prevSong() {
+      if (this.currentSlideIndex > 0) {
+        this.currentSlideIndex--
+      }
+    }
+  }
 }
 </script>
 
@@ -142,6 +162,67 @@ export default {
       50% {
         transition 5s
         transform translate(40%, 60%)
+      }
+    }
+
+    .slider {
+      display flex
+      justify-content center
+      align-items center
+      position absolute
+      top 45%
+      left 50%
+      transform translate(-50%, -50%)
+      width 500px
+      height 200px
+      z-index 2
+
+      &__slide {
+        position relative
+        border-radius 18px
+        width 150px
+        height 150px
+        overflow hidden
+        transition 0.5s
+
+        .album {
+          position absolute
+          top 0
+          left 0
+          width 100%
+          height 100%
+        }
+
+
+        &:first-child,
+        &:last-child {
+
+          &:after {
+            content ''
+            position absolute
+            top: 0
+            left: 0
+            width 100%
+            height 100%
+            background-color rgba(0,0,0,0.8)
+          }
+        }
+
+        &:first-child {
+          position relative
+          left 40px
+        }
+
+        &:last-child {
+          position relative
+          right 40px
+        }
+      }
+      .active {
+        filter drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))
+        z-index 1
+        width 200px
+        height 200px
       }
     }
   }
