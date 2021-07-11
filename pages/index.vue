@@ -14,6 +14,15 @@
           </div>
         </transition-group>
       </section>
+      <section class="timeline">
+        <div class="timeline__progress" ref="progress">
+          <div class="radio"></div>
+        </div>
+        <div class="time-code">
+          <time class="begin-time time">{{ realTime }}</time>
+          <time class="end-time time">{{ timeEnd }}</time>
+        </div>
+      </section>
       <section class="panel">
         <div class="panel__shuffle">
           <img src="@/static/icons/shuffle.svg" alt="shuffle-icon" width="30px">
@@ -46,6 +55,8 @@ export default {
     isAnimate: false, // the variable is responsible for the animation
     currentSlideIndex: 0,
     isPlayed: false,
+    timeEnd: '5:00',
+    realTime: '0:00',
     sliderList: [
       {id: 0, album: 'hate_me'},
       {id: 1, album: 'shockwave'},
@@ -255,6 +266,54 @@ export default {
             position relative
             right 40px
           }
+        }
+      }
+    }
+
+    .timeline {
+      position absolute
+      top 75%
+      left 50%
+      transform translate(-50%, -50%)
+      width 486px
+      height 5px
+      background-color #B7B3B3
+      border-radius 5px
+      z-index 2
+
+      &__progress {
+        display flex
+        justify-content flex-end
+        align-items center
+        position absolute
+        left 1px
+        width 102px
+        background-color #1DD1A1
+        height 5px
+        border-radius 5px
+
+        .radio {
+          content ''
+          position absolute
+          width 15px
+          height 15px
+          border-radius 50%
+          background-color #1DD1A1
+          cursor grabbing
+        }
+      }
+
+      .time-code {
+        display flex
+        position absolute
+        top -25px
+        justify-content space-between
+        width 100%
+        height auto
+
+        .time {
+          font normal 0.9em sans-serif
+          color #B7B3B3
         }
       }
     }
