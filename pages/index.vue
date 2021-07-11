@@ -323,7 +323,7 @@ export default {
       justify-content space-between
       align-items center
       position absolute
-      bottom 0
+      bottom 5%
       left 50%
       transform translate(-50%, -40%)
       width 350px
