@@ -66,13 +66,13 @@ export default {
   methods: {
     nextSong() {
       this.currentSlideIndex++
-      let lastElem = this.sliderList.pop()
-      this.sliderList.unshift(lastElem)
+      let firstElem = this.sliderList.shift()
+      this.sliderList.push(firstElem)
     },
     prevSong() {
       this.currentSlideIndex--
-      let firstElem = this.sliderList.shift()
-      this.sliderList.push(firstElem)
+      let lastElem = this.sliderList.pop()
+      this.sliderList.unshift(lastElem)
     }
   }
 }
@@ -207,7 +207,7 @@ export default {
       justify-content center
       align-items center
       position absolute
-      top 45%
+      top 35%
       left 50%
       transform translate(-50%, -50%)
       width 500px
@@ -354,7 +354,7 @@ export default {
   }
 
   .carousel-transition-move {
-    transition: transform 0.1s;
+    transition: transform 30s;
   }
 }
 
