@@ -79,35 +79,8 @@ export default {
       let lastElem = this.sliderList.pop()
       this.sliderList.unshift(lastElem)
     },
-    initSlider() {
-      var audio = this.$refs.player;
-      if (audio) {
-        this.audioDuration = Math.round(audio.duration);
-      }
-    },
-    convertTime(seconds){
-      const format = val => `0${Math.floor(val)}`.slice(-2);
-      var hours = seconds / 3600;
-      var minutes = (seconds % 3600) / 60;
-      return [minutes, seconds % 60].map(format).join(":");
-    },
-    totalTime() {
-      var audio = this.$refs.player;
-      if (audio) {
-        var seconds = audio.duration;
-        return this.convertTime(seconds);
-      } else {
-        return '00:00';
-      }
-    },
-    elapsedTime() {
-      var audio = this.$refs.player;
-      if (audio) {
-        var seconds = audio.currentTime;
-        return this.convertTime(seconds);
-      } else {
-        return '00:00';
-      }
+    timer() {
+      this.playbackTime++
     },
     playToggle() {
       let audio = this.$refs.player
@@ -125,14 +98,56 @@ export default {
         this.isAnimate = false
       }
     },
+    initSlider() {
+      let audio = this.$refs.player;
+      if (audio) {
+        this.audioDuration = Math.round(audio.duration);
+      }
+    },
+    convertTime(seconds){
+      const format = val => `0${Math.floor(val)}`.slice(-2);
+      let hours = seconds / 3600;
+      let minutes = (seconds % 3600) / 60;
+      return [minutes, seconds % 60].map(format).join(":");
+    },
+    totalTime() {
+      let audio = this.$refs.player
+
+      if (audio) {
+        let seconds = audio.duration
+        return this.convertTime(seconds)
+      } else {
+        return '00:00'
+      }
+    },
+    currentTime() {
+      let audio = this.$refs.player;
+      if (audio) {
+        let seconds = audio.currentTime;
+        return this.convertTime(seconds);
+      } else {
+        return '00:00';
+      }
+    }
   },
-  mounted: function() {
+  watch: {
+    playbackTime() {
+      let audio=this.$refs.player;
+      let diff=Math.abs(this.playbackTime-this.$refs.player.currentTime);
+
+      if(diff>0.01) {
+        this.$refs.player.currentTime=this.playbackTime;
+      }
+    }
+  },
+  mounted() {
+
     this.$nextTick(function() {
 
-      var audio=this.$refs.player;
+      let audio = this.$refs.player;
       audio.addEventListener(
         "loadedmetadata",
-        function(e) {
+        function (e) {
           this.initSlider();
         }.bind(this)
       );
