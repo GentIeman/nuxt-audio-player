@@ -383,13 +383,24 @@ export default {
       transform translate(-50%, -50%)
       width 486px
       height 5px
+     // background-color #B7B3B3
+      border-radius 6px
+      cursor pointer
       z-index 2
 
       &__progress {
         display flex
         align-items center
+        justify-content flex-end
         position absolute
         width 100%
+        height 100%
+        border-radius 6px
+
+        &:hover .range{
+          display block
+          transition all 5s ease
+        }
       }
 
       .time-code {
