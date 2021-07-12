@@ -15,21 +15,18 @@
         </transition-group>
       </section>
       <section class="timeline">
-          <input
-            class="timeline__progress"
-            v-model="playbackTime"
-            type="range"
-            min="0"
-            :max="audioDuration"
-            ref="progress"
-          />
+<!--        <div class="timeline__progress">-->
+<!--          <div class="range"></div>-->
+<!--        </div>-->
+        <input type="range" class="timeline__progress" :max="audioDuration" v-model="playbackTime" >
         <div class="time-code">
-          <span class="begin-time time"  v-html="elapsedTime()"> 00:00</span>
-          <span class="end-time time" v-html="totalTime()">00:00</span>
+          <span class="begin-time time" v-html="currentTime()"> 00:00 </span>
+          <span class="end-time time" v-html="totalTime()"> 00:00 </span>
         </div>
       </section>
-      <audio id = "audio-player" ref="player" controls src = "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_5MG.mp3">
-        Ваш браузер поддерживает не поддерживает аудио тег.
+      <audio id="audio-player" ref="player" controls
+             src="https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_5MG.mp3">
+        Your browser does not support audio tag.
       </audio>
       <section class="panel">
         <div class="panel__shuffle">
