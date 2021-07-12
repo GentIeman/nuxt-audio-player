@@ -36,10 +36,10 @@
           <div class="main-btns__previous-song">
             <img src="@/static/icons/previous-song.svg" alt="previous-song" width="30px" @click="prevAlbum">
           </div>
-          <div class="main-btns__play-song" v-if="isPlayed === false" @click="toggleAudio">
+          <div class="main-btns__play-song" v-if="isPlayed === false" @click="playToggle()">
             <img src="@/static/icons/play.svg" alt="play-btn" width="40px">
           </div>
-          <div class="main-btns__pause-song" v-if="isPlayed === true" @click="toggleAudio">
+          <div class="main-btns__pause-song" v-if="isPlayed === true" @click="playToggle()">
             <img src="@/static/icons/pause.svg" alt="pause-btn" width="40px">
           </div>
           <div class="main-btns__next-song">
@@ -109,31 +109,20 @@ export default {
         return '00:00';
       }
     },
-    playbackListener(e) {
-      var audio = this.$refs.player;
-      this.playbackTime = audio.currentTime;
+    playToggle() {
+      let audio = this.$refs.player
 
-      audio.addEventListener("ended", this.endListener);
-      audio.addEventListener("pause", this.pauseListener);
-    },
-    pauseListener() {
-      this.isPlaying = false;
-      this.listenerActive = false;
-    },
-    endListener() {
-      this.isPlaying = false;
-      this.listenerActive = false;
-    },
-    toggleAudio() {
-      var audio = this.$refs.player;
       if (audio.paused) {
         audio.play();
-        this.isPlayed = true;
+        this.isPlayed = true
         this.isAnimate = true
+        setInterval(() => {
+          this.timer()
+        }, 1000)
       } else {
         audio.pause();
-        this.isAnimate = false
         this.isPlayed = false
+        this.isAnimate = false
       }
     },
   },
