@@ -15,9 +15,6 @@
         </transition-group>
       </section>
       <section class="timeline">
-<!--        <div class="timeline__progress">-->
-<!--          <div class="range"></div>-->
-<!--        </div>-->
         <input type="range" class="timeline__progress" :max="audioDuration" v-model="playbackTime" >
         <div class="time-code">
           <span class="begin-time time" v-html="currentTime()"> 00:00 </span>
