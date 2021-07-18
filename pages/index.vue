@@ -15,30 +15,35 @@
         </transition-group>
       </section>
       <section class="timeline">
-        <div class="timeline__progress" ref="progress">
-          <div class="radio"></div>
-        </div>
+<!--        <div class="timeline__progress">-->
+<!--          <div class="range"></div>-->
+<!--        </div>-->
+        <input type="range" class="timeline__progress" :max="audioDuration" v-model="playbackTime" >
         <div class="time-code">
-          <time class="begin-time time">{{ realTime }}</time>
-          <time class="end-time time">{{ timeEnd }}</time>
+          <span class="begin-time time" v-html="currentTime()"> 00:00 </span>
+          <span class="end-time time" v-html="totalTime()"> 00:00 </span>
         </div>
       </section>
+      <audio id="audio-player" ref="player" controls
+             src="https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_5MG.mp3">
+        Your browser does not support audio tag.
+      </audio>
       <section class="panel">
         <div class="panel__shuffle">
           <img src="@/static/icons/shuffle.svg" alt="shuffle-icon" width="30px">
         </div>
         <div class="main-btns">
           <div class="main-btns__previous-song">
-            <img src="@/static/icons/previous-song.svg" alt="previous-song" width="30px" @click="prevSong">
+            <img src="@/static/icons/previous-song.svg" alt="previous-song" width="30px" @click="prevAlbum">
           </div>
-          <div class="main-btns__play-song" v-if="isPlayed === false" @click="isAnimate = true, isPlayed = true">
+          <div class="main-btns__play-song" v-if="isPlayed === false" @click="playToggle()">
             <img src="@/static/icons/play.svg" alt="play-btn" width="40px">
           </div>
-          <div class="main-btns__pause-song" v-if="isPlayed === true" @click="isAnimate = false, isPlayed = false">
+          <div class="main-btns__pause-song" v-if="isPlayed === true" @click="playToggle()">
             <img src="@/static/icons/pause.svg" alt="pause-btn" width="40px">
           </div>
           <div class="main-btns__next-song">
-            <img src="@/static/icons/next-song.svg" alt="next-song" width="30px" @click="nextSong">
+            <img src="@/static/icons/next-song.svg" alt="next-song" width="30px" @click="nextAlbum">
           </div>
         </div>
         <div class="panel__repeat">
@@ -55,8 +60,8 @@ export default {
     isAnimate: false, // the variable is responsible for the animation
     currentSlideIndex: 0,
     isPlayed: false,
-    timeEnd: '5:00',
-    realTime: '0:00',
+    audioDuration: 100,
+    playbackTime: 0,
     sliderList: [
       {id: 0, album: 'hate_me'},
       {id: 1, album: 'shockwave'},
@@ -64,16 +69,113 @@ export default {
     ]
   }),
   methods: {
-    nextSong() {
+    nextAlbum() {
       this.currentSlideIndex++
       let firstElem = this.sliderList.shift()
       this.sliderList.push(firstElem)
     },
-    prevSong() {
+    prevAlbum() {
       this.currentSlideIndex--
       let lastElem = this.sliderList.pop()
       this.sliderList.unshift(lastElem)
+    },
+    timer() {
+      this.playbackTime++
+    },
+    playToggle() {
+      let audio = this.$refs.player
+
+      if (audio.paused) {
+        audio.play();
+        this.isPlayed = true
+        this.isAnimate = true
+        setInterval(() => {
+          this.timer()
+        }, 1000)
+      } else {
+        audio.pause();
+        this.isPlayed = false
+        this.isAnimate = false
+      }
+    },
+    initSlider() {
+      let audio = this.$refs.player;
+      if (audio) {
+        this.audioDuration = Math.round(audio.duration);
+      }
+    },
+    convertTime(seconds){
+      const format = val => `0${Math.floor(val)}`.slice(-2);
+      let hours = seconds / 3600;
+      let minutes = (seconds % 3600) / 60;
+      return [minutes, seconds % 60].map(format).join(":");
+    },
+    totalTime() {
+      let audio = this.$refs.player
+
+      if (audio) {
+        let seconds = audio.duration
+        return this.convertTime(seconds)
+      } else {
+        return '00:00'
+      }
+    },
+    currentTime() {
+      let audio = this.$refs.player;
+      if (audio) {
+        let seconds = audio.currentTime;
+        return this.convertTime(seconds);
+      } else {
+        return '00:00';
+      }
     }
+  },
+  watch: {
+    playbackTime() {
+      let audio=this.$refs.player;
+      let diff=Math.abs(this.playbackTime-this.$refs.player.currentTime);
+
+      if(diff>0.01) {
+        this.$refs.player.currentTime=this.playbackTime;
+      }
+    }
+  },
+  mounted() {
+
+    this.$nextTick(function() {
+
+      let audio = this.$refs.player;
+      audio.addEventListener(
+        "loadedmetadata",
+        function (e) {
+          this.initSlider();
+        }.bind(this)
+      );
+      audio.addEventListener(
+        "canplay",
+        function(e) {
+          this.audioLoaded=true;
+        }.bind(this)
+      );
+      this.$watch("isPlaying",function() {
+        if(this.isPlaying) {
+          var audio=this.$refs.player;
+          this.initSlider();
+          if(!this.listenerActive) {
+            this.listenerActive=true;
+            audio.addEventListener("timeupdate",this.playbackListener);
+          }
+        }
+      });
+      this.$watch("playbackTime",function() {
+        var audio=this.$refs.player;
+        var diff=Math.abs(this.playbackTime-this.$refs.player.currentTime);
+
+        if(diff>0.01) {
+          this.$refs.player.currentTime=this.playbackTime;
+        }
+      });
+    });
   }
 }
 </script>
@@ -94,6 +196,10 @@ export default {
   align-items center
   width 100vw
   height 100vh
+
+  audio {
+    display none
+  }
 
   .base {
     position relative
@@ -277,29 +383,23 @@ export default {
       transform translate(-50%, -50%)
       width 486px
       height 5px
-      background-color #B7B3B3
-      border-radius 5px
+     // background-color #B7B3B3
+      border-radius 6px
+      cursor pointer
       z-index 2
 
       &__progress {
         display flex
-        justify-content flex-end
         align-items center
+        justify-content flex-end
         position absolute
-        left 1px
-        width 102px
-        background-color #1DD1A1
-        height 5px
-        border-radius 5px
+        width 100%
+        height 100%
+        border-radius 6px
 
-        .radio {
-          content ''
-          position absolute
-          width 15px
-          height 15px
-          border-radius 50%
-          background-color #1DD1A1
-          cursor grabbing
+        &:hover .range{
+          display block
+          transition all 5s ease
         }
       }
 
@@ -356,6 +456,34 @@ export default {
   .carousel-transition-move {
     transition: transform 30s;
   }
+
+  input[type='range'] {
+    width: 80px;
+    -webkit-appearance: none;
+    background-color: #9a905d;
+  }
+
+  input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 5px;
+    cursor: pointer;
+    background: #B7B3B3;
+    border none
+    border-radius 6px
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    position relative
+    top -5px
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #1DD1A1;
+    cursor: pointer;
+  }
+
 }
 
 </style>
