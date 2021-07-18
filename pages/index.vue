@@ -62,6 +62,7 @@ export default {
     isPlayed: false,
     audioDuration: 100,
     playbackTime: 0,
+    interval: null,
     sliderList: [
       {id: 0, album: 'hate_me'},
       {id: 1, album: 'shockwave'},
@@ -79,9 +80,6 @@ export default {
       let lastElem = this.sliderList.pop()
       this.sliderList.unshift(lastElem)
     },
-    timer() {
-      this.playbackTime++
-    },
     playToggle() {
       let audio = this.$refs.player
 
@@ -89,13 +87,14 @@ export default {
         audio.play();
         this.isPlayed = true
         this.isAnimate = true
-        setInterval(() => {
-          this.timer()
+        this.interval = setInterval(() => {
+          this.playbackTime++
         }, 1000)
       } else {
         audio.pause();
         this.isPlayed = false
         this.isAnimate = false
+        clearInterval(this.interval)
       }
     },
     initSlider() {
@@ -132,11 +131,11 @@ export default {
   },
   watch: {
     playbackTime() {
-      let audio=this.$refs.player;
-      let diff=Math.abs(this.playbackTime-this.$refs.player.currentTime);
+      let audio = this.$refs.player;
+      let diff = Math.abs(this.playbackTime - this.$refs.player.currentTime);
 
-      if(diff>0.01) {
-        this.$refs.player.currentTime=this.playbackTime;
+      if(diff > 0.01) {
+        this.$refs.player.currentTime = this.playbackTime;
       }
     }
   },
@@ -157,24 +156,6 @@ export default {
           this.audioLoaded=true;
         }.bind(this)
       );
-      this.$watch("isPlaying",function() {
-        if(this.isPlaying) {
-          var audio=this.$refs.player;
-          this.initSlider();
-          if(!this.listenerActive) {
-            this.listenerActive=true;
-            audio.addEventListener("timeupdate",this.playbackListener);
-          }
-        }
-      });
-      this.$watch("playbackTime",function() {
-        var audio=this.$refs.player;
-        var diff=Math.abs(this.playbackTime-this.$refs.player.currentTime);
-
-        if(diff>0.01) {
-          this.$refs.player.currentTime=this.playbackTime;
-        }
-      });
     });
   }
 }
