@@ -361,7 +361,6 @@ export default {
       transform translate(-50%, -50%)
       width 486px
       height 5px
-     // background-color #B7B3B3
       border-radius 6px
       cursor pointer
       z-index 2
@@ -374,11 +373,6 @@ export default {
         width 100%
         height 100%
         border-radius 6px
-
-        &:hover .range{
-          display block
-          transition all 5s ease
-        }
       }
 
       .time-code {
@@ -435,10 +429,8 @@ export default {
     transition: transform 30s;
   }
 
-  input[type='range'] {
-    width: 80px;
-    -webkit-appearance: none;
-    background-color: #9a905d;
+  input[type=range] {
+    appearance: none
   }
 
   input[type=range]::-webkit-slider-runnable-track {
@@ -446,14 +438,12 @@ export default {
     height: 5px;
     cursor: pointer;
     background: #B7B3B3;
-    border none
     border-radius 6px
   }
 
   input[type=range]::-webkit-slider-thumb {
     position relative
     top -5px
-    -webkit-appearance: none;
     appearance: none;
     width: 15px;
     height: 15px;
@@ -461,7 +451,6 @@ export default {
     background: #1DD1A1;
     cursor: pointer;
   }
-
 }
 
 </style>
