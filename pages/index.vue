@@ -54,8 +54,7 @@
 <script>
 export default {
   data: () => ({
-    isAnimate: false, // the variable is responsible for the animation
-    currentSlideIndex: 0,
+    isAnimate: false,
     isPlayed: false,
     audioDuration: 100,
     playbackTime: 0,
@@ -68,12 +67,10 @@ export default {
   }),
   methods: {
     nextAlbum() {
-      this.currentSlideIndex++
       let firstElem = this.sliderList.shift()
       this.sliderList.push(firstElem)
     },
     prevAlbum() {
-      this.currentSlideIndex--
       let lastElem = this.sliderList.pop()
       this.sliderList.unshift(lastElem)
     },
@@ -100,7 +97,7 @@ export default {
         this.audioDuration = Math.round(audio.duration);
       }
     },
-    convertTime(seconds){
+    convertTime(seconds) {
       const format = val => `0${Math.floor(val)}`.slice(-2);
       let hours = seconds / 3600;
       let minutes = (seconds % 3600) / 60;
@@ -131,26 +128,20 @@ export default {
       let audio = this.$refs.player;
       let diff = Math.abs(this.playbackTime - this.$refs.player.currentTime);
 
-      if(diff > 0.01) {
+      if (diff > 0.01) {
         this.$refs.player.currentTime = this.playbackTime;
       }
     }
   },
   mounted() {
 
-    this.$nextTick(function() {
+    this.$nextTick(function () {
 
       let audio = this.$refs.player;
       audio.addEventListener(
         "loadedmetadata",
         function (e) {
           this.initSlider();
-        }.bind(this)
-      );
-      audio.addEventListener(
-        "canplay",
-        function(e) {
-          this.audioLoaded=true;
         }.bind(this)
       );
     });
