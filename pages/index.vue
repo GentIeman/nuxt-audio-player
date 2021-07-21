@@ -430,26 +430,19 @@ export default {
   }
 
   input[type=range] {
-    appearance: none
+    -webkit-appearance none
   }
 
-  input[type=range]::-webkit-slider-runnable-track {
-    width: 100%;
-    height: 5px;
-    cursor: pointer;
-    background: #B7B3B3;
-    border-radius 6px
-  }
 
   input[type=range]::-webkit-slider-thumb {
+    display block
     position relative
-    top -5px
-    appearance: none;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background: #1DD1A1;
-    cursor: pointer;
+    appearance none
+    width 12px
+    height 12px
+    border-radius 50%
+    background #1DD1A1
+    cursor pointer
   }
 }
 
