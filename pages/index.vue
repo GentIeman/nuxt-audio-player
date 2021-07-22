@@ -31,7 +31,7 @@
         </div>
         <div class="main-btns">
           <div class="main-btns__previous-song">
-            <img src="@/static/icons/previous-song.svg" alt="previous-song" width="30px" @click="prevAlbum">
+            <img src="@/static/icons/previous-song.svg" alt="previous-song" width="30px" @click="proveSong()">
           </div>
           <div class="main-btns__play-song" v-if="isPlayed === false" @click="playToggle()">
             <img src="@/static/icons/play.svg" alt="play-btn" width="40px">
@@ -40,7 +40,7 @@
             <img src="@/static/icons/pause.svg" alt="pause-btn" width="40px">
           </div>
           <div class="main-btns__next-song">
-            <img src="@/static/icons/next-song.svg" alt="next-song" width="30px" @click="nextAlbum">
+            <img src="@/static/icons/next-song.svg" alt="next-song" width="30px" @click="nextSong()">
           </div>
         </div>
         <div class="panel__repeat">
@@ -54,97 +54,23 @@
 <script>
 export default {
   data: () => ({
-    isAnimate: false,
-    isPlayed: false,
-    audioDuration: 100,
-    playbackTime: 0,
-    interval: null,
-    sliderList: [
-      {id: 0, album: 'hate_me'},
-      {id: 1, album: 'shockwave'},
-      {id: 2, album: 'the_people_1991'}
+    isAnimate: false, // the variable is responsible for the animation
+    currentSlideIndex: 1,
+    slideList: [
+      {id: 0, album: 'beneath_the_trees', title: 'Beneath the Trees', src: 'Beneath the Trees - mell-ø', author: 'mello-Ø'},
+      {id: 1, album: 'one_quiet_evening', title: 'One Quiet Evening', src: 'December - Magic Mondays', author: 'wood.'},
+      {id: 2, album: 'december', title: 'December', src: 'One Quiet Evening - wood', author: 'Magic Mondays'}
     ]
   }),
   methods: {
-    nextAlbum() {
-      let firstElem = this.sliderList.shift()
-      this.sliderList.push(firstElem)
+    nextSong() {
+      let firstElem = this.slideList.shift()
+      this.slideList.push(firstElem)
     },
-    prevAlbum() {
-      let lastElem = this.sliderList.pop()
-      this.sliderList.unshift(lastElem)
-    },
-    playToggle() {
-      let audio = this.$refs.player
-
-      if (audio.paused) {
-        audio.play();
-        this.isPlayed = true
-        this.isAnimate = true
-        this.interval = setInterval(() => {
-          this.playbackTime++
-        }, 1000)
-      } else {
-        audio.pause();
-        this.isPlayed = false
-        this.isAnimate = false
-        clearInterval(this.interval)
-      }
-    },
-    initSlider() {
-      let audio = this.$refs.player;
-      if (audio) {
-        this.audioDuration = Math.round(audio.duration);
-      }
-    },
-    convertTime(seconds) {
-      const format = val => `0${Math.floor(val)}`.slice(-2);
-      let hours = seconds / 3600;
-      let minutes = (seconds % 3600) / 60;
-      return [minutes, seconds % 60].map(format).join(":");
-    },
-    totalTime() {
-      let audio = this.$refs.player
-
-      if (audio) {
-        let seconds = audio.duration
-        return this.convertTime(seconds)
-      } else {
-        return '00:00'
-      }
-    },
-    currentTime() {
-      let audio = this.$refs.player;
-      if (audio) {
-        let seconds = audio.currentTime;
-        return this.convertTime(seconds);
-      } else {
-        return '00:00';
-      }
+    proveSong() {
+      let lastElem = this.slideList.pop()
+      this.slideList.unshift(lastElem)
     }
-  },
-  watch: {
-    playbackTime() {
-      let audio = this.$refs.player;
-      let diff = Math.abs(this.playbackTime - this.$refs.player.currentTime);
-
-      if (diff > 0.01) {
-        this.$refs.player.currentTime = this.playbackTime;
-      }
-    }
-  },
-  mounted() {
-
-    this.$nextTick(function () {
-
-      let audio = this.$refs.player;
-      audio.addEventListener(
-        "loadedmetadata",
-        function (e) {
-          this.initSlider();
-        }.bind(this)
-      );
-    });
   }
 }
 </script>
