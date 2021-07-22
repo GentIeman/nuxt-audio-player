@@ -58,15 +58,11 @@
 export default {
   data: () => ({
     isAnimate: false, // the variable is responsible for the animation
-    currentSlideIndex: 0,
-    isPlayed: false,
-    audioDuration: 100,
-    playbackTime: 0,
-    interval: null,
-    sliderList: [
-      {id: 0, album: 'hate_me'},
-      {id: 1, album: 'shockwave'},
-      {id: 2, album: 'the_people_1991'}
+    currentSlideIndex: 1,
+    slideList: [
+      {id: 0, album: 'beneath_the_trees', title: 'Beneath the Trees', src: 'Beneath the Trees - mell-ø', author: 'mello-Ø'},
+      {id: 1, album: 'one_quiet_evening', title: 'One Quiet Evening', src: 'December - Magic Mondays', author: 'wood.'},
+      {id: 2, album: 'december', title: 'December', src: 'One Quiet Evening - wood', author: 'Magic Mondays'}
     ]
   }),
   methods: {
