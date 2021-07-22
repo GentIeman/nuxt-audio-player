@@ -15,9 +15,6 @@
         </transition-group>
       </section>
       <section class="timeline">
-<!--        <div class="timeline__progress">-->
-<!--          <div class="range"></div>-->
-<!--        </div>-->
         <input type="range" class="timeline__progress" :max="audioDuration" v-model="playbackTime" >
         <div class="time-code">
           <span class="begin-time time" v-html="currentTime()"> 00:00 </span>
@@ -281,7 +278,6 @@ export default {
       transform translate(-50%, -50%)
       width 486px
       height 5px
-     // background-color #B7B3B3
       border-radius 6px
       cursor pointer
       z-index 2
@@ -294,11 +290,6 @@ export default {
         width 100%
         height 100%
         border-radius 6px
-
-        &:hover .range{
-          display block
-          transition all 5s ease
-        }
       }
 
       .time-code {
@@ -355,33 +346,21 @@ export default {
     transition: transform 30s;
   }
 
-  input[type='range'] {
-    width: 80px;
-    -webkit-appearance: none;
-    background-color: #9a905d;
+  input[type=range] {
+    -webkit-appearance none
   }
 
-  input[type=range]::-webkit-slider-runnable-track {
-    width: 100%;
-    height: 5px;
-    cursor: pointer;
-    background: #B7B3B3;
-    border none
-    border-radius 6px
-  }
 
   input[type=range]::-webkit-slider-thumb {
+    display block
     position relative
-    top -5px
-    -webkit-appearance: none;
-    appearance: none;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background: #1DD1A1;
-    cursor: pointer;
+    appearance none
+    width 12px
+    height 12px
+    border-radius 50%
+    background #1DD1A1
+    cursor pointer
   }
-
 }
 
 </style>
