@@ -9,7 +9,7 @@
       </div>
       <section class="slider">
         <transition-group name="carousel-transition" class="slider__body">
-          <div class="slider__slide" v-for="slide in sliderList" :key="slide.id">
+          <div class="slider__slide" v-for="slide in slideList" :key="slide.id" :class="{'second-slide': slideList.length <= 2, 'third-slide': slideList.length > 2}">
             <img v-if="slide" class="album" :src="`/albums/${slide.album}.jpg`" alt="slide">
           </div>
         </transition-group>
@@ -272,6 +272,20 @@ export default {
             position relative
             right 40px
           }
+        }
+
+        .second-slide:nth-child(odd) {
+          filter drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))
+          z-index 1
+          width 200px
+          height 200px
+        }
+
+        .third-slide:nth-child(even) {
+          filter drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))
+          z-index 1
+          width 200px
+          height 200px
         }
       }
     }
