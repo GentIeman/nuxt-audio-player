@@ -62,6 +62,11 @@ export default {
       {id: 2, album: 'december', title: 'December', src: 'One Quiet Evening - wood', author: 'Magic Mondays'}
     ]
   }),
+  created() {
+    for (let key in this.slideList) {
+      console.log(key)
+    }
+  },
   methods: {
     nextSong() {
       let firstElem = this.slideList.shift()
