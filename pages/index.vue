@@ -15,7 +15,11 @@
         </transition-group>
       </section>
       <section class="timeline">
-        <input type="range" class="timeline__progress" :max="audioDuration" v-model="playbackTime" >
+        <div class="timeline__base" ref="progressContainer">
+          <div class="timeline__progress" :style="{width: progress + '%'}">
+            <div class="timeline__range"></div>
+          </div>
+        </div>
         <div class="time-code">
           <span class="begin-time time" v-html="currentTime()"> 00:00 </span>
           <span class="end-time time" v-html="totalTime()"> 00:00 </span>
@@ -360,14 +364,36 @@ export default {
       cursor pointer
       z-index 2
 
-      &__progress {
-        display flex
-        align-items center
-        justify-content flex-end
-        position absolute
-        width 100%
-        height 100%
-        border-radius 6px
+      &__base {
+        background: #B7B3B3;
+        border-radius: 5px;
+        cursor: pointer;
+        height: 4px;
+        width: 100%;
+
+        .timeline__progress {
+          display flex
+          justify-content flex-end
+          align-items center
+          background-color: #1DD1A1;
+          border-radius: 5px;
+          height: 100%;
+          width: 0
+          transition: width 0.1s linear;
+
+          &:hover .timeline__range{
+            display block
+          }
+
+          .timeline__range {
+            display none
+            position absolute
+            width 12px
+            height 12px
+            background-color #1DD1A1
+            border-radius 50%
+          }
+        }
       }
 
       .time-code {
