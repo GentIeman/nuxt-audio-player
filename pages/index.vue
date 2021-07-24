@@ -54,8 +54,11 @@
 <script>
 export default {
   data: () => ({
+    isPlayed: false,
     isAnimate: false, // the variable is responsible for the animation
-    currentSlideIndex: 1,
+    audioDuration: 100,
+    playbackTime: 0,
+    progress: 0,
     slideList: [
       {id: 0, album: 'beneath_the_trees', title: 'Beneath the Trees', src: 'Beneath the Trees - mell-ø', author: 'mello-Ø'},
       {id: 1, album: 'one_quiet_evening', title: 'One Quiet Evening', src: 'December - Magic Mondays', author: 'wood.'},
