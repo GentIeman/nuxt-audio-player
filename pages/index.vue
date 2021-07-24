@@ -115,14 +115,6 @@ export default {
         this.isPlayed = false
         this.isAnimate = false
       }
-    },
-    updateProgress(e) {
-      let audio = this.$refs.player
-      const width = this.clientWidth;
-      const clickX = e.offsetX;
-      const duration = audio.duration;
-
-      audio.currentTime = (clickX / width) * duration;
     }
   },
   watch: {
@@ -357,21 +349,21 @@ export default {
       z-index 2
 
       &__base {
-        background: #B7B3B3;
-        border-radius: 5px;
-        cursor: pointer;
-        height: 4px;
-        width: 100%;
+        background #B7B3B3
+        border-radius 5px
+        cursor pointer
+        height 4px
+        width 100%
 
         .timeline__progress {
           display flex
           justify-content flex-end
           align-items center
-          background-color: #1DD1A1;
-          border-radius: 5px;
-          height: 100%;
+          background-color #1DD1A1
+          border-radius 5px
+          height 100%
           width: 0
-          transition: width 0.1s linear;
+          transition width 1s linear
 
           .timeline__range {
             display none
@@ -440,7 +432,7 @@ export default {
   }
 
   .carousel-transition-move {
-    transition: transform 30s;
+    transition transform 30s
   }
 }
 
