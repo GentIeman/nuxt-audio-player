@@ -75,6 +75,62 @@ export default {
     proveSong() {
       let lastElem = this.slideList.pop()
       this.slideList.unshift(lastElem)
+    },
+    convertTime(seconds) {
+      const format = val => `0${Math.floor(val)}`.slice(-2);
+      let hours = seconds / 3600;
+      let minutes = (seconds % 3600) / 60;
+      return [minutes, seconds % 60].map(format).join(":");
+    },
+    totalTime() {
+      let audio = this.$refs.player
+
+      if (!audio) return '00:00'
+
+      let seconds = audio.duration
+      return this.convertTime(seconds)
+    },
+    currentTime() {
+      let audio = this.$refs.player
+
+      if (!audio) return '00:00'
+
+      let seconds = audio.currentTime
+      return this.convertTime(seconds)
+    },
+    playToggle() {
+      let audio = this.$refs.player;
+
+      if (audio.paused) {
+        audio.play();
+        this.isPlayed = true
+        this.isAnimate = true
+        setInterval(() => {
+          this.progress = (audio.currentTime / audio.duration) * 100
+        }, 1000)
+      } else {
+        audio.pause()
+        this.isPlayed = false
+        this.isAnimate = false
+      }
+    },
+    updateProgress(e) {
+      let audio = this.$refs.player
+      const width = this.clientWidth;
+      const clickX = e.offsetX;
+      const duration = audio.duration;
+
+      audio.currentTime = (clickX / width) * duration;
+    }
+  },
+  watch: {
+    playbackTime() {
+      let audio = this.$refs.player;
+      let diff = Math.abs(this.playbackTime - this.$refs.player.currentTime);
+
+      if (diff > 0.01) {
+        this.$refs.player.currentTime = this.playbackTime;
+      }
     }
   }
 }
