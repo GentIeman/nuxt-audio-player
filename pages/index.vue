@@ -69,11 +69,6 @@ export default {
       {id: 2, album: 'december', title: 'December', src: 'One Quiet Evening - wood', author: 'Magic Mondays'}
     ]
   }),
-  created() {
-    for (let key in this.slideList) {
-      console.log(key)
-    }
-  },
   methods: {
     nextSong() {
       let firstElem = this.slideList.shift()
@@ -296,13 +291,6 @@ export default {
           overflow hidden
           transition all .5s
 
-          &:nth-child(even) {
-            filter drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))
-            z-index 1
-            width 200px
-            height 200px
-          }
-
           .album {
             position absolute
             top 0
@@ -342,6 +330,10 @@ export default {
           z-index 1
           width 200px
           height 200px
+
+          &:after {
+            display none
+          }
         }
 
         .third-slide:nth-child(even) {
@@ -448,22 +440,6 @@ export default {
 
   .carousel-transition-move {
     transition: transform 30s;
-  }
-
-  input[type=range] {
-    -webkit-appearance none
-  }
-
-
-  input[type=range]::-webkit-slider-thumb {
-    display block
-    position relative
-    appearance none
-    width 12px
-    height 12px
-    border-radius 50%
-    background #1DD1A1
-    cursor pointer
   }
 }
 
