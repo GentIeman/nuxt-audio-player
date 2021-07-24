@@ -371,7 +371,7 @@ export default {
           border-radius: 5px;
           height: 100%;
           width: 0
-          transition: width 0.1s linear;
+          transition width 1s linear
 
           &:hover .timeline__range{
             display block
