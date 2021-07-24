@@ -15,7 +15,11 @@
         </transition-group>
       </section>
       <section class="timeline">
-        <input type="range" class="timeline__progress" :max="audioDuration" v-model="playbackTime" >
+        <div class="timeline__base" ref="progressContainer">
+          <div class="timeline__progress" :style="{width: progress + '%'}">
+            <div class="timeline__range"></div>
+          </div>
+        </div>
         <div class="time-code">
           <span class="begin-time time" v-html="currentTime()"> 00:00 </span>
           <span class="end-time time" v-html="totalTime()"> 00:00 </span>
@@ -54,19 +58,17 @@
 <script>
 export default {
   data: () => ({
+    isPlayed: false,
     isAnimate: false, // the variable is responsible for the animation
-    currentSlideIndex: 1,
+    audioDuration: 100,
+    playbackTime: 0,
+    progress: 0,
     slideList: [
       {id: 0, album: 'beneath_the_trees', title: 'Beneath the Trees', src: 'Beneath the Trees - mell-ø', author: 'mello-Ø'},
       {id: 1, album: 'one_quiet_evening', title: 'One Quiet Evening', src: 'December - Magic Mondays', author: 'wood.'},
       {id: 2, album: 'december', title: 'December', src: 'One Quiet Evening - wood', author: 'Magic Mondays'}
     ]
   }),
-  created() {
-    for (let key in this.slideList) {
-      console.log(key)
-    }
-  },
   methods: {
     nextSong() {
       let firstElem = this.slideList.shift()
@@ -75,6 +77,62 @@ export default {
     proveSong() {
       let lastElem = this.slideList.pop()
       this.slideList.unshift(lastElem)
+    },
+    convertTime(seconds) {
+      const format = val => `0${Math.floor(val)}`.slice(-2);
+      let hours = seconds / 3600;
+      let minutes = (seconds % 3600) / 60;
+      return [minutes, seconds % 60].map(format).join(":");
+    },
+    totalTime() {
+      let audio = this.$refs.player
+
+      if (!audio) return '00:00'
+
+      let seconds = audio.duration
+      return this.convertTime(seconds)
+    },
+    currentTime() {
+      let audio = this.$refs.player
+
+      if (!audio) return '00:00'
+
+      let seconds = audio.currentTime
+      return this.convertTime(seconds)
+    },
+    playToggle() {
+      let audio = this.$refs.player;
+
+      if (audio.paused) {
+        audio.play();
+        this.isPlayed = true
+        this.isAnimate = true
+        setInterval(() => {
+          this.progress = (audio.currentTime / audio.duration) * 100
+        }, 1000)
+      } else {
+        audio.pause()
+        this.isPlayed = false
+        this.isAnimate = false
+      }
+    },
+    updateProgress(e) {
+      let audio = this.$refs.player
+      const width = this.clientWidth;
+      const clickX = e.offsetX;
+      const duration = audio.duration;
+
+      audio.currentTime = (clickX / width) * duration;
+    }
+  },
+  watch: {
+    playbackTime() {
+      let audio = this.$refs.player;
+      let diff = Math.abs(this.playbackTime - this.$refs.player.currentTime);
+
+      if (diff > 0.01) {
+        this.$refs.player.currentTime = this.playbackTime;
+      }
     }
   }
 }
@@ -233,13 +291,6 @@ export default {
           overflow hidden
           transition all .5s
 
-          &:nth-child(even) {
-            filter drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))
-            z-index 1
-            width 200px
-            height 200px
-          }
-
           .album {
             position absolute
             top 0
@@ -279,6 +330,10 @@ export default {
           z-index 1
           width 200px
           height 200px
+
+          &:after {
+            display none
+          }
         }
 
         .third-slide:nth-child(even) {
@@ -301,14 +356,36 @@ export default {
       cursor pointer
       z-index 2
 
-      &__progress {
-        display flex
-        align-items center
-        justify-content flex-end
-        position absolute
-        width 100%
-        height 100%
-        border-radius 6px
+      &__base {
+        background: #B7B3B3;
+        border-radius: 5px;
+        cursor: pointer;
+        height: 4px;
+        width: 100%;
+
+        .timeline__progress {
+          display flex
+          justify-content flex-end
+          align-items center
+          background-color: #1DD1A1;
+          border-radius: 5px;
+          height: 100%;
+          width: 0
+          transition: width 0.1s linear;
+
+          &:hover .timeline__range{
+            display block
+          }
+
+          .timeline__range {
+            display none
+            position absolute
+            width 12px
+            height 12px
+            background-color #1DD1A1
+            border-radius 50%
+          }
+        }
       }
 
       .time-code {
@@ -363,22 +440,6 @@ export default {
 
   .carousel-transition-move {
     transition: transform 30s;
-  }
-
-  input[type=range] {
-    -webkit-appearance none
-  }
-
-
-  input[type=range]::-webkit-slider-thumb {
-    display block
-    position relative
-    appearance none
-    width 12px
-    height 12px
-    border-radius 50%
-    background #1DD1A1
-    cursor pointer
   }
 }
 
