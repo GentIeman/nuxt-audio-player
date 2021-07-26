@@ -15,8 +15,8 @@
         </transition-group>
       </section>
       <section class="timeline">
-        <div class="timeline__base" ref="progressContainer">
-          <div class="timeline__progress" :style="{width: progress + '%'}">
+        <div class="timeline__base" ref="progressContainer" @click="setProgress">
+          <div class="timeline__progress" :style="{width: progress + '%'}" ref="progress">
             <div class="timeline__range"></div>
           </div>
         </div>
@@ -114,6 +114,21 @@ export default {
         audio.pause()
         this.isPlayed = false
         this.isAnimate = false
+      }
+    },
+    setProgress(e) {
+      let audio = this.$refs.player
+      let progressContainer = this.$refs.progressContainer
+      let width = progressContainer.clientWidth;
+      let clickX = e.offsetX;
+      audio.currentTime = (clickX / width) * audio.duration;
+      this.progress = (audio.currentTime / audio.duration) * 100
+      if (audio.currentTime > 0) {
+        audio.play()
+        this.isPlayed = true
+        setInterval(() => {
+          this.progress = (audio.currentTime / audio.duration) * 100
+        }, 1000)
       }
     }
   },
