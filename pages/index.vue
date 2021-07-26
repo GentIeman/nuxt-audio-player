@@ -383,7 +383,7 @@ export default {
           &:hover .timeline__range {
             display block
           }
-
+          
           .timeline__range {
             display none
             position absolute
@@ -396,6 +396,10 @@ export default {
         }
       }
 
+      .timeline__base:hover .timeline__range {
+        display block
+      }
+
       .time-code {
         display flex
         position absolute
@@ -403,6 +407,7 @@ export default {
         justify-content space-between
         width 100%
         height auto
+        cursor default
 
         .time {
           font normal 0.9em sans-serif
