@@ -363,8 +363,12 @@ export default {
           border-radius 5px
           height 100%
           width: 0
-          transition width 1s linear
+          transition width 1.3s linear
 
+          &:hover .timeline__range {
+            display block
+          }
+          
           .timeline__range {
             display none
             position absolute
@@ -372,6 +376,7 @@ export default {
             height 12px
             background-color #1DD1A1
             border-radius 50%
+            box-shadow rgba(99, 99, 99, 0.2) 0px 2px 8px 0px
           }
         }
       }
