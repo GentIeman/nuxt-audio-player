@@ -69,9 +69,9 @@ export default {
     playbackTime: 0,
     progress: 0,
     slideList: [
-      {id: 0, album: 'beneath_the_trees', title: 'Beneath the Trees', src: 'Beneath the Trees - mell-ø', author: 'mello-Ø'},
-      {id: 1, album: 'one_quiet_evening', title: 'One Quiet Evening', src: 'December - Magic Mondays', author: 'wood.'},
-      {id: 2, album: 'december', title: 'December', src: 'One Quiet Evening - wood', author: 'Magic Mondays'}
+      {id: 0, album: 'one_quiet_evening', title: 'One Quiet Evening (wood.)', src: 'One Quiet Evening - wood', author: 'wood.'},
+      {id: 1, album: 'beneath_the_trees', title: 'Beneath the Trees (mell-ø)', src: 'Beneath the Trees - mell-ø', author: 'mello-Ø'},
+      {id: 2, album: 'december', title: 'December (Magic Mondays)', src: 'December - Magic Mondays', author: 'Magic Mondays'}
     ]
   }),
   methods: {
@@ -404,7 +404,7 @@ export default {
           border-radius 5px
           height 100%
           width: 0
-          transition width 1.3s linear
+          transition width 0.1s linear
 
           &:hover .timeline__range {
             display block
