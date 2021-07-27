@@ -70,9 +70,9 @@ export default {
     progress: 0,
     currentSong: '',
     slideList: [
-      {id: 0, album: 'one_quiet_evening', title: 'One Quiet Evening (wood.)', src: 'One Quiet Evening - wood', author: 'wood.'},
-      {id: 1, album: 'beneath_the_trees', title: 'Beneath the Trees (mell-ø)', src: 'Beneath the Trees - mell-ø', author: 'mello-Ø'},
-      {id: 2, album: 'december', title: 'December (Magic Mondays)', src: 'December - Magic Mondays', author: 'Magic Mondays'}
+      {id: 0, album: 'one_quiet_evening', title: 'One Quiet Evening (wood.)', src: 'One_Quiet_Evening-wood', author: 'wood.'},
+      {id: 1, album: 'beneath_the_trees', title: 'Beneath the Trees (mell-ø)', src: 'Beneath_the_Trees-mell-ø', author: 'mello-Ø'},
+      {id: 2, album: 'december', title: 'December (Magic Mondays)', src: 'December-Magic_Mondays', author: 'Magic Mondays'}
     ]
   }),
   created() {
@@ -82,10 +82,6 @@ export default {
     SongListStepper(a) {
       let pos = this.slideList.findIndex(item => item === this.currentSong)
       this.currentSong=this.slideList[(pos+a) > this.slideList.length-1 ? 0 : (pos + a) < 0 ? this.slideList.length-1 : pos+a]
-    },
-    proveSong() {
-      let lastElem = this.slideList.pop()
-      this.slideList.unshift(lastElem)
     },
     convertTime(seconds) {
       const format = val => `0${Math.floor(val)}`.slice(-2);
