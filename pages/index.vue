@@ -16,7 +16,7 @@
       </section>
       <section class="title-track">
         <header class="title-track__header">
-          <h3 class="title-track__title title"> {{ titleTrack }}</h3>
+          <h3 class="title-track__title title"> {{ currentSong.title }}</h3>
         </header>
       </section>
       <section class="timeline">
@@ -31,7 +31,7 @@
         </div>
       </section>
       <audio id="audio-player" ref="player" controls
-             src="https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_5MG.mp3">
+             :src="'/music/'+ currentSong.src +'.mp3'">
         Your browser does not support audio tag.
       </audio>
       <section class="panel">
@@ -68,12 +68,16 @@ export default {
     audioDuration: 100,
     playbackTime: 0,
     progress: 0,
+    currentSong: '',
     slideList: [
       {id: 0, album: 'one_quiet_evening', title: 'One Quiet Evening (wood.)', src: 'One Quiet Evening - wood', author: 'wood.'},
       {id: 1, album: 'beneath_the_trees', title: 'Beneath the Trees (mell-ø)', src: 'Beneath the Trees - mell-ø', author: 'mello-Ø'},
       {id: 2, album: 'december', title: 'December (Magic Mondays)', src: 'December - Magic Mondays', author: 'Magic Mondays'}
     ]
   }),
+  created() {
+    this.currentSong = this.slideList[1]
+  },
   methods: {
     SongListStepper(a) {
       let pos = this.slideList.findIndex(item => item === this.currentSong)
