@@ -40,7 +40,7 @@
         </div>
         <div class="main-btns">
           <div class="main-btns__previous-song">
-            <img src="@/static/icons/previous-song.svg" alt="previous-song" width="30px" @click="proveSong()">
+            <img src="@/static/icons/previous-song.svg" alt="previous-song" width="30px" @click="SongListStepper(-1)">
           </div>
           <div class="main-btns__play-song" v-if="isPlayed === false" @click="playToggle()">
             <img src="@/static/icons/play.svg" alt="play-btn" width="40px">
@@ -49,7 +49,7 @@
             <img src="@/static/icons/pause.svg" alt="pause-btn" width="40px">
           </div>
           <div class="main-btns__next-song">
-            <img src="@/static/icons/next-song.svg" alt="next-song" width="30px" @click="nextSong()">
+            <img src="@/static/icons/next-song.svg" alt="next-song" width="30px" @click="SongListStepper(1)">
           </div>
         </div>
         <div class="panel__repeat">
@@ -75,9 +75,9 @@ export default {
     ]
   }),
   methods: {
-    nextSong() {
-      let firstElem = this.slideList.shift()
-      this.slideList.push(firstElem)
+    SongListStepper(a) {
+      let pos = this.slideList.findIndex(item => item === this.currentSong)
+      this.currentSong=this.slideList[(pos+a) > this.slideList.length-1 ? 0 : (pos + a) < 0 ? this.slideList.length-1 : pos+a]
     },
     proveSong() {
       let lastElem = this.slideList.pop()
