@@ -14,6 +14,11 @@
           </div>
         </transition-group>
       </section>
+      <section class="title-track">
+        <header class="title-track__header">
+          <h3 class="title-track__title title"> {{ titleTrack }}</h3>
+        </header>
+      </section>
       <section class="timeline">
         <div class="timeline__base" ref="progressContainer" @click="setProgress">
           <div class="timeline__progress" :style="{width: progress + '%'}" ref="progress">
@@ -349,6 +354,27 @@ export default {
           width 200px
           height 200px
         }
+      }
+    }
+
+    .title-track {
+      position absolute
+      top 61%
+      left 50%
+      transform translate(-50%, -50%)
+      z-index 2
+      max-width 800px
+      width 500px
+
+      &__title {
+        display flex
+        justify-content center
+        align-items center
+      }
+
+      .title {
+        font normal 1.2em sans-serif
+        color #333
       }
     }
 
