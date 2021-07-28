@@ -8,11 +8,9 @@
         <p class="technology__text text">Create with Nuxt.js</p>
       </div>
       <section class="slider">
-        <transition-group name="carousel-transition" class="slider__body">
-          <div class="slider__slide" v-for="slide in slideList" :key="slide.id" :class="{'second-slide': slideList.length <= 2, 'third-slide': slideList.length > 2}">
-            <img v-if="slide" class="album" :src="`/albums/${slide.album}.jpg`" alt="slide">
-          </div>
-        </transition-group>
+        <transition name="carousel-transition" class="slider__body">
+          <v-slider-items :data="slideList" :activeSlide="currentSong"/>
+        </transition>
       </section>
       <section class="timeline">
         <div class="timeline__base" ref="progressContainer" @click="setProgress">
