@@ -4,13 +4,18 @@
       <div class="base_circle circle" :class="{'slide-up' : isAnimate}"></div>
       <div class="base_circle circle " :class="{'slide-down' : isAnimate}"></div>
       <div class="technology">
-        <img class="technology__logo" src="@/static/icons/nuxt.svg" alt="">
+        <img class="technology__logo" src="/icons/nuxt.svg" alt="">
         <p class="technology__text text">Create with Nuxt.js</p>
       </div>
       <section class="slider">
-        <transition name="carousel-transition" class="slider__body">
-          <v-slider-items :data="slideList" :activeSlide="currentSong"/>
-        </transition>
+        <transition-group name="carousel-transition" class="slider__body">
+          <v-slider-items v-for="song in trackData" :key="song.id" :data="song" :active="song.id === currentSong.id"/>
+        </transition-group>
+      </section>
+      <section class="title-track">
+        <header class="title-track__header">
+          <h3 class="title-track__title title"> {{ currentSong.title }}</h3>
+        </header>
       </section>
       <section class="title-track">
         <header class="title-track__header">
@@ -34,24 +39,24 @@
       </audio>
       <section class="panel">
         <div class="panel__shuffle">
-          <img src="@/static/icons/shuffle.svg" alt="shuffle-icon" width="30px">
+          <img src="/icons/shuffle.svg" alt="shuffle-icon" width="30px">
         </div>
         <div class="main-btns">
           <div class="main-btns__previous-song">
-            <img src="@/static/icons/previous-song.svg" alt="previous-song" width="30px" @click="SongListStepper(-1)">
+            <img src="/icons/previous-song.svg" alt="previous-song" width="30px" @click="SongListStepper(-1)">
           </div>
           <div class="main-btns__play-song" v-if="isPlayed === false" @click="playToggle()">
-            <img src="@/static/icons/play.svg" alt="play-btn" width="40px">
+            <img src="/icons/play.svg" alt="play-btn" width="40px">
           </div>
           <div class="main-btns__pause-song" v-if="isPlayed === true" @click="playToggle()">
-            <img src="@/static/icons/pause.svg" alt="pause-btn" width="40px">
+            <img src="/icons/pause.svg" alt="pause-btn" width="40px">
           </div>
           <div class="main-btns__next-song">
-            <img src="@/static/icons/next-song.svg" alt="next-song" width="30px" @click="SongListStepper(1)">
+            <img src="/icons/next-song.svg" alt="next-song" width="30px" @click="SongListStepper(1)">
           </div>
         </div>
         <div class="panel__repeat">
-          <img src="@/static/icons/repeat.svg" alt="repeat" width="30px">
+          <img src="/icons/repeat.svg" alt="repeat" width="30px">
         </div>
       </section>
     </section>
@@ -67,6 +72,37 @@ export default {
     playbackTime: 0,
     progress: 0,
     currentSong: '',
+    trackData: [
+      {
+        id: 0,
+        album: 'one_quiet_evening',
+        title: 'One Quiet Evening (wood.)',
+        src: 'One_Quiet_Evening-wood',
+        author: 'wood.'
+      },
+      {
+        id: 1,
+        album: 'beneath_the_trees',
+        title: 'Beneath the Trees (mell-ø)',
+        src: 'Beneath_the_Trees-mell-ø',
+        author: 'mello-Ø'
+      },
+      {
+        id: 2,
+        album: 'december',
+        title: 'December (Magic Mondays)',
+        src: 'December-Magic_Mondays',
+        author: 'Magic Mondays'
+      }
+    ]
+  }),
+  created() {
+    this.currentSong = this.trackData[1]
+  },
+  methods: {
+    SongListStepper(a) {
+      let pos = this.trackData.findIndex(item => item === this.currentSong)
+      this.currentSong = this.trackData[(pos + a) > this.trackData.length - 1 ? 0 : (pos + a) < 0 ? this.trackData.length - 1 : pos + a]
     slideList: [
       {id: 0, album: 'one_quiet_evening', title: 'One Quiet Evening (wood.)', src: 'One_Quiet_Evening-wood', author: 'wood.'},
       {id: 1, album: 'beneath_the_trees', title: 'Beneath the Trees (mell-ø)', src: 'Beneath_the_Trees-mell-ø', author: 'mello-Ø'},
@@ -292,69 +328,45 @@ export default {
         display flex
         justify-content center
         align-items center
-
-        .slider__slide {
-          position relative
-          border-radius 18px
-          width 150px
-          height 150px
-          overflow hidden
-          transition all .5s
-
-          .album {
-            position absolute
-            top 0
-            left 0
-            width 100%
-            height 100%
-          }
-
-
-          &:first-child,
-          &:last-child {
-
-            &:after {
-              content ''
-              position absolute
-              top: 0
-              left: 0
-              width 100%
-              height 100%
-              background-color rgba(0, 0, 0, 0.8)
-            }
-          }
-
-          &:first-child {
-            position relative
-            left 40px
-          }
-
-          &:last-child {
-            position relative
-            right 40px
-          }
-        }
-
-        .second-slide:nth-child(odd) {
-          filter drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))
-          z-index 1
-          width 200px
-          height 200px
-
-          &:after {
-            display none
-          }
-        }
-
-        .third-slide:nth-child(even) {
-          filter drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))
-          z-index 1
-          width 200px
-          height 200px
-        }
       }
     }
+  }
 
+  .title-track {
+    position absolute
+    top 61%
+    left 50%
+    transform translate(-50%, -50%)
+    z-index 2
+    max-width 800px
+    width 500px
+
+    &__title {
+      display flex
+      justify-content center
+      align-items center
+    }
+
+    .title {
+      font normal 1.2em sans-serif
+      color #333
+    }
+  }
+
+  .timeline {
+    position absolute
+    top 75%
+    left 50%
+    transform translate(-50%, -50%)
+    width 486px
+    height 5px
+    border-radius 6px
+    cursor pointer
+    z-index 2
+
+    &__base {
+      background #B7B3B3
+      border-radius 5px
     .title-track {
       position absolute
       top 61%
@@ -385,20 +397,31 @@ export default {
       height 5px
       border-radius 6px
       cursor pointer
-      z-index 2
+      height 4px
+      width 100%
 
-      &__base {
-        background #B7B3B3
+      .timeline__progress {
+        display flex
+        justify-content flex-end
+        align-items center
+        background-color #1DD1A1
         border-radius 5px
-        cursor pointer
-        height 4px
-        width 100%
+        height 100%
+        width: 0
+        transition width 0.1s linear
 
-        .timeline__progress {
-          display flex
-          justify-content flex-end
-          align-items center
+        &:hover .timeline__range {
+          display block
+        }
+
+        .timeline__range {
+          display none
+          position absolute
+          width 12px
+          height 12px
           background-color #1DD1A1
+          border-radius 50%
+          box-shadow rgba(99, 99, 99, 0.2) 0px 2px 8px 0px
           border-radius 5px
           height 100%
           width: 0
@@ -419,65 +442,65 @@ export default {
           }
         }
       }
-
-      .timeline__base:hover .timeline__range {
-        display block
-      }
-
-      .time-code {
-        display flex
-        position absolute
-        top -25px
-        justify-content space-between
-        width 100%
-        height auto
-        cursor default
-
-        .time {
-          font normal 0.9em sans-serif
-          color #B7B3B3
-        }
-      }
     }
 
-    .panel {
+    .timeline__base:hover .timeline__range {
+      display block
+    }
+
+    .time-code {
+      display flex
+      position absolute
+      top -25px
+      justify-content space-between
+      width 100%
+      height auto
+      cursor default
+
+      .time {
+        font normal 0.9em sans-serif
+        color #B7B3B3
+      }
+    }
+  }
+
+  .panel {
+    display flex
+    justify-content space-between
+    align-items center
+    position absolute
+    bottom 5%
+    left 50%
+    transform translate(-50%, -40%)
+    width 350px
+    z-index 2
+
+    & > div {
+      cursor pointer
+    }
+
+    .main-btns {
       display flex
       justify-content space-between
       align-items center
-      position absolute
-      bottom 5%
-      left 50%
-      transform translate(-50%, -40%)
-      width 350px
-      z-index 2
+      width 200px
+      cursor default
 
       & > div {
         cursor pointer
       }
-
-      .main-btns {
-        display flex
-        justify-content space-between
-        align-items center
-        width 200px
-        cursor default
-
-        & > div {
-          cursor pointer
-        }
-      }
-    }
-
-    @media screen and (max-width 465px ) {
-      .panel {
-        width 370px
-      }
     }
   }
 
-  .carousel-transition-move {
-    transition transform 30s
+  @media screen and (max-width 465px ) {
+    .panel {
+      width 370px
+    }
   }
+}
+
+.carousel-transition-move {
+  transition transform 30s
 }
 
 </style>
