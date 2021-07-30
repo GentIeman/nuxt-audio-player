@@ -4,13 +4,18 @@
       <div class="base_circle circle" :class="{'slide-up' : isAnimate}"></div>
       <div class="base_circle circle " :class="{'slide-down' : isAnimate}"></div>
       <div class="technology">
-        <img class="technology__logo" src="@/static/icons/nuxt.svg" alt="">
+        <img class="technology__logo" src="/icons/nuxt.svg" alt="">
         <p class="technology__text text">Create with Nuxt.js</p>
       </div>
       <section class="slider">
-        <transition name="carousel-transition" class="slider__body">
-          <v-slider-items :data="slideList" :activeSlide="currentSong"/>
-        </transition>
+        <transition-group name="carousel-transition" class="slider__body">
+          <v-slider-items v-for="song in trackData" :key="song.id" :data="song" :active="song.id === currentSong.id"/>
+        </transition-group>
+      </section>
+      <section class="title-track">
+        <header class="title-track__header">
+          <h3 class="title-track__title title"> {{ currentSong.title }}</h3>
+        </header>
       </section>
       <section class="timeline">
         <div class="timeline__base" ref="progressContainer" @click="setProgress">
@@ -24,29 +29,29 @@
         </div>
       </section>
       <audio id="audio-player" ref="player" controls
-             src="https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_5MG.mp3">
+             :src="'/music/'+ currentSong.src +'.mp3'">
         Your browser does not support audio tag.
       </audio>
       <section class="panel">
         <div class="panel__shuffle">
-          <img src="@/static/icons/shuffle.svg" alt="shuffle-icon" width="30px">
+          <img src="/icons/shuffle.svg" alt="shuffle-icon" width="30px">
         </div>
         <div class="main-btns">
           <div class="main-btns__previous-song">
-            <img src="@/static/icons/previous-song.svg" alt="previous-song" width="30px" @click="proveSong()">
+            <img src="/icons/previous-song.svg" alt="previous-song" width="30px" @click="SongListStepper(-1)">
           </div>
           <div class="main-btns__play-song" v-if="isPlayed === false" @click="playToggle()">
-            <img src="@/static/icons/play.svg" alt="play-btn" width="40px">
+            <img src="/icons/play.svg" alt="play-btn" width="40px">
           </div>
           <div class="main-btns__pause-song" v-if="isPlayed === true" @click="playToggle()">
-            <img src="@/static/icons/pause.svg" alt="pause-btn" width="40px">
+            <img src="/icons/pause.svg" alt="pause-btn" width="40px">
           </div>
           <div class="main-btns__next-song">
-            <img src="@/static/icons/next-song.svg" alt="next-song" width="30px" @click="nextSong()">
+            <img src="/icons/next-song.svg" alt="next-song" width="30px" @click="SongListStepper(1)">
           </div>
         </div>
         <div class="panel__repeat">
-          <img src="@/static/icons/repeat.svg" alt="repeat" width="30px">
+          <img src="/icons/repeat.svg" alt="repeat" width="30px">
         </div>
       </section>
     </section>
@@ -61,20 +66,38 @@ export default {
     audioDuration: 100,
     playbackTime: 0,
     progress: 0,
-    slideList: [
-      {id: 0, album: 'beneath_the_trees', title: 'Beneath the Trees', src: 'Beneath the Trees - mell-ø', author: 'mello-Ø'},
-      {id: 1, album: 'one_quiet_evening', title: 'One Quiet Evening', src: 'December - Magic Mondays', author: 'wood.'},
-      {id: 2, album: 'december', title: 'December', src: 'One Quiet Evening - wood', author: 'Magic Mondays'}
+    currentSong: '',
+    trackData: [
+      {
+        id: 0,
+        album: 'one_quiet_evening',
+        title: 'One Quiet Evening (wood.)',
+        src: 'One_Quiet_Evening-wood',
+        author: 'wood.'
+      },
+      {
+        id: 1,
+        album: 'beneath_the_trees',
+        title: 'Beneath the Trees (mell-ø)',
+        src: 'Beneath_the_Trees-mell-ø',
+        author: 'mello-Ø'
+      },
+      {
+        id: 2,
+        album: 'december',
+        title: 'December (Magic Mondays)',
+        src: 'December-Magic_Mondays',
+        author: 'Magic Mondays'
+      }
     ]
   }),
+  created() {
+    this.currentSong = this.trackData[1]
+  },
   methods: {
-    nextSong() {
-      let firstElem = this.slideList.shift()
-      this.slideList.push(firstElem)
-    },
-    proveSong() {
-      let lastElem = this.slideList.pop()
-      this.slideList.unshift(lastElem)
+    SongListStepper(a) {
+      let pos = this.trackData.findIndex(item => item === this.currentSong)
+      this.currentSong = this.trackData[(pos + a) > this.trackData.length - 1 ? 0 : (pos + a) < 0 ? this.trackData.length - 1 : pos + a]
     },
     convertTime(seconds) {
       const format = val => `0${Math.floor(val)}`.slice(-2);
