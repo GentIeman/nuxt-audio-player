@@ -1,18 +1,13 @@
 <template>
-  <div class="slider__body">
-    <div class="slider__slide" v-for="slide in data" :key="slide.id" :class="{'active-slide' : activeSlide.id === slide.id }">
-      <img v-if="slide" class="album" :src="`/albums/${slide.album}.jpg`" alt="album">
-    </div>
+  <div class="slider__slide" :class="{'slider__slide_active': active}">
+    <img class="album" :src="`/albums/${data.album}.jpg`" alt="album">
   </div>
 </template>
 
 <script>
 export default {
-  props: ['data', 'activeSlide'],
-  name: "v-slider",
-  beforeMount() {
-    console.log(this.data)
-  }
+  props: ['data', 'active'],
+  name: "v-slider"
 }
 </script>
 
