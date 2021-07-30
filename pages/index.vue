@@ -310,171 +310,132 @@ export default {
         display flex
         justify-content center
         align-items center
-
-        .slider__slide {
-          position relative
-          border-radius 18px
-          width 150px
-          height 150px
-          overflow hidden
-          transition all .5s
-
-          .album {
-            position absolute
-            top 0
-            left 0
-            width 100%
-            height 100%
-          }
-
-
-          &:first-child,
-          &:last-child {
-
-            &:after {
-              content ''
-              position absolute
-              top: 0
-              left: 0
-              width 100%
-              height 100%
-              background-color rgba(0, 0, 0, 0.8)
-            }
-          }
-
-          &:first-child {
-            position relative
-            left 40px
-          }
-
-          &:last-child {
-            position relative
-            right 40px
-          }
-        }
-
-        .second-slide:nth-child(odd) {
-          filter drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))
-          z-index 1
-          width 200px
-          height 200px
-
-          &:after {
-            display none
-          }
-        }
-
-        .third-slide:nth-child(even) {
-          filter drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))
-          z-index 1
-          width 200px
-          height 200px
-        }
       }
     }
+  }
 
-    .timeline {
-      position absolute
-      top 75%
-      left 50%
-      transform translate(-50%, -50%)
-      width 486px
-      height 5px
-      border-radius 6px
+  .title-track {
+    position absolute
+    top 61%
+    left 50%
+    transform translate(-50%, -50%)
+    z-index 2
+    max-width 800px
+    width 500px
+
+    &__title {
+      display flex
+      justify-content center
+      align-items center
+    }
+
+    .title {
+      font normal 1.2em sans-serif
+      color #333
+    }
+  }
+
+  .timeline {
+    position absolute
+    top 75%
+    left 50%
+    transform translate(-50%, -50%)
+    width 486px
+    height 5px
+    border-radius 6px
+    cursor pointer
+    z-index 2
+
+    &__base {
+      background #B7B3B3
+      border-radius 5px
       cursor pointer
-      z-index 2
+      height 4px
+      width 100%
 
-      &__base {
-        background #B7B3B3
-        border-radius 5px
-        cursor pointer
-        height 4px
-        width 100%
-
-        .timeline__progress {
-          display flex
-          justify-content flex-end
-          align-items center
-          background-color #1DD1A1
-          border-radius 5px
-          height 100%
-          width: 0
-          transition width 1.3s linear
-
-          &:hover .timeline__range {
-            display block
-          }
-          
-          .timeline__range {
-            display none
-            position absolute
-            width 12px
-            height 12px
-            background-color #1DD1A1
-            border-radius 50%
-            box-shadow rgba(99, 99, 99, 0.2) 0px 2px 8px 0px
-          }
-        }
-      }
-
-      .timeline__base:hover .timeline__range {
-        display block
-      }
-
-      .time-code {
+      .timeline__progress {
         display flex
-        position absolute
-        top -25px
-        justify-content space-between
-        width 100%
-        height auto
-        cursor default
+        justify-content flex-end
+        align-items center
+        background-color #1DD1A1
+        border-radius 5px
+        height 100%
+        width: 0
+        transition width 0.1s linear
 
-        .time {
-          font normal 0.9em sans-serif
-          color #B7B3B3
+        &:hover .timeline__range {
+          display block
+        }
+
+        .timeline__range {
+          display none
+          position absolute
+          width 12px
+          height 12px
+          background-color #1DD1A1
+          border-radius 50%
+          box-shadow rgba(99, 99, 99, 0.2) 0px 2px 8px 0px
         }
       }
     }
 
-    .panel {
+    .timeline__base:hover .timeline__range {
+      display block
+    }
+
+    .time-code {
+      display flex
+      position absolute
+      top -25px
+      justify-content space-between
+      width 100%
+      height auto
+      cursor default
+
+      .time {
+        font normal 0.9em sans-serif
+        color #B7B3B3
+      }
+    }
+  }
+
+  .panel {
+    display flex
+    justify-content space-between
+    align-items center
+    position absolute
+    bottom 5%
+    left 50%
+    transform translate(-50%, -40%)
+    width 350px
+    z-index 2
+
+    & > div {
+      cursor pointer
+    }
+
+    .main-btns {
       display flex
       justify-content space-between
       align-items center
-      position absolute
-      bottom 5%
-      left 50%
-      transform translate(-50%, -40%)
-      width 350px
-      z-index 2
+      width 200px
+      cursor default
 
       & > div {
         cursor pointer
       }
-
-      .main-btns {
-        display flex
-        justify-content space-between
-        align-items center
-        width 200px
-        cursor default
-
-        & > div {
-          cursor pointer
-        }
-      }
-    }
-
-    @media screen and (max-width 465px ) {
-      .panel {
-        width 370px
-      }
     }
   }
 
-  .carousel-transition-move {
-    transition transform 30s
+  @media screen and (max-width 465px ) {
+    .panel {
+      width 370px
+    }
   }
+}
+
+.carousel-transition-move {
+  transition transform 30s
 }
 
 </style>
