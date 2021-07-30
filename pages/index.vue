@@ -17,6 +17,11 @@
           <h3 class="title-track__title title"> {{ currentSong.title }}</h3>
         </header>
       </section>
+      <section class="title-track">
+        <header class="title-track__header">
+          <h3 class="title-track__title title"> {{ currentSong.title }}</h3>
+        </header>
+      </section>
       <section class="timeline">
         <div class="timeline__base" ref="progressContainer" @click="setProgress">
           <div class="timeline__progress" :style="{width: progress + '%'}" ref="progress">
@@ -98,6 +103,19 @@ export default {
     SongListStepper(a) {
       let pos = this.trackData.findIndex(item => item === this.currentSong)
       this.currentSong = this.trackData[(pos + a) > this.trackData.length - 1 ? 0 : (pos + a) < 0 ? this.trackData.length - 1 : pos + a]
+    slideList: [
+      {id: 0, album: 'one_quiet_evening', title: 'One Quiet Evening (wood.)', src: 'One_Quiet_Evening-wood', author: 'wood.'},
+      {id: 1, album: 'beneath_the_trees', title: 'Beneath the Trees (mell-ø)', src: 'Beneath_the_Trees-mell-ø', author: 'mello-Ø'},
+      {id: 2, album: 'december', title: 'December (Magic Mondays)', src: 'December-Magic_Mondays', author: 'Magic Mondays'}
+    ]
+  }),
+  created() {
+    this.currentSong = this.slideList[1]
+  },
+  methods: {
+    SongListStepper(a) {
+      let pos = this.slideList.findIndex(item => item === this.currentSong)
+      this.currentSong=this.slideList[(pos+a) > this.slideList.length-1 ? 0 : (pos + a) < 0 ? this.slideList.length-1 : pos+a]
     },
     convertTime(seconds) {
       const format = val => `0${Math.floor(val)}`.slice(-2);
@@ -349,6 +367,35 @@ export default {
     &__base {
       background #B7B3B3
       border-radius 5px
+    .title-track {
+      position absolute
+      top 61%
+      left 50%
+      transform translate(-50%, -50%)
+      z-index 2
+      max-width 800px
+      width 500px
+
+      &__title {
+        display flex
+        justify-content center
+        align-items center
+      }
+
+      .title {
+        font normal 1.2em sans-serif
+        color #333
+      }
+    }
+
+    .timeline {
+      position absolute
+      top 75%
+      left 50%
+      transform translate(-50%, -50%)
+      width 486px
+      height 5px
+      border-radius 6px
       cursor pointer
       height 4px
       width 100%
@@ -375,6 +422,24 @@ export default {
           background-color #1DD1A1
           border-radius 50%
           box-shadow rgba(99, 99, 99, 0.2) 0px 2px 8px 0px
+          border-radius 5px
+          height 100%
+          width: 0
+          transition width 0.1s linear
+
+          &:hover .timeline__range {
+            display block
+          }
+          
+          .timeline__range {
+            display none
+            position absolute
+            width 12px
+            height 12px
+            background-color #1DD1A1
+            border-radius 50%
+            box-shadow rgba(99, 99, 99, 0.2) 0px 2px 8px 0px
+          }
         }
       }
     }
