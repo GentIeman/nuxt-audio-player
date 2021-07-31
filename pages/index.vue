@@ -349,35 +349,6 @@ export default {
     &__base {
       background #B7B3B3
       border-radius 5px
-    .title-track {
-      position absolute
-      top 61%
-      left 50%
-      transform translate(-50%, -50%)
-      z-index 2
-      max-width 800px
-      width 500px
-
-      &__title {
-        display flex
-        justify-content center
-        align-items center
-      }
-
-      .title {
-        font normal 1.2em sans-serif
-        color #333
-      }
-    }
-
-    .timeline {
-      position absolute
-      top 75%
-      left 50%
-      transform translate(-50%, -50%)
-      width 486px
-      height 5px
-      border-radius 6px
       cursor pointer
       height 4px
       width 100%
