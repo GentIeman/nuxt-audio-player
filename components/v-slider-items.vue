@@ -48,12 +48,14 @@ export default {
 }
 
 .slider__slide_active {
+  position relative
   width 200px
   height 200px
   z-index 3
 
-  &:after{
+  &:after {
     display none
   }
 }
+
 </style>
