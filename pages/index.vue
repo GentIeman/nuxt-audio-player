@@ -38,7 +38,7 @@
         </div>
         <div class="main-btns">
           <div class="main-btns__previous-song">
-            <img src="/icons/previous-song.svg" alt="previous-song" width="30px" @click="SongListStepper(-1)">
+            <img src="/icons/previous-song.svg" alt="previous-song" width="30px" @click="songListStepper(-1)">
           </div>
           <div class="main-btns__play-song" v-if="isPlayed === false" @click="playToggle()">
             <img src="/icons/play.svg" alt="play-btn" width="40px">
@@ -47,7 +47,7 @@
             <img src="/icons/pause.svg" alt="pause-btn" width="40px">
           </div>
           <div class="main-btns__next-song">
-            <img src="/icons/next-song.svg" alt="next-song" width="30px" @click="SongListStepper(1)">
+            <img src="/icons/next-song.svg" alt="next-song" width="30px" @click="songListStepper(1)">
           </div>
         </div>
         <div class="panel__repeat">
@@ -95,7 +95,7 @@ export default {
     this.currentSong = this.trackData[1]
   },
   methods: {
-    SongListStepper(a) {
+    songListStepper(a) {
       let pos = this.trackData.findIndex(item => item === this.currentSong)
       this.currentSong = this.trackData[(pos + a) > this.trackData.length - 1 ? 0 : (pos + a) < 0 ? this.trackData.length - 1 : pos + a]
     },
@@ -360,7 +360,7 @@ export default {
         background-color #1DD1A1
         border-radius 5px
         height 100%
-        width: 0
+        width 0
         transition width 0.1s linear
 
         &:hover .timeline__range {
@@ -377,10 +377,6 @@ export default {
           box-shadow rgba(99, 99, 99, 0.2) 0px 2px 8px 0px
         }
       }
-    }
-
-    .timeline__base:hover .timeline__range {
-      display block
     }
 
     .time-code {
