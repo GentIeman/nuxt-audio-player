@@ -127,14 +127,18 @@ export default {
         audio.play();
         this.isPlayed = true
         this.isAnimate = true
-        setInterval(() => {
-          this.progress = (audio.currentTime / audio.duration) * 100
-        }, 1000)
+        this.updateProgress()
       } else {
         audio.pause()
         this.isPlayed = false
         this.isAnimate = false
       }
+    },
+    updateProgress() {
+      let audio = this.$refs.player
+      setInterval(() => {
+        this.progress = (audio.currentTime / audio.duration) * 100
+      }, audio.currentTime)
     },
     setProgress(e) {
       let audio = this.$refs.player
@@ -146,9 +150,7 @@ export default {
       if (audio.currentTime > 0) {
         audio.play()
         this.isPlayed = true
-        setInterval(() => {
-          this.progress = (audio.currentTime / audio.duration) * 100
-        }, 1000)
+        this.updateProgress()
       }
     }
   }
