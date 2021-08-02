@@ -64,7 +64,6 @@ export default {
     isPlayed: false,
     isAnimate: false, // the variable is responsible for the animation
     audioDuration: 100,
-    playbackTime: 0,
     progress: 0,
     currentSong: '',
     trackData: [
@@ -95,15 +94,15 @@ export default {
     this.currentSong = this.trackData[1]
   },
   methods: {
-    songListStepper(a) {
+    songListStepper(dir) {
       let pos = this.trackData.findIndex(item => item === this.currentSong)
-      this.currentSong = this.trackData[(pos + a) > this.trackData.length - 1 ? 0 : (pos + a) < 0 ? this.trackData.length - 1 : pos + a]
+      this.currentSong = this.trackData[(pos + dir) > this.trackData.length - 1 ? 0 : (pos + dir) < 0 ? this.trackData.length - 1 : pos + dir]
     },
     convertTime(seconds) {
-      const format = val => `0${Math.floor(val)}`.slice(-2);
-      let hours = seconds / 3600;
-      let minutes = (seconds % 3600) / 60;
-      return [minutes, seconds % 60].map(format).join(":");
+      const format = val => `0${Math.floor(val)}`.slice(-2)
+      let hours = seconds / 3600
+      let minutes = (seconds % 3600) / 60
+      return [minutes, seconds % 60].map(format).join(":")
     },
     totalTime() {
       let audio = this.$refs.player
@@ -128,14 +127,18 @@ export default {
         audio.play();
         this.isPlayed = true
         this.isAnimate = true
-        setInterval(() => {
-          this.progress = (audio.currentTime / audio.duration) * 100
-        }, 1000)
+        this.updateProgress()
       } else {
         audio.pause()
         this.isPlayed = false
         this.isAnimate = false
       }
+    },
+    updateProgress() {
+      let audio = this.$refs.player
+      setInterval(() => {
+        this.progress = (audio.currentTime / audio.duration) * 100
+      }, audio.currentTime)
     },
     setProgress(e) {
       let audio = this.$refs.player
@@ -147,19 +150,7 @@ export default {
       if (audio.currentTime > 0) {
         audio.play()
         this.isPlayed = true
-        setInterval(() => {
-          this.progress = (audio.currentTime / audio.duration) * 100
-        }, 1000)
-      }
-    }
-  },
-  watch: {
-    playbackTime() {
-      let audio = this.$refs.player;
-      let diff = Math.abs(this.playbackTime - this.$refs.player.currentTime);
-
-      if (diff > 0.01) {
-        this.$refs.player.currentTime = this.playbackTime;
+        this.updateProgress()
       }
     }
   }
@@ -361,7 +352,7 @@ export default {
         border-radius 5px
         height 100%
         width 0
-        transition width 0.1s linear
+        transition width 0s linear
 
         &:hover .timeline__range {
           display block

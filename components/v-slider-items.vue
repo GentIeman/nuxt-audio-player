@@ -13,20 +13,12 @@ export default {
 
 <style scoped lang="stylus">
 .slider__slide {
-  position relative
+  position absolute
   border-radius 18px
   width 150px
   height 150px
   overflow hidden
   transition all .5s
-
-  &:first-child {
-    left 50px
-  }
-
-  &:last-child {
-    right 50px
-  }
 
   .album {
     position absolute
