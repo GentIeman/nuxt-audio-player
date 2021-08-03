@@ -110,6 +110,9 @@ export default {
       if (!audio) return '00:00'
 
       let seconds = audio.duration
+      if(isNaN(seconds)) {
+        return '00:00'
+      }
       return this.convertTime(seconds)
     },
     currentTime() {
