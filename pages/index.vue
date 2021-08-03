@@ -1,8 +1,8 @@
 <template>
   <section class="page">
     <section class="base">
-      <div class="base_circle circle" :class="{'slide-up' : isAnimate}"></div>
-      <div class="base_circle circle " :class="{'slide-down' : isAnimate}"></div>
+      <div class="base_circle circle" :class="{'slide-up' : isPlayed}"></div>
+      <div class="base_circle circle " :class="{'slide-down' : isPlayed}"></div>
       <div class="technology">
         <img class="technology__logo" src="/icons/nuxt.svg" alt="">
         <p class="technology__text text">Create with Nuxt.js</p>
@@ -62,8 +62,6 @@
 export default {
   data: () => ({
     isPlayed: false,
-    isAnimate: false, // the variable is responsible for the animation
-    audioDuration: 100,
     progress: 0,
     currentSong: '',
     trackData: [
@@ -129,12 +127,10 @@ export default {
       if (audio.paused) {
         audio.play();
         this.isPlayed = true
-        this.isAnimate = true
         this.updateProgress()
       } else {
         audio.pause()
         this.isPlayed = false
-        this.isAnimate = false
       }
     },
     updateProgress() {
@@ -149,7 +145,6 @@ export default {
       let width = progressContainer.clientWidth;
       let clickX = e.offsetX;
       audio.currentTime = (clickX / width) * audio.duration;
-      this.progress = (audio.currentTime / audio.duration) * 100
       if (audio.currentTime > 0) {
         audio.play()
         this.isPlayed = true
