@@ -358,7 +358,8 @@ export default {
 
         .timeline__range {
           display none
-          position absolute
+          position relative
+          right -5px
           width 12px
           height 12px
           background-color #1DD1A1
@@ -366,6 +367,10 @@ export default {
           box-shadow rgba(99, 99, 99, 0.2) 0px 2px 8px 0px
         }
       }
+    }
+
+    &__base:hover .timeline__range {
+      display block
     }
 
     .time-code {
