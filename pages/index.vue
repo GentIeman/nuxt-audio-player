@@ -93,8 +93,15 @@ export default {
   },
   methods: {
     songListStepper(dir) {
+      let audio = this.$refs.player
       let pos = this.trackData.findIndex(item => item === this.currentSong)
       this.currentSong = this.trackData[(pos + dir) > this.trackData.length - 1 ? 0 : (pos + dir) < 0 ? this.trackData.length - 1 : pos + dir]
+
+      setTimeout( () => {
+        audio.play();
+      }, audio.currentTime);
+      this.updateProgress()
+      this.isPlayed = true
     },
     convertTime(seconds) {
       const format = val => `0${Math.floor(val)}`.slice(-2)
