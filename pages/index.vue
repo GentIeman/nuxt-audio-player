@@ -93,8 +93,15 @@ export default {
   },
   methods: {
     songListStepper(dir) {
+      let audio = this.$refs.player
       let pos = this.trackData.findIndex(item => item === this.currentSong)
       this.currentSong = this.trackData[(pos + dir) > this.trackData.length - 1 ? 0 : (pos + dir) < 0 ? this.trackData.length - 1 : pos + dir]
+
+      setTimeout( () => {
+        audio.play();
+      }, audio.currentTime);
+      this.updateProgress()
+      this.isPlayed = true
     },
     convertTime(seconds) {
       const format = val => `0${Math.floor(val)}`.slice(-2)
@@ -108,7 +115,7 @@ export default {
       if (!audio) return '00:00'
 
       let seconds = audio.duration
-      if(isNaN(seconds)) {
+      if (isNaN(seconds)) {
         return '00:00'
       }
       return this.convertTime(seconds)
@@ -141,8 +148,7 @@ export default {
     },
     setProgress(e) {
       let audio = this.$refs.player
-      let progressContainer = this.$refs.progressContainer
-      let width = progressContainer.clientWidth;
+      let width = this.$refs.progressContainer.clientWidth
       let clickX = e.offsetX;
       audio.currentTime = (clickX / width) * audio.duration;
       if (audio.currentTime > 0) {
@@ -346,6 +352,7 @@ export default {
         display flex
         justify-content flex-end
         align-items center
+        position relative
         background-color #1DD1A1
         border-radius 5px
         height 100%
@@ -358,8 +365,7 @@ export default {
 
         .timeline__range {
           display none
-          position relative
-          right -5px
+          position absolute
           width 12px
           height 12px
           background-color #1DD1A1
@@ -367,10 +373,6 @@ export default {
           box-shadow rgba(99, 99, 99, 0.2) 0px 2px 8px 0px
         }
       }
-    }
-
-    &__base:hover .timeline__range {
-      display block
     }
 
     .time-code {
