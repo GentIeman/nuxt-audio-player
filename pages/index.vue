@@ -98,10 +98,8 @@ export default {
       this.currentSong = this.trackData[(pos + dir) > this.trackData.length - 1 ? 0 : (pos + dir) < 0 ? this.trackData.length - 1 : pos + dir]
 
       setTimeout( () => {
-        audio.play();
+        this.playToggle()
       }, audio.currentTime);
-      this.updateProgress()
-      this.isPlayed = true
     },
     convertTime(seconds) {
       const format = val => `0${Math.floor(val)}`.slice(-2)
