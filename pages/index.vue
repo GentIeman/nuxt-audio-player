@@ -34,20 +34,20 @@
       </audio>
       <section class="panel">
         <div class="panel__shuffle">
-          <img src="/icons/shuffle.svg" alt="shuffle-icon" width="30px">
+          <img src="/icons/shuffle.svg" alt="shuffle" width="30px">
         </div>
         <div class="main-btns">
           <div class="main-btns__previous-song">
-            <img src="/icons/previous-song.svg" alt="previous-song" width="30px" @click="songListStepper(-1)">
+            <img src="/icons/previous-song.svg" alt="previous song" width="30px" @click="songListStepper(-1)">
           </div>
           <div class="main-btns__play-song" v-if="isPlayed === false" @click="playToggle()">
-            <img src="/icons/play.svg" alt="play-btn" width="40px">
+            <img src="/icons/play.svg" alt="play" width="40px">
           </div>
           <div class="main-btns__pause-song" v-if="isPlayed === true" @click="playToggle()">
-            <img src="/icons/pause.svg" alt="pause-btn" width="40px">
+            <img src="/icons/pause.svg" alt="pause" width="40px">
           </div>
           <div class="main-btns__next-song">
-            <img src="/icons/next-song.svg" alt="next-song" width="30px" @click="songListStepper(1)">
+            <img src="/icons/next-song.svg" alt="next song" width="30px" @click="songListStepper(1)">
           </div>
         </div>
         <div class="panel__repeat">
@@ -115,7 +115,7 @@ export default {
       if (!audio) return '00:00'
 
       let seconds = audio.duration
-      if(isNaN(seconds)) {
+      if (isNaN(seconds)) {
         return '00:00'
       }
       return this.convertTime(seconds)
@@ -148,8 +148,7 @@ export default {
     },
     setProgress(e) {
       let audio = this.$refs.player
-      let progressContainer = this.$refs.progressContainer
-      let width = progressContainer.clientWidth;
+      let width = this.$refs.progressContainer.clientWidth
       let clickX = e.offsetX;
       audio.currentTime = (clickX / width) * audio.duration;
       if (audio.currentTime > 0) {
@@ -353,6 +352,7 @@ export default {
         display flex
         justify-content flex-end
         align-items center
+        position relative
         background-color #1DD1A1
         border-radius 5px
         height 100%
