@@ -96,7 +96,6 @@ export default {
       let audio = this.$refs.player
       let pos = this.trackData.findIndex(item => item === this.currentSong)
       this.currentSong = this.trackData[(pos + dir) > this.trackData.length - 1 ? 0 : (pos + dir) < 0 ? this.trackData.length - 1 : pos + dir]
-
       setTimeout(() => this.playToggle(), audio.currentTime);
     },
     convertTime(seconds) {
