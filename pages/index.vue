@@ -97,9 +97,7 @@ export default {
       let pos = this.trackData.findIndex(item => item === this.currentSong)
       this.currentSong = this.trackData[(pos + dir) > this.trackData.length - 1 ? 0 : (pos + dir) < 0 ? this.trackData.length - 1 : pos + dir]
 
-      setTimeout( () => {
-        this.playToggle()
-      }, audio.currentTime);
+      setTimeout(() => this.playToggle(), audio.currentTime);
     },
     convertTime(seconds) {
       const format = val => `0${Math.floor(val)}`.slice(-2)
@@ -140,9 +138,7 @@ export default {
     },
     updateProgress() {
       let audio = this.$refs.player
-      setInterval(() => {
-        this.progress = (audio.currentTime / audio.duration) * 100
-      }, audio.currentTime)
+      setInterval(() => this.progress = (audio.currentTime / audio.duration) * 100, audio.currentTime)
     },
     setProgress(e) {
       let audio = this.$refs.player
