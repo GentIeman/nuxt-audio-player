@@ -28,7 +28,7 @@
           <span class="end-time time" v-html="totalTime()"> 00:00 </span>
         </div>
       </section>
-      <audio id="audio-player" ref="player" controls
+      <audio id="audio-player" ref="player" :loop="loop"
              :src="'/music/'+ currentSong.src +'.mp3'">
         Your browser does not support audio tag.
       </audio>
@@ -51,7 +51,8 @@
           </div>
         </div>
         <div class="panel__repeat">
-          <img src="/icons/repeat.svg" alt="repeat" width="30px">
+          <img src="/icons/repeat.svg" alt="repeat" width="30px" v-if="loop === false" @click="loopTrack()">
+          <img src="/icons/repeat_active.svg" alt="repeat" width="30px" v-else @click="loopTrack()">
         </div>
       </section>
     </section>
@@ -64,6 +65,7 @@ export default {
     isPlayed: false,
     progress: 0,
     currentSong: '',
+    loop: false,
     trackData: [
       {
         id: 0,
@@ -144,11 +146,10 @@ export default {
       let width = this.$refs.progressContainer.clientWidth
       let clickX = e.offsetX;
       audio.currentTime = (clickX / width) * audio.duration;
-      if (audio.currentTime > 0) {
-        audio.play()
-        this.isPlayed = true
-        this.updateProgress()
-      }
+      if (audio.currentTime > 0) this.updateProgress()
+    },
+    loopTrack() {
+      this.loop = this.loop === false;
     }
   }
 }
