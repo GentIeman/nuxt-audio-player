@@ -34,7 +34,8 @@
       </audio>
       <section class="panel">
         <div class="panel__shuffle">
-          <img src="/icons/shuffle.svg" alt="shuffle" width="30px">
+          <img src="/icons/shuffle.svg" alt="shuffle" v-if="shuffle === false" width="30px" title="shuffle" @click="shuffleTracks()" @mouseup="shuffle = true">
+          <img src="/icons/shuffle_active.svg" alt="shuffle" v-else width="30px" title="shuffle active" @click="shuffleTracks()" @mouseup="shuffle = false">
         </div>
         <div class="main-btns">
           <div class="main-btns__previous-song">
@@ -66,6 +67,7 @@ export default {
     progress: 0,
     currentSong: '',
     loop: false,
+    shuffle: false,
     trackData: [
       {
         id: 0,
@@ -151,6 +153,15 @@ export default {
     },
     loopTrack() {
       this.loop = this.loop === false;
+    },
+    shuffleTracks() {
+      for(let i = this.trackData.length - 1; i > 0; i--){
+        let j = 0
+        j = Math.floor(Math.random()*(i + 1));
+        this.currentSong = this.trackData[j];
+        this.trackData[j] = this.trackData[i];
+        this.trackData[i] = this.currentSong;
+      }
     }
   }
 }
