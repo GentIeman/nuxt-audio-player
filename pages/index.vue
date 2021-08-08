@@ -91,7 +91,7 @@ export default {
     ]
   }),
   created() {
-    this.currentSong = this.trackData[1]
+    this.currentSong = this.trackData[0]
   },
   methods: {
     songListStepper(dir) {
