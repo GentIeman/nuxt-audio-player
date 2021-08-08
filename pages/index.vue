@@ -39,21 +39,21 @@
         </div>
         <div class="main-btns">
           <div class="main-btns__previous-song">
-            <img src="/icons/previous-song.svg" alt="previous song" width="30px" @click="songListStepper(-1)">
+            <img src="/icons/previous-song.svg" alt="previous song" width="30px" title="previous song" @click="songListStepper(-1)">
           </div>
           <div class="main-btns__play-song" v-if="isPlayed === false" @click="playToggle()">
-            <img src="/icons/play.svg" alt="play" width="40px">
+            <img src="/icons/play.svg" alt="play" title="play" width="40px">
           </div>
           <div class="main-btns__pause-song" v-if="isPlayed === true" @click="playToggle()">
-            <img src="/icons/pause.svg" alt="pause" width="40px">
+            <img src="/icons/pause.svg" alt="pause" title="pause" width="40px">
           </div>
           <div class="main-btns__next-song">
-            <img src="/icons/next-song.svg" alt="next song" width="30px" @click="songListStepper(1)">
+            <img src="/icons/next-song.svg" alt="next song" title="next song" width="30px" @click="songListStepper(1)">
           </div>
         </div>
         <div class="panel__repeat">
-          <img src="/icons/repeat.svg" alt="repeat" width="30px" v-if="loop === false" @click="loopTrack()">
-          <img src="/icons/repeat_active.svg" alt="repeat" width="30px" v-else @click="loopTrack()">
+          <img src="/icons/repeat.svg" alt="repeat" width="30px" title="repeat" v-if="loop === false" @click="loopTrack()">
+          <img src="/icons/repeat_active.svg" alt="repeat" title="repeat active" width="30px" v-else @click="loopTrack()">
         </div>
       </section>
     </section>
