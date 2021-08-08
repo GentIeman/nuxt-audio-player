@@ -140,6 +140,7 @@ export default {
     updateProgress() {
       let audio = this.$refs.player
       setInterval(() => this.progress = (audio.currentTime / audio.duration) * 100, audio.currentTime)
+      audio.onended = () => this.songListStepper(1)
     },
     setProgress(e) {
       let audio = this.$refs.player
