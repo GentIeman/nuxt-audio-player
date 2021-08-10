@@ -117,13 +117,17 @@ export default {
       this.currentSong = this.trackData[(pos + dir) > this.trackData.length - 1 ? 0 : (pos + dir) < 0 ? this.trackData.length - 1 : pos + dir]
       setTimeout(() => this.playToggle(), audio.currentTime)
 
-      if (dir === 1) {
-        if (this.currentSlideIndex > this.trackData.length - 2) {
-          this.currentSlideIndex = 0
-        } else {
-          this.currentSlideIndex++
-        }
-      } else if (this.currentSlideIndex === 0) {
+      dir === 1 ? this.nextSlide() : this.prevSlide()
+    },
+    nextSlide() {
+      if (this.currentSlideIndex + 1 === this.trackData.length) {
+        this.currentSlideIndex = 0
+      } else {
+        this.currentSlideIndex++
+      }
+    },
+    prevSlide() {
+      if (this.currentSlideIndex - 1 === -1) {
         this.currentSlideIndex = this.trackData.length - 1
       } else {
         this.currentSlideIndex--
