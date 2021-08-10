@@ -385,7 +385,7 @@ export default {
     z-index 2
 
     &__base {
-      background #B7B3B3
+      background #dbd5d5
       border-radius 5px
       cursor pointer
       height 4px
@@ -429,7 +429,7 @@ export default {
     bottom 5%
     left 50%
     transform translate(-50%, -40%)
-    width 350px
+    width 486px
     z-index 2
 
     & > div {
