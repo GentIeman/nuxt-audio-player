@@ -7,10 +7,12 @@
         <img class="technology__logo" src="/icons/nuxt.svg" alt="">
         <p class="technology__text text">Create with Nuxt.js</p>
       </div>
-      <section class="slider">
-        <transition-group name="carousel-transition" class="slider__body">
-          <v-slider-items v-for="song in trackData" :key="song.id" :data="song" :active="song.id === currentSong.id"/>
-        </transition-group>
+      <section class="slider__wrapper">
+        <ul class="slider" :style="sliderLength">
+          <li v-for="song in trackData" :key="song.id" :style="slidePosition">
+            <v-slider-items :data="song" :active="song.id === currentSong.id"/>
+          </li>
+        </ul>
       </section>
       <section class="title-track">
         <header class="title-track__header">
@@ -20,7 +22,6 @@
       <section class="timeline">
         <div class="timeline__base" ref="progressContainer" @click="setProgress">
           <div class="timeline__progress" :style="{width: progress + '%'}" ref="progress">
-            <div class="timeline__range"></div>
           </div>
         </div>
         <div class="time-code">
@@ -34,12 +35,15 @@
       </audio>
       <section class="panel">
         <div class="panel__shuffle">
-          <img src="/icons/shuffle.svg" alt="shuffle" v-if="shuffle === false" width="30px" title="shuffle" @click="shuffleTracks()" @mouseup="shuffle = true">
-          <img src="/icons/shuffle_active.svg" alt="shuffle" v-else width="30px" title="shuffle active" @click="shuffleTracks()" @mouseup="shuffle = false">
+          <img src="/icons/shuffle.svg" alt="shuffle" v-if="shuffle === false" width="30px" title="shuffle"
+               @click="shuffleTracks()" @mouseup="shuffle = true">
+          <img src="/icons/shuffle_active.svg" alt="shuffle" v-else width="30px" title="shuffle active"
+               @click="shuffleTracks()" @mouseup="shuffle = false">
         </div>
         <div class="main-btns">
           <div class="main-btns__previous-song">
-            <img src="/icons/previous-song.svg" alt="previous song" width="30px" title="previous song" @click="songListStepper(-1)">
+            <img src="/icons/previous-song.svg" alt="previous song" width="30px" title="previous song"
+                 @click="songListStepper(-1)">
           </div>
           <div class="main-btns__play-song" v-if="isPlayed === false" @click="playToggle()">
             <img src="/icons/play.svg" alt="play" title="play" width="40px">
@@ -52,8 +56,10 @@
           </div>
         </div>
         <div class="panel__repeat">
-          <img src="/icons/repeat.svg" alt="repeat" width="30px" title="repeat" v-if="loop === false" @click="loopTrack()">
-          <img src="/icons/repeat_active.svg" alt="repeat" title="repeat active" width="30px" v-else @click="loopTrack()">
+          <img src="/icons/repeat.svg" alt="repeat" width="30px" title="repeat" v-if="loop === false"
+               @click="loopTrack()">
+          <img src="/icons/repeat_active.svg" alt="repeat" title="repeat active" width="30px" v-else
+               @click="loopTrack()">
         </div>
       </section>
     </section>
@@ -68,6 +74,7 @@ export default {
     currentSong: '',
     loop: false,
     shuffle: false,
+    currentSlideIndex: 0,
     trackData: [
       {
         id: 0,
@@ -95,12 +102,32 @@ export default {
   created() {
     this.currentSong = this.trackData[0]
   },
+  computed: {
+    sliderLength() {
+      return {width: this.trackData.length * 100 + '%'}
+    },
+    slidePosition() {
+      return {transform: 'translateX(-' + this.currentSlideIndex * 100 + '%)'}
+    }
+  },
   methods: {
     songListStepper(dir) {
       let audio = this.$refs.player
       let pos = this.trackData.findIndex(item => item === this.currentSong)
       this.currentSong = this.trackData[(pos + dir) > this.trackData.length - 1 ? 0 : (pos + dir) < 0 ? this.trackData.length - 1 : pos + dir]
-      setTimeout(() => this.playToggle(), audio.currentTime);
+      setTimeout(() => this.playToggle(), audio.currentTime)
+
+      if (dir === 1) {
+        if (this.currentSlideIndex > this.trackData.length - 2) {
+          this.currentSlideIndex = 0
+        } else {
+          this.currentSlideIndex++
+        }
+      } else if (this.currentSlideIndex === 0) {
+        this.currentSlideIndex = this.trackData.length - 1
+      } else {
+        this.currentSlideIndex--
+      }
     },
     convertTime(seconds) {
       const format = val => `0${Math.floor(val)}`.slice(-2)
@@ -156,10 +183,12 @@ export default {
     },
     shuffleTracks() {
       let audio = this.$refs.player
-      setTimeout(() => this.playToggle(), audio.currentTime);
-      for(let i = this.trackData.length - 1; i > 0; i--){
+      setTimeout(() => audio.play(), audio.currentTime);
+      this.updateProgress()
+      this.isPlayed = true
+      for (let i = this.trackData.length - 1; i > 0; i--) {
         let j = 0
-        j = Math.floor(Math.random()*(i + 1));
+        j = Math.floor(Math.random() * (i + 1));
         this.currentSong = this.trackData[j];
         this.trackData[j] = this.trackData[i];
         this.trackData[i] = this.currentSong;
@@ -297,22 +326,24 @@ export default {
       }
     }
 
-    .slider {
-      display flex
-      justify-content center
-      align-items center
+    .slider__wrapper {
       position absolute
       top 35%
       left 50%
       transform translate(-50%, -50%)
-      width 500px
+      width 300px
       height 200px
-      z-index 2
+      z-index 1
+      overflow hidden
 
-      &__body {
-        display flex
-        justify-content center
-        align-items center
+      .slider {
+        display: flex;
+        list-style: none;
+
+        li {
+          padding 0 50px
+          transition: all .5s ease;
+        }
       }
     }
   }
@@ -355,6 +386,7 @@ export default {
       cursor pointer
       height 4px
       width 100%
+      overflow hidden
 
       .timeline__progress {
         display flex
@@ -366,20 +398,6 @@ export default {
         height 100%
         width 0
         transition width 0s linear
-
-        &:hover .timeline__range {
-          display block
-        }
-
-        .timeline__range {
-          display none
-          position absolute
-          width 12px
-          height 12px
-          background-color #1DD1A1
-          border-radius 50%
-          box-shadow rgba(99, 99, 99, 0.2) 0px 2px 8px 0px
-        }
       }
     }
 
@@ -434,8 +452,5 @@ export default {
   }
 }
 
-.carousel-transition-move {
-  transition transform 30s
-}
 
 </style>
