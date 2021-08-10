@@ -183,8 +183,10 @@ export default {
     },
     shuffleTracks() {
       let audio = this.$refs.player
-      setTimeout(() => this.playToggle(), audio.currentTime);
-      for(let i = this.trackData.length - 1; i > 0; i--){
+      setTimeout(() => audio.play(), audio.currentTime);
+      this.updateProgress()
+      this.isPlayed = true
+      for (let i = this.trackData.length - 1; i > 0; i--) {
         let j = 0
         j = Math.floor(Math.random() * (i + 1));
         this.currentSong = this.trackData[j];
