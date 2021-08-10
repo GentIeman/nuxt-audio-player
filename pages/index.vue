@@ -320,22 +320,24 @@ export default {
       }
     }
 
-    .slider {
-      display flex
-      justify-content center
-      align-items center
+    .slider__wrapper {
       position absolute
       top 35%
       left 50%
       transform translate(-50%, -50%)
-      width 500px
+      width 300px
       height 200px
-      z-index 2
+      z-index 1
+      overflow hidden
 
-      &__body {
-        display flex
-        justify-content center
-        align-items center
+      .slider {
+        display: flex;
+        list-style: none;
+
+        li {
+          padding 0 50px
+          transition: all .5s ease;
+        }
       }
     }
   }
@@ -378,6 +380,7 @@ export default {
       cursor pointer
       height 4px
       width 100%
+      overflow hidden
 
       .timeline__progress {
         display flex
