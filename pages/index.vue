@@ -7,10 +7,12 @@
         <img class="technology__logo" src="/icons/nuxt.svg" alt="">
         <p class="technology__text text">Create with Nuxt.js</p>
       </div>
-      <section class="slider">
-        <transition-group name="carousel-transition" class="slider__body">
-          <v-slider-items v-for="song in trackData" :key="song.id" :data="song" :active="song.id === currentSong.id"/>
-        </transition-group>
+      <section class="slider__wrapper">
+        <ul class="slider" :style="sliderLength">
+          <li v-for="song in trackData" :key="song.id" :style="slidePosition">
+            <v-slider-items :data="song" :active="song.id === currentSong.id"/>
+          </li>
+        </ul>
       </section>
       <section class="title-track">
         <header class="title-track__header">
@@ -68,6 +70,7 @@ export default {
     currentSong: '',
     loop: false,
     shuffle: false,
+    currentSlideIndex: 0,
     trackData: [
       {
         id: 0,
@@ -95,12 +98,32 @@ export default {
   created() {
     this.currentSong = this.trackData[0]
   },
+  computed: {
+    sliderLength() {
+      return {width: this.trackData.length * 100 + '%'}
+    },
+    slidePosition() {
+      return {transform: 'translateX(-' + this.currentSlideIndex * 100 + '%)'}
+    }
+  },
   methods: {
     songListStepper(dir) {
       let audio = this.$refs.player
       let pos = this.trackData.findIndex(item => item === this.currentSong)
       this.currentSong = this.trackData[(pos + dir) > this.trackData.length - 1 ? 0 : (pos + dir) < 0 ? this.trackData.length - 1 : pos + dir]
-      setTimeout(() => this.playToggle(), audio.currentTime);
+      setTimeout(() => this.playToggle(), audio.currentTime)
+
+      if (dir === 1) {
+        if (this.currentSlideIndex > this.trackData.length - 2) {
+          this.currentSlideIndex = 0
+        } else {
+          this.currentSlideIndex++
+        }
+      } else if (this.currentSlideIndex === 0) {
+        this.currentSlideIndex = this.trackData.length - 1
+      } else {
+        this.currentSlideIndex--
+      }
     },
     convertTime(seconds) {
       const format = val => `0${Math.floor(val)}`.slice(-2)
