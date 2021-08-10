@@ -22,7 +22,6 @@
       <section class="timeline">
         <div class="timeline__base" ref="progressContainer" @click="setProgress">
           <div class="timeline__progress" :style="{width: progress + '%'}" ref="progress">
-            <div class="timeline__range"></div>
           </div>
         </div>
         <div class="time-code">
@@ -36,12 +35,15 @@
       </audio>
       <section class="panel">
         <div class="panel__shuffle">
-          <img src="/icons/shuffle.svg" alt="shuffle" v-if="shuffle === false" width="30px" title="shuffle" @click="shuffleTracks()" @mouseup="shuffle = true">
-          <img src="/icons/shuffle_active.svg" alt="shuffle" v-else width="30px" title="shuffle active" @click="shuffleTracks()" @mouseup="shuffle = false">
+          <img src="/icons/shuffle.svg" alt="shuffle" v-if="shuffle === false" width="30px" title="shuffle"
+               @click="shuffleTracks()" @mouseup="shuffle = true">
+          <img src="/icons/shuffle_active.svg" alt="shuffle" v-else width="30px" title="shuffle active"
+               @click="shuffleTracks()" @mouseup="shuffle = false">
         </div>
         <div class="main-btns">
           <div class="main-btns__previous-song">
-            <img src="/icons/previous-song.svg" alt="previous song" width="30px" title="previous song" @click="songListStepper(-1)">
+            <img src="/icons/previous-song.svg" alt="previous song" width="30px" title="previous song"
+                 @click="songListStepper(-1)">
           </div>
           <div class="main-btns__play-song" v-if="isPlayed === false" @click="playToggle()">
             <img src="/icons/play.svg" alt="play" title="play" width="40px">
@@ -54,8 +56,10 @@
           </div>
         </div>
         <div class="panel__repeat">
-          <img src="/icons/repeat.svg" alt="repeat" width="30px" title="repeat" v-if="loop === false" @click="loopTrack()">
-          <img src="/icons/repeat_active.svg" alt="repeat" title="repeat active" width="30px" v-else @click="loopTrack()">
+          <img src="/icons/repeat.svg" alt="repeat" width="30px" title="repeat" v-if="loop === false"
+               @click="loopTrack()">
+          <img src="/icons/repeat_active.svg" alt="repeat" title="repeat active" width="30px" v-else
+               @click="loopTrack()">
         </div>
       </section>
     </section>
@@ -182,7 +186,7 @@ export default {
       setTimeout(() => this.playToggle(), audio.currentTime);
       for(let i = this.trackData.length - 1; i > 0; i--){
         let j = 0
-        j = Math.floor(Math.random()*(i + 1));
+        j = Math.floor(Math.random() * (i + 1));
         this.currentSong = this.trackData[j];
         this.trackData[j] = this.trackData[i];
         this.trackData[i] = this.currentSong;
@@ -392,20 +396,6 @@ export default {
         height 100%
         width 0
         transition width 0s linear
-
-        &:hover .timeline__range {
-          display block
-        }
-
-        .timeline__range {
-          display none
-          position absolute
-          width 12px
-          height 12px
-          background-color #1DD1A1
-          border-radius 50%
-          box-shadow rgba(99, 99, 99, 0.2) 0px 2px 8px 0px
-        }
       }
     }
 
@@ -460,8 +450,5 @@ export default {
   }
 }
 
-.carousel-transition-move {
-  transition transform 30s
-}
 
 </style>
