@@ -188,15 +188,15 @@ export default {
     },
     shuffleTracks() {
       let audio = this.$refs.player
-      setTimeout(() => audio.play(), audio.currentTime);
+      setTimeout(() => audio.play(), audio.currentTime)
       this.updateProgress()
       this.isPlayed = true
-      for (let i = this.trackData.length - 1; i > 0; i--) {
-        let j = 0
-        j = Math.floor(Math.random() * (i + 1));
-        this.currentSong = this.trackData[j];
-        this.trackData[j] = this.trackData[i];
-        this.trackData[i] = this.currentSong;
+      if (this.shuffle === true) {
+        for (let i = this.trackData.length - 1; i > 0; i--) {
+          let randomIndex = Math.floor(Math.random() * (i + 1));
+          [this.trackData[i], this.trackData[randomIndex]] = [this.trackData[randomIndex], this.trackData[i]];
+          this.currentSong = this.trackData[randomIndex]
+        }
       }
     }
   }
