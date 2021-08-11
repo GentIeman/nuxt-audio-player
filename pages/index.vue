@@ -20,8 +20,9 @@
         </header>
       </section>
       <section class="timeline">
-        <div class="timeline__base" ref="progressContainer" @click="setProgress">
-          <div class="timeline__progress" :style="{width: progress + '%'}" ref="progress">
+        <div class="timeline__base" ref="progressContainer" @mouseup="setProgress">
+          <div class="timeline__progress" :style="{width: progress + '%'}" v-if="progress > 1">
+            <div class="range"></div>
           </div>
         </div>
         <div class="time-code">
@@ -390,7 +391,6 @@ export default {
       cursor pointer
       height 4px
       width 100%
-      overflow hidden
 
       .timeline__progress {
         display flex
@@ -400,8 +400,23 @@ export default {
         background-color #1DD1A1
         border-radius 5px
         height 100%
-        width 0
         transition width 0s linear
+
+        .range {
+          opacity 0
+          position absolute
+          width 0
+          height 0
+          border-radius 50%
+          background-color #1DD1A1
+        }
+      }
+
+      &:hover .range {
+        opacity 1
+        width 12px
+        height 12px
+        transition all .2s
       }
     }
 
