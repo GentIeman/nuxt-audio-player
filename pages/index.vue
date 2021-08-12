@@ -63,6 +63,14 @@
                @click="loopTrack()">
         </div>
       </section>
+      <section class="music-panel">
+        <div class="music-panel__slider">
+          <input type="range" min="0" max="100" v-model="volume" :style="progressSoundSlider">
+        </div>
+        <div class="music-panel__sound-icon">
+          <img src="/icons/sound.svg" alt="">
+        </div>
+      </section>
     </section>
   </section>
 </template>
@@ -76,6 +84,8 @@ export default {
     loop: false,
     shuffle: false,
     currentSlideIndex: 0,
+    volume: 0,
+    soundIcon: '',
     trackData: [
       {
         id: 0,
@@ -109,6 +119,9 @@ export default {
     },
     slidePosition() {
       return {transform: 'translateX(-' + this.currentSlideIndex * 100 + '%)'}
+    },
+    progressSoundSlider() {
+      return {background: `linear-gradient(to right, #1DD1A1 ${this.volume}%, #dbd5d5 0%)`}
     }
   },
   methods: {
@@ -469,7 +482,45 @@ export default {
       width 370px
     }
   }
+
+  .music-panel {
+    display flex
+    justify-content center
+    align-items center
+    position absolute
+    top 76%
+    left 85%
+    transform translate(-50%, -50%) rotate(-90deg)
+    z-index 2
+
+    &__slider {
+      order 1
+    }
+
+    &__sound-icon {
+      padding-top 20px
+      transform rotate(90deg)
+    }
+  }
 }
 
-
+input[type=range] {
+  -webkit-appearance none
+  width 100px
+  border-radius 20px
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 5px;
+  cursor: pointer;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance none
+  position relative
+  width 13px
+  height 13px
+  margin-top -4px
+  background-color #1DD1A1
+  border-radius 50%
+}
 </style>
