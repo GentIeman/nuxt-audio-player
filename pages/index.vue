@@ -84,7 +84,7 @@ export default {
     loop: false,
     shuffle: false,
     currentSlideIndex: 0,
-    volume: 0,
+    volume: 35,
     soundIcon: '',
     trackData: [
       {
@@ -488,18 +488,31 @@ export default {
     justify-content center
     align-items center
     position absolute
-    top 76%
+    top 77%
     left 85%
     transform translate(-50%, -50%) rotate(-90deg)
     z-index 2
 
     &__slider {
+      display flex
+      justify-content center
+      align-items center
+      position relative
       order 1
     }
 
     &__sound-icon {
-      padding-top 20px
+      position relative
+      margin-right 10px
+      width 100%
+      height 100%
       transform rotate(90deg)
+      cursor pointer
+    }
+  }
+  @media screen and (max-width 1023px ) {
+    .music-panel {
+      display none
     }
   }
 }
@@ -510,9 +523,9 @@ input[type=range] {
   border-radius 20px
 }
 input[type=range]::-webkit-slider-runnable-track {
-  width: 100%;
-  height: 5px;
-  cursor: pointer;
+  width 100%
+  height 5px
+  cursor pointer
 }
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance none
