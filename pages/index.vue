@@ -68,7 +68,7 @@
           <input type="range" min="0" max="100" v-model="volume" :style="progressSoundSlider">
         </div>
         <div class="music-panel__sound-icon">
-          <img src="/icons/sound.svg" alt="">
+          <img :src='`/icons/${soundIcon}.svg`' alt="">
         </div>
       </section>
     </section>
@@ -85,7 +85,7 @@ export default {
     shuffle: false,
     currentSlideIndex: 0,
     volume: 35,
-    soundIcon: '',
+    soundIcon: 'sound_min',
     trackData: [
       {
         id: 0,
@@ -113,6 +113,20 @@ export default {
   created() {
     this.currentSong = this.trackData[0]
   },
+  watch: {
+    volume(value) {
+      switch (true) {
+        case value >= 75 :
+          this.soundIcon = 'sound'
+          break;
+        case value > 1 && value < 75:
+          this.soundIcon = 'sound_min'
+          break;
+        case value >= 0:
+          this.soundIcon = 'sound_none'
+      }
+    }
+  },
   computed: {
     sliderLength() {
       return {width: this.trackData.length * 100 + '%'}
@@ -122,7 +136,7 @@ export default {
     },
     progressSoundSlider() {
       return {background: `linear-gradient(to right, #1DD1A1 ${this.volume}%, #dbd5d5 0%)`}
-    }
+    },
   },
   methods: {
     songListStepper(dir) {
@@ -521,12 +535,10 @@ input[type=range] {
   -webkit-appearance none
   width 100px
   border-radius 20px
+  outline none
 }
-input[type=range]::-webkit-slider-runnable-track {
-  width 100%
-  height 5px
-  cursor pointer
-}
+
+
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance none
   position relative
@@ -535,5 +547,11 @@ input[type=range]::-webkit-slider-thumb {
   margin-top -4px
   background-color #1DD1A1
   border-radius 50%
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  width 100%
+  height 5px
+  cursor pointer
 }
 </style>
