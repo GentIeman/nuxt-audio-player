@@ -20,9 +20,9 @@
         </header>
       </section>
       <section class="timeline">
-        <div class="timeline__base" ref="progressContainer" @mouseup="setProgress">
-          <div class="timeline__progress" :style="{width: progress + '%'}" v-if="progress > 1">
-            <div class="range"></div>
+        <div class="timeline__base" ref="progressContainer" @click="setProgress">
+          <div class="timeline__progress" :style="{width: progress + '%'}">
+            <div class="range" v-if="progress > 1"></div>
           </div>
         </div>
         <div class="time-code">
@@ -216,8 +216,7 @@ export default {
     },
     shuffleTracks() {
       let audio = this.$refs.player
-      setTimeout(() => audio.play(), audio.currentTime)
-      this.updateProgress()
+      setTimeout(() => audio.play())
       this.isPlayed = true
       if (this.shuffle === true) {
         for (let i = this.trackData.length - 1; i > 0; i--) {
