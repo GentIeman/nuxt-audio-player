@@ -63,13 +63,13 @@
                @click="loopTrack()">
         </div>
       </section>
-      <section class="music-panel">
-        <div class="music-panel__slider">
+      <section class="music-panel" @mouseout="showSoundSlider = false" @mouseover="showSoundSlider = true">
+        <div class="music-panel__slider" @mouseout="showSoundSlider = false">
           <input type="range" min="0" max="1" step="0.1" class="sound-slider" v-model="volume" :style="progressSoundSlider"
-                 @input="setVolume()">
+                 @input="setVolume()" :class="{'sound-slider_show': showSoundSlider}">
         </div>
         <div class="music-panel__sound-icon">
-          <img :src='`/icons/${soundIcon}.svg`' alt="" @click="soundToggle()">
+          <img :src='`/icons/${soundIcon}.svg`' alt="" @click="soundToggle()" @mouseover="showSoundSlider = true">
         </div>
       </section>
     </section>
@@ -87,6 +87,7 @@ export default {
     currentSlideIndex: 0,
     volume: 0.5,
     soundIcon: 'sound_min',
+    showSoundSlider: false,
     trackData: [
       {
         id: 0,
@@ -534,6 +535,11 @@ export default {
 
       .sound-slider {
         width 80px
+        visibility hidden
+      }
+
+      .sound-slider_show {
+        visibility visible
       }
     }
 
