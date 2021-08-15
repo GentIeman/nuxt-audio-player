@@ -428,13 +428,11 @@ export default {
     width 486px
     height 5px
     border-radius 6px
-    cursor pointer
     z-index 2
 
     &__base {
       background #dbd5d5
       border-radius 5px
-      cursor pointer
       height 6px
       width 100%
 
@@ -454,7 +452,9 @@ export default {
           width 0
           height 0
           border-radius 50%
-          background-color #1DD1A1
+          background-color #fff
+          cursor pointer
+          box-shadow rgba(0, 0, 0, 0.24) 0px 3px 8px
         }
       }
 
@@ -462,7 +462,7 @@ export default {
         opacity 1
         width 13px
         height 13px
-        transition all .5s ease
+        transition all .3s ease
       }
     }
 
