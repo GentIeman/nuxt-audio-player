@@ -136,10 +136,7 @@ export default {
       return {transform: 'translateX(-' + this.currentSlideIndex * 100 + '%)'}
     },
     progressSoundSlider() {
-      return {background: `linear-gradient(to right, #1DD1A1 ${this.volume}%, #dbd5d5 0%)`}
-    },
-    progressSlide() {
-      return {background: `linear-gradient(to right, #1DD1A1 ${this.progress}%, #dbd5d5 0%)`}
+      return {background: `linear-gradient(to right, #1DD1A1 ${this.volume * 100}%, #dbd5d5 0%)`}
     }
   },
   methods: {
