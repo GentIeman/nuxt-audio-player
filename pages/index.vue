@@ -65,10 +65,11 @@
       </section>
       <section class="music-panel">
         <div class="music-panel__slider">
-          <input type="range" min="0" max="100" v-model="volume" :style="progressSoundSlider">
+          <input type="range" min="0" max="1" step="0.1" class="sound-slider" v-model="volume" :style="progressSoundSlider"
+                 @input="setVolume()">
         </div>
         <div class="music-panel__sound-icon">
-          <img :src='`/icons/${soundIcon}.svg`' alt="">
+          <img :src='`/icons/${soundIcon}.svg`' alt="" @click="soundToggle()">
         </div>
       </section>
     </section>
@@ -84,7 +85,7 @@ export default {
     loop: false,
     shuffle: false,
     currentSlideIndex: 0,
-    volume: 35,
+    volume: 0.5,
     soundIcon: 'sound_min',
     trackData: [
       {
@@ -116,14 +117,14 @@ export default {
   watch: {
     volume(value) {
       switch (true) {
-        case value >= 75 :
+        case value >= 0.7 :
           this.soundIcon = 'sound'
           break;
-        case value > 1 && value < 75:
+        case value > 0.1 && value < 0.7:
           this.soundIcon = 'sound_min'
           break;
-        case value >= 0:
-          this.soundIcon = 'sound_none'
+        case value == 0:
+          this.soundIcon = 'sound_off'
       }
     }
   },
@@ -137,6 +138,9 @@ export default {
     progressSoundSlider() {
       return {background: `linear-gradient(to right, #1DD1A1 ${this.volume}%, #dbd5d5 0%)`}
     },
+    progressSlide() {
+      return {background: `linear-gradient(to right, #1DD1A1 ${this.progress}%, #dbd5d5 0%)`}
+    }
   },
   methods: {
     songListStepper(dir) {
@@ -225,7 +229,25 @@ export default {
           this.currentSong = this.trackData[randomIndex]
         }
       }
-    }
+    },
+    soundToggle() {
+      let audio = this.$refs.player
+      if (!audio.muted) {
+        audio.muted = true
+        this.volume = 0
+      } else {
+        audio.muted = false
+        this.volume = audio.volume
+      }
+    },
+    setVolume() {
+      let audio = this.$refs.player
+      audio.volume = this.volume
+    },
+  },
+  mounted() {
+    let audio = this.$refs.player
+    audio.volume = this.volume
   }
 }
 </script>
