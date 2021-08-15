@@ -434,7 +434,7 @@ export default {
       background #dbd5d5
       border-radius 5px
       cursor pointer
-      height 4px
+      height 6px
       width 100%
 
       .timeline__progress {
@@ -459,9 +459,9 @@ export default {
 
       &:hover .range {
         opacity 1
-        width 12px
-        height 12px
-        transition all .2s
+        width 13px
+        height 13px
+        transition all .5s ease
       }
     }
 
@@ -520,7 +520,7 @@ export default {
     justify-content center
     align-items center
     position absolute
-    top 77%
+    top 79%
     left 85%
     transform translate(-50%, -50%) rotate(-90deg)
     z-index 2
@@ -531,6 +531,10 @@ export default {
       align-items center
       position relative
       order 1
+
+      .sound-slider {
+        width 80px
+      }
     }
 
     &__sound-icon {
@@ -551,7 +555,6 @@ export default {
 
 input[type=range] {
   -webkit-appearance none
-  width 100px
   border-radius 20px
   outline none
 }
