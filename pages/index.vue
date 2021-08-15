@@ -20,9 +20,9 @@
         </header>
       </section>
       <section class="timeline">
-        <div class="timeline__base" ref="progressContainer" @mouseup="setProgress">
-          <div class="timeline__progress" :style="{width: progress + '%'}" v-if="progress > 1">
-            <div class="range"></div>
+        <div class="timeline__base" ref="progressContainer" @click="setProgress">
+          <div class="timeline__progress" :style="{width: progress + '%'}">
+            <div class="range" v-if="progress > 1"></div>
           </div>
         </div>
         <div class="time-code">
@@ -65,10 +65,11 @@
       </section>
       <section class="music-panel">
         <div class="music-panel__slider">
-          <input type="range" min="0" max="100" v-model="volume" :style="progressSoundSlider">
+          <input type="range" min="0" max="1" step="0.1" class="sound-slider" v-model="volume" :style="progressSoundSlider"
+                 @input="setVolume()">
         </div>
         <div class="music-panel__sound-icon">
-          <img :src='`/icons/${soundIcon}.svg`' alt="">
+          <img :src='`/icons/${soundIcon}.svg`' alt="" @click="soundToggle()">
         </div>
       </section>
     </section>
@@ -84,7 +85,7 @@ export default {
     loop: false,
     shuffle: false,
     currentSlideIndex: 0,
-    volume: 35,
+    volume: 0.5,
     soundIcon: 'sound_min',
     trackData: [
       {
@@ -116,14 +117,14 @@ export default {
   watch: {
     volume(value) {
       switch (true) {
-        case value >= 75 :
+        case value >= 0.7 :
           this.soundIcon = 'sound'
           break;
-        case value > 1 && value < 75:
+        case value > 0.1 && value < 0.7:
           this.soundIcon = 'sound_min'
           break;
-        case value >= 0:
-          this.soundIcon = 'sound_none'
+        case value == 0:
+          this.soundIcon = 'sound_off'
       }
     }
   },
@@ -135,8 +136,8 @@ export default {
       return {transform: 'translateX(-' + this.currentSlideIndex * 100 + '%)'}
     },
     progressSoundSlider() {
-      return {background: `linear-gradient(to right, #1DD1A1 ${this.volume}%, #dbd5d5 0%)`}
-    },
+      return {background: `linear-gradient(to right, #1DD1A1 ${this.volume * 100}%, #dbd5d5 0%)`}
+    }
   },
   methods: {
     songListStepper(dir) {
@@ -215,8 +216,7 @@ export default {
     },
     shuffleTracks() {
       let audio = this.$refs.player
-      setTimeout(() => audio.play(), audio.currentTime)
-      this.updateProgress()
+      setTimeout(() => audio.play())
       this.isPlayed = true
       if (this.shuffle === true) {
         for (let i = this.trackData.length - 1; i > 0; i--) {
@@ -225,7 +225,25 @@ export default {
           this.currentSong = this.trackData[randomIndex]
         }
       }
-    }
+    },
+    soundToggle() {
+      let audio = this.$refs.player
+      if (!audio.muted) {
+        audio.muted = true
+        this.volume = 0
+      } else {
+        audio.muted = false
+        this.volume = audio.volume
+      }
+    },
+    setVolume() {
+      let audio = this.$refs.player
+      audio.volume = this.volume
+    },
+  },
+  mounted() {
+    let audio = this.$refs.player
+    audio.volume = this.volume
   }
 }
 </script>
@@ -416,7 +434,7 @@ export default {
       background #dbd5d5
       border-radius 5px
       cursor pointer
-      height 4px
+      height 6px
       width 100%
 
       .timeline__progress {
@@ -441,9 +459,9 @@ export default {
 
       &:hover .range {
         opacity 1
-        width 12px
-        height 12px
-        transition all .2s
+        width 13px
+        height 13px
+        transition all .5s ease
       }
     }
 
@@ -502,7 +520,7 @@ export default {
     justify-content center
     align-items center
     position absolute
-    top 77%
+    top 79%
     left 85%
     transform translate(-50%, -50%) rotate(-90deg)
     z-index 2
@@ -513,6 +531,10 @@ export default {
       align-items center
       position relative
       order 1
+
+      .sound-slider {
+        width 80px
+      }
     }
 
     &__sound-icon {
@@ -533,7 +555,6 @@ export default {
 
 input[type=range] {
   -webkit-appearance none
-  width 100px
   border-radius 20px
   outline none
 }
