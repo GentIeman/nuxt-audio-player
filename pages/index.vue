@@ -63,8 +63,8 @@
                @click="loopTrack()">
         </div>
       </section>
-      <section class="music-panel" @mouseout="showSoundSlider = false" @mouseover="showSoundSlider = true">
-        <div class="music-panel__slider" @mouseout="showSoundSlider = false">
+      <section class="music-panel" @mouseleave="showSoundSlider = false">
+        <div class="music-panel__slider">
           <input type="range" min="0" max="1" step="0.1" class="sound-slider" v-model="volume" :style="progressSoundSlider"
                  @input="setVolume()" :class="{'sound-slider_show': showSoundSlider}">
         </div>
@@ -534,11 +534,14 @@ export default {
       order 1
 
       .sound-slider {
+        opacity 0
         width 80px
         visibility hidden
+        transition all .2s ease
       }
 
       .sound-slider_show {
+        opacity 1
         visibility visible
       }
     }
