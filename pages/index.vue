@@ -455,6 +455,7 @@ export default {
           background-color #fff
           cursor pointer
           box-shadow rgba(0, 0, 0, 0.24) 0px 3px 8px
+          transition all .2s ease
         }
       }
 
@@ -462,7 +463,6 @@ export default {
         opacity 1
         width 13px
         height 13px
-        transition all .3s ease
       }
     }
 
