@@ -84,7 +84,6 @@ export default {
     currentSong: '',
     loop: false,
     shuffle: false,
-    currentSlideIndex: 0,
     volume: 0.5,
     soundIcon: 'sound_min',
     showSoundSlider: false,
@@ -134,7 +133,7 @@ export default {
       return {width: this.trackData.length * 100 + '%'}
     },
     slidePosition() {
-      return {transform: 'translateX(-' + this.currentSlideIndex * 100 + '%)'}
+      return {transform: 'translateX(-' + this.currentSong.id * 100 + '%)'}
     },
     progressSoundSlider() {
       return {background: `linear-gradient(to right, #1DD1A1 ${this.volume * 100}%, #dbd5d5 0%)`}
@@ -146,22 +145,6 @@ export default {
       let pos = this.trackData.findIndex(item => item === this.currentSong)
       this.currentSong = this.trackData[(pos + dir) > this.trackData.length - 1 ? 0 : (pos + dir) < 0 ? this.trackData.length - 1 : pos + dir]
       setTimeout(() => this.playToggle(), audio.currentTime)
-
-      dir === 1 ? this.nextSlide() : this.prevSlide()
-    },
-    nextSlide() {
-      if (this.currentSlideIndex + 1 === this.trackData.length) {
-        this.currentSlideIndex = 0
-      } else {
-        this.currentSlideIndex++
-      }
-    },
-    prevSlide() {
-      if (this.currentSlideIndex - 1 === -1) {
-        this.currentSlideIndex = this.trackData.length - 1
-      } else {
-        this.currentSlideIndex--
-      }
     },
     convertTime(seconds) {
       const format = val => `0${Math.floor(val)}`.slice(-2)
