@@ -36,10 +36,9 @@
       </audio>
       <section class="panel">
         <div class="panel__shuffle">
-          <img src="/icons/shuffle.svg" alt="shuffle" v-if="shuffle === false" width="30px" title="shuffle"
-               @click="shuffleTracks()" @mouseup="shuffle = true">
-          <img src="/icons/shuffle_active.svg" alt="shuffle" v-else width="30px" title="shuffle active"
-               @click="shuffleTracks()" @mouseup="shuffle = false">
+          <img :src="'/icons/'+ shuffleIcon +'.svg'" alt="shuffle" width="30px" title="shuffle"
+               @click="shuffleTracks()" @mousedown=" shuffleIcon = 'shuffle_active'"
+               @mouseup=" shuffleIcon = 'shuffle'">
         </div>
         <div class="main-btns">
           <div class="main-btns__previous-song">
