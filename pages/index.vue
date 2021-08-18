@@ -36,10 +36,9 @@
       </audio>
       <section class="panel">
         <div class="panel__shuffle">
-          <img src="/icons/shuffle.svg" alt="shuffle" v-if="shuffle === false" width="30px" title="shuffle"
-               @click="shuffleTracks()" @mouseup="shuffle = true">
-          <img src="/icons/shuffle_active.svg" alt="shuffle" v-else width="30px" title="shuffle active"
-               @click="shuffleTracks()" @mouseup="shuffle = false">
+          <img :src="'/icons/'+ shuffleIcon +'.svg'" alt="shuffle" width="30px" title="shuffle"
+               @click="shuffleTracks()" @mousedown=" shuffleIcon = 'shuffle_active'"
+               @mouseup=" shuffleIcon = 'shuffle'">
         </div>
         <div class="main-btns">
           <div class="main-btns__previous-song">
@@ -244,8 +243,6 @@ export default {
 
 .page {
   display flex
-  justify-content center
-  align-items center
   width 100vw
   height 100vh
 
@@ -257,6 +254,7 @@ export default {
     position relative
     width 1000px
     height 520px
+    margin auto
     border-radius 18px
     border solid 1px #B7B3B3
     z-index 1
@@ -332,12 +330,14 @@ export default {
       }
     }
 
-    .slide-up {
-      animation slide-up 10s linear infinite
-    }
+    @media (prefers-reduced-motion: no-preference) {
+      .slide-up {
+        animation slide-up 10s linear infinite
+      }
 
-    .slide-down {
-      animation slide-down 10s linear infinite
+      .slide-down {
+        animation slide-down 10s linear infinite
+      }
     }
 
     @keyframes slide-up {
@@ -371,12 +371,12 @@ export default {
       overflow hidden
 
       .slider {
-        display: flex;
-        list-style: none;
+        display flex
+        list-style none
 
         li {
           padding 0 50px
-          transition: all .5s ease;
+          transition all .5s ease
         }
       }
     }
@@ -558,8 +558,9 @@ input[type=range]::-webkit-slider-thumb {
   width 13px
   height 13px
   margin-top -4px
-  background-color #1DD1A1
+  background-color #fff
   border-radius 50%
+  box-shadow rgba(0, 0, 0, 0.24) -3px 0px 8px
 }
 
 input[type=range]::-webkit-slider-runnable-track {
