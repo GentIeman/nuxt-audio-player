@@ -557,8 +557,9 @@ input[type=range]::-webkit-slider-thumb {
   width 13px
   height 13px
   margin-top -4px
-  background-color #1DD1A1
+  background-color #fff
   border-radius 50%
+  box-shadow rgba(0, 0, 0, 0.24) -3px 0px 8px
 }
 
 input[type=range]::-webkit-slider-runnable-track {
