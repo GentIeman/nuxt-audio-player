@@ -8,15 +8,15 @@
         <p class="technology__text text">Create with Nuxt.js</p>
       </div>
       <section class="slider__wrapper">
-        <ul class="slider" :style="sliderLength">
-          <li v-for="song in trackData" :key="song.id" :style="slidePosition">
-            <v-slider-items :data="song" :active="song.id === currentSong.id"/>
-          </li>
-        </ul>
+        <div class="slider" :style="sliderLength" v-for="song in trackData" :key="song.id">
+          <div class="slider__item" :style="slidePosition">
+            <v-slider-items :data="song"/>
+          </div>
+        </div>
       </section>
-      <section class="title-track">
-        <header class="title-track__header">
-          <h3 class="title-track__title title"> {{ currentSong.title }}</h3>
+      <section class="info-track">
+        <header class="info-track__header">
+          <h3 class="info-track__title title"> {{ currentSong.title }}</h3>
         </header>
       </section>
       <section class="timeline">
@@ -37,7 +37,7 @@
       <section class="panel">
         <div class="panel__shuffle">
           <img :src="'/icons/'+ shuffleIcon +'.svg'" alt="shuffle" width="30px" title="shuffle"
-               @click="shuffleTracks()" @mousedown=" shuffleIcon = 'shuffle_active'"
+               @click="shuffleTracks()" @mousedown="shuffleIcon = 'shuffle_active'"
                @mouseup=" shuffleIcon = 'shuffle'">
         </div>
         <div class="main-btns">
@@ -64,7 +64,8 @@
       </section>
       <section class="music-panel" @mouseleave="showSoundSlider = false">
         <div class="music-panel__slider">
-          <input type="range" min="0" max="1" step="0.1" class="sound-slider" v-model="volume" :style="progressSoundSlider"
+          <input type="range" min="0" max="1" step="0.1" class="sound-slider" v-model="volume"
+                 :style="progressSoundSlider"
                  @input="setVolume()" :class="{'sound-slider_show': showSoundSlider}">
         </div>
         <div class="music-panel__sound-icon">
@@ -82,7 +83,7 @@ export default {
     progress: 0,
     currentSong: '',
     loop: false,
-    shuffle: false,
+    shuffleIcon: 'shuffle',
     volume: 0.5,
     soundIcon: 'sound_min',
     showSoundSlider: false,
@@ -129,21 +130,24 @@ export default {
   },
   computed: {
     sliderLength() {
-      return {width: this.trackData.length * 100 + '%'}
+      return {width: `${this.trackData.length * 100}%`}
     },
     slidePosition() {
-      return {transform: 'translateX(-' + this.currentSong.id * 100 + '%)'}
+      return {transform: `translateX(-${this.currentSlideIndex * 100}%)`}
     },
     progressSoundSlider() {
       return {background: `linear-gradient(to right, #1DD1A1 ${this.volume * 100}%, #dbd5d5 0%)`}
-    }
+    },
+    currentSlideIndex() {
+      return this.trackData.findIndex(item => item.id === this.currentSong.id)
+    },
+
   },
   methods: {
     songListStepper(dir) {
-      let audio = this.$refs.player
       let pos = this.trackData.findIndex(item => item === this.currentSong)
       this.currentSong = this.trackData[(pos + dir) > this.trackData.length - 1 ? 0 : (pos + dir) < 0 ? this.trackData.length - 1 : pos + dir]
-      setTimeout(() => this.playToggle(), audio.currentTime)
+      setTimeout(() => this.playToggle())
     },
     convertTime(seconds) {
       const format = val => `0${Math.floor(val)}`.slice(-2)
@@ -201,13 +205,16 @@ export default {
       let audio = this.$refs.player
       setTimeout(() => audio.play())
       this.isPlayed = true
-      if (this.shuffle === true) {
-        for (let i = this.trackData.length - 1; i > 0; i--) {
-          let randomIndex = Math.floor(Math.random() * (i + 1));
-          [this.trackData[i], this.trackData[randomIndex]] = [this.trackData[randomIndex], this.trackData[i]];
-          this.currentSong = this.trackData[randomIndex]
-        }
+      let tempIndex = this.currentSlideIndex
+      let currentIndex = this.trackData.length, temporaryValue, randomIndex
+      while (0 !== currentIndex) {
+        currentIndex -= 1
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        temporaryValue = this.trackData[currentIndex];
+        this.trackData[currentIndex] = this.trackData[randomIndex];
+        this.trackData[randomIndex] = temporaryValue;
       }
+      this.currentSong = this.trackData[tempIndex]
     },
     soundToggle() {
       let audio = this.$refs.player
@@ -222,7 +229,7 @@ export default {
     setVolume() {
       let audio = this.$refs.player
       audio.volume = this.volume
-    },
+    }
   },
   mounted() {
     let audio = this.$refs.player
@@ -374,15 +381,15 @@ export default {
         display flex
         list-style none
 
-        li {
+        &__item {
           padding 0 50px
-          transition all .5s ease
+          transition all .8s ease
         }
       }
     }
   }
 
-  .title-track {
+  .info-track {
     position absolute
     top 61%
     left 50%
