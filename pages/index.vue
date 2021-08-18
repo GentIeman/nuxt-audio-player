@@ -14,9 +14,9 @@
           </div>
         </div>
       </section>
-      <section class="title-track">
-        <header class="title-track__header">
-          <h3 class="title-track__title title"> {{ currentSong.title }}</h3>
+      <section class="info-track">
+        <header class="info-track__header">
+          <h3 class="info-track__title title"> {{ currentSong.title }}</h3>
         </header>
       </section>
       <section class="timeline">
@@ -388,7 +388,7 @@ export default {
     }
   }
 
-  .title-track {
+  .info-track {
     position absolute
     top 61%
     left 50%
