@@ -8,11 +8,11 @@
         <p class="technology__text text">Create with Nuxt.js</p>
       </div>
       <section class="slider__wrapper">
-        <ul class="slider" :style="sliderLength">
-          <li v-for="song in trackData" :key="song.id" :style="slidePosition">
-            <v-slider-items :data="song" :active="song.id === currentSong.id"/>
-          </li>
-        </ul>
+        <div class="slider" :style="sliderLength" v-for="song in trackData" :key="song.id">
+          <div class="slider__item" :style="slidePosition">
+            <v-slider-items :data="song"/>
+          </div>
+        </div>
       </section>
       <section class="title-track">
         <header class="title-track__header">
@@ -132,18 +132,21 @@ export default {
       return {width: this.trackData.length * 100 + '%'}
     },
     slidePosition() {
-      return {transform: 'translateX(-' + this.currentSong.id * 100 + '%)'}
+      return {transform: `translateX(-${this.currentSlideIndex * 100}%)`}
     },
     progressSoundSlider() {
       return {background: `linear-gradient(to right, #1DD1A1 ${this.volume * 100}%, #dbd5d5 0%)`}
-    }
+    },
+    currentSlideIndex() {
+      return this.trackData.findIndex(item => item.id === this.currentSong.id)
+    },
+
   },
   methods: {
     songListStepper(dir) {
-      let audio = this.$refs.player
       let pos = this.trackData.findIndex(item => item === this.currentSong)
       this.currentSong = this.trackData[(pos + dir) > this.trackData.length - 1 ? 0 : (pos + dir) < 0 ? this.trackData.length - 1 : pos + dir]
-      setTimeout(() => this.playToggle(), audio.currentTime)
+      setTimeout(() => this.playToggle())
     },
     convertTime(seconds) {
       const format = val => `0${Math.floor(val)}`.slice(-2)
@@ -377,9 +380,9 @@ export default {
         display flex
         list-style none
 
-        li {
+        &__item {
           padding 0 50px
-          transition all .5s ease
+          transition all .8s ease
         }
       }
     }
