@@ -37,7 +37,7 @@
       <section class="panel">
         <div class="panel__shuffle">
           <img :src="'/icons/'+ shuffleIcon +'.svg'" alt="shuffle" width="30px" title="shuffle"
-               @click="shuffleTracks()" @mousedown=" shuffleIcon = 'shuffle_active'"
+               @click="shuffleTracks()" @mousedown="shuffleIcon = 'shuffle_active'"
                @mouseup=" shuffleIcon = 'shuffle'">
         </div>
         <div class="main-btns">
@@ -64,7 +64,8 @@
       </section>
       <section class="music-panel" @mouseleave="showSoundSlider = false">
         <div class="music-panel__slider">
-          <input type="range" min="0" max="1" step="0.1" class="sound-slider" v-model="volume" :style="progressSoundSlider"
+          <input type="range" min="0" max="1" step="0.1" class="sound-slider" v-model="volume"
+                 :style="progressSoundSlider"
                  @input="setVolume()" :class="{'sound-slider_show': showSoundSlider}">
         </div>
         <div class="music-panel__sound-icon">
@@ -129,7 +130,7 @@ export default {
   },
   computed: {
     sliderLength() {
-      return {width: this.trackData.length * 100 + '%'}
+      return {width: `${this.trackData.length * 100}%`}
     },
     slidePosition() {
       return {transform: `translateX(-${this.currentSlideIndex * 100}%)`}
