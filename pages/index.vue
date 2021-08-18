@@ -82,7 +82,7 @@ export default {
     progress: 0,
     currentSong: '',
     loop: false,
-    shuffle: false,
+    shuffleIcon: 'shuffle',
     volume: 0.5,
     soundIcon: 'sound_min',
     showSoundSlider: false,
@@ -201,13 +201,16 @@ export default {
       let audio = this.$refs.player
       setTimeout(() => audio.play())
       this.isPlayed = true
-      if (this.shuffle === true) {
-        for (let i = this.trackData.length - 1; i > 0; i--) {
-          let randomIndex = Math.floor(Math.random() * (i + 1));
-          [this.trackData[i], this.trackData[randomIndex]] = [this.trackData[randomIndex], this.trackData[i]];
-          this.currentSong = this.trackData[randomIndex]
-        }
+      let tempIndex = this.currentSlideIndex
+      let currentIndex = this.trackData.length, temporaryValue, randomIndex
+      while (0 !== currentIndex) {
+        currentIndex -= 1
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        temporaryValue = this.trackData[currentIndex];
+        this.trackData[currentIndex] = this.trackData[randomIndex];
+        this.trackData[randomIndex] = temporaryValue;
       }
+      this.currentSong = this.trackData[tempIndex]
     },
     soundToggle() {
       let audio = this.$refs.player
@@ -222,7 +225,7 @@ export default {
     setVolume() {
       let audio = this.$refs.player
       audio.volume = this.volume
-    },
+    }
   },
   mounted() {
     let audio = this.$refs.player
