@@ -331,12 +331,14 @@ export default {
       }
     }
 
-    .slide-up {
-      animation slide-up 10s linear infinite
-    }
+    @media (prefers-reduced-motion: no-preference) {
+      .slide-up {
+        animation slide-up 10s linear infinite
+      }
 
-    .slide-down {
-      animation slide-down 10s linear infinite
+      .slide-down {
+        animation slide-down 10s linear infinite
+      }
     }
 
     @keyframes slide-up {
