@@ -243,8 +243,6 @@ export default {
 
 .page {
   display flex
-  justify-content center
-  align-items center
   width 100vw
   height 100vh
 
@@ -256,6 +254,7 @@ export default {
     position relative
     width 1000px
     height 520px
+    margin auto
     border-radius 18px
     border solid 1px #B7B3B3
     z-index 1
@@ -372,12 +371,12 @@ export default {
       overflow hidden
 
       .slider {
-        display: flex;
-        list-style: none;
+        display flex
+        list-style none
 
         li {
           padding 0 50px
-          transition: all .5s ease;
+          transition all .5s ease
         }
       }
     }
