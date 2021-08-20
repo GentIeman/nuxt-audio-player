@@ -1,18 +1,18 @@
 <template>
   <section class="page">
     <section class="base">
-      <div class="base_circle circle" :class="{'slide-up' : isPlayed}"></div>
-      <div class="base_circle circle " :class="{'slide-down' : isPlayed}"></div>
+      <div class="base__circle circle" :class="{'slide-up' : isPlayed}"></div>
+      <div class="base__circle circle " :class="{'slide-down' : isPlayed}"></div>
       <div class="technology">
         <img class="technology__logo" src="/icons/nuxt.svg" alt="">
         <p class="technology__text text">Create with Nuxt.js</p>
       </div>
-      <section class="slider__wrapper">
-        <div class="slider" :style="sliderLength" v-for="song in trackData" :key="song.id">
-          <div class="slider__item" :style="slidePosition">
+      <section class="slider">
+        <ul class="slider__list" :style="sliderLength" v-for="song in trackData" :key="song.id">
+          <li class="slider__item" :style="slidePosition">
             <v-slider-items :data="song"/>
-          </div>
-        </div>
+          </li>
+        </ul>
       </section>
       <section class="info-track">
         <header class="info-track__header">
@@ -35,41 +35,41 @@
         Your browser does not support audio tag.
       </audio>
       <section class="panel">
-        <div class="panel__shuffle">
+        <div class="shuffle">
           <img :src="'/icons/'+ shuffleIcon +'.svg'" alt="shuffle" width="30px" title="shuffle"
                @click="shuffleTracks()" @mousedown="shuffleIcon = 'shuffle_active'"
                @mouseup=" shuffleIcon = 'shuffle'">
         </div>
-        <div class="main-btns">
-          <div class="main-btns__previous-song">
+        <div class="panel__main">
+          <div class="previous-song btn">
             <img src="/icons/previous-song.svg" alt="previous song" width="30px" title="previous song"
                  @click="songListStepper(-1)">
           </div>
-          <div class="main-btns__play-song" v-if="isPlayed === false" @click="playToggle()">
+          <div class="play-song btn" v-if="isPlayed === false" @click="playToggle()">
             <img src="/icons/play.svg" alt="play" title="play" width="40px">
           </div>
-          <div class="main-btns__pause-song" v-if="isPlayed === true" @click="playToggle()">
+          <div class="pause-song btn" v-if="isPlayed === true" @click="playToggle()">
             <img src="/icons/pause.svg" alt="pause" title="pause" width="40px">
           </div>
-          <div class="main-btns__next-song">
+          <div class="next-song btn">
             <img src="/icons/next-song.svg" alt="next song" title="next song" width="30px" @click="songListStepper(1)">
           </div>
         </div>
-        <div class="panel__repeat">
+        <div class="repeat btn">
           <img src="/icons/repeat.svg" alt="repeat" width="30px" title="repeat" v-if="loop === false"
                @click="loopTrack()">
           <img src="/icons/repeat_active.svg" alt="repeat" title="repeat active" width="30px" v-else
                @click="loopTrack()">
         </div>
       </section>
-      <section class="music-panel" @mouseleave="showSoundSlider = false">
-        <div class="music-panel__slider">
-          <input type="range" min="0" max="1" step="0.1" class="sound-slider" v-model="volume"
+      <section class="sound" @mouseleave="showSoundSlider = false">
+        <div class="sound__slider-box">
+          <input type="range" min="0" max="1" step="0.1" class="sound__slider" v-model="volume"
                  :style="progressSoundSlider"
-                 @input="setVolume()" :class="{'sound-slider_show': showSoundSlider}">
+                 @input="setVolume()" :class="{'sound__slider_show': showSoundSlider}">
         </div>
-        <div class="music-panel__sound-icon">
-          <img :src='`/icons/${soundIcon}.svg`' alt="" @click="soundToggle()" @mouseover="showSoundSlider = true">
+        <div class="sound__icon-box">
+          <img :src='`/icons/${soundIcon}.svg`' alt="" class="sound__icon" @click="soundToggle()" @mouseover="showSoundSlider = true">
         </div>
       </section>
     </section>
@@ -299,20 +299,16 @@ export default {
       z-index 1
     }
 
-    &__circle {
-      position relative
-    }
-
     .circle {
       position absolute
-      width 350px
-      height 350px
+      width 450px
+      height 450px
       border-radius 100%
       background-color #2ED573
 
       &:first-child {
-        width 450px
-        height 450px
+        width 550px
+        height 550px
         bottom 0
         left 0
         transform translate(-40%, 30%)
@@ -367,7 +363,7 @@ export default {
       }
     }
 
-    .slider__wrapper {
+    .slider {
       position absolute
       top 35%
       left 50%
@@ -377,177 +373,174 @@ export default {
       z-index 1
       overflow hidden
 
-      .slider {
+      &__list {
         display flex
         list-style none
 
-        &__item {
+        .slider__item {
           padding 0 50px
           transition all .8s ease
         }
       }
     }
-  }
 
-  .info-track {
-    position absolute
-    top 61%
-    left 50%
-    transform translate(-50%, -50%)
-    z-index 2
-    max-width 800px
-    width 500px
+    .info-track {
+      position absolute
+      top 61%
+      left 50%
+      transform translate(-50%, -50%)
+      z-index 2
+      max-width 800px
+      width 500px
 
-    &__title {
-      display flex
-      justify-content center
-      align-items center
-    }
-
-    .title {
-      font normal 1.2em sans-serif
-      color #333
-    }
-  }
-
-  .timeline {
-    position absolute
-    top 75%
-    left 50%
-    transform translate(-50%, -50%)
-    width 486px
-    height 5px
-    border-radius 6px
-    z-index 2
-
-    &__base {
-      background #dbd5d5
-      border-radius 5px
-      height 6px
-      width 100%
-
-      .timeline__progress {
+      &__title {
         display flex
-        justify-content flex-end
+        justify-content center
         align-items center
-        position relative
-        background-color #1DD1A1
-        border-radius 5px
-        height 100%
-        transition width 0s linear
+      }
 
-        .range {
-          opacity 0
-          position absolute
-          width 0
-          height 0
-          border-radius 50%
-          background-color #fff
-          cursor pointer
-          box-shadow rgba(0, 0, 0, 0.24) 0px 3px 8px
-          transition all .2s ease
+      .title {
+        font normal 1.2em sans-serif
+        color #333
+      }
+    }
+
+    .timeline {
+      position absolute
+      top 75%
+      left 50%
+      transform translate(-50%, -50%)
+      width 486px
+      height 5px
+      border-radius 6px
+      z-index 2
+
+      &__base {
+        background #dbd5d5
+        border-radius 5px
+        height 6px
+        width 100%
+
+        .timeline__progress {
+          display flex
+          justify-content flex-end
+          align-items center
+          position relative
+          background-color #1DD1A1
+          border-radius 5px
+          height 100%
+          transition width 0s linear
+
+          .range {
+            opacity 0
+            position absolute
+            width 0
+            height 0
+            border-radius 50%
+            background-color #fff
+            cursor pointer
+            box-shadow rgba(0, 0, 0, 0.24) 0px 3px 8px
+            transition all .2s ease
+          }
+        }
+
+        &:hover .range {
+          opacity 1
+          width 13px
+          height 13px
         }
       }
 
-      &:hover .range {
-        opacity 1
-        width 13px
-        height 13px
+      .time-code {
+        display flex
+        position absolute
+        top -25px
+        justify-content space-between
+        width 100%
+        height auto
+        cursor default
+
+        .time {
+          font normal 0.9em sans-serif
+          color #B7B3B3
+        }
       }
     }
 
-    .time-code {
-      display flex
-      position absolute
-      top -25px
-      justify-content space-between
-      width 100%
-      height auto
-      cursor default
-
-      .time {
-        font normal 0.9em sans-serif
-        color #B7B3B3
-      }
-    }
-  }
-
-  .panel {
-    display flex
-    justify-content space-between
-    align-items center
-    position absolute
-    bottom 5%
-    left 50%
-    transform translate(-50%, -40%)
-    width 486px
-    z-index 2
-
-    & > div {
-      cursor pointer
-    }
-
-    .main-btns {
+    .panel {
       display flex
       justify-content space-between
       align-items center
-      width 200px
-      cursor default
+      position absolute
+      bottom 5%
+      left 50%
+      transform translate(-50%, -40%)
+      width 486px
+      height 40px
+      z-index 2
 
-      & > div {
+      & .btn {
         cursor pointer
       }
+
+      &__main {
+        display flex
+        justify-content space-between
+        align-items center
+        width 200px
+        cursor default
+      }
     }
-  }
 
-  @media screen and (max-width 465px ) {
-    .panel {
-      width 370px
+    @media screen and (max-width 465px ) {
+      .panel {
+        width 370px
+      }
     }
-  }
 
-  .music-panel {
-    display flex
-    justify-content center
-    align-items center
-    position absolute
-    top 79%
-    left 85%
-    transform translate(-50%, -50%) rotate(-90deg)
-    z-index 2
-
-    &__slider {
+    .sound {
       display flex
       justify-content center
       align-items center
-      position relative
-      order 1
+      position absolute
+      top 80%
+      left 85%
+      transform translate(-50%, -50%) rotate(-90deg)
+      z-index 2
 
-      .sound-slider {
-        opacity 0
-        width 80px
-        visibility hidden
-        transition all .2s ease
+      &__slider-box {
+        display flex
+        justify-content center
+        align-items center
+        position relative
+        order 1
+
+        .sound__slider {
+          opacity 0
+          width 80px
+          visibility hidden
+          transition all .2s ease
+        }
+
+        .sound__slider_show {
+          opacity 1
+          visibility visible
+        }
       }
 
-      .sound-slider_show {
-        opacity 1
-        visibility visible
+      &__icon-box {
+        position relative
+        margin-right 10px
+        width 100%
+        height 100%
+        transform rotate(90deg)
+        cursor pointer
       }
     }
-
-    &__sound-icon {
-      position relative
-      margin-right 10px
-      width 100%
-      height 100%
-      transform rotate(90deg)
-      cursor pointer
-    }
-  }
-  @media screen and (max-width 1023px ) {
-    .music-panel {
-      display none
+    @media screen and (max-width 1023px ) {
+      .sound {
+        display none
+      }
     }
   }
 }
