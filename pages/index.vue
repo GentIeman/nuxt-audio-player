@@ -1,76 +1,80 @@
 <template>
   <section class="page">
     <section class="base">
-      <div class="base__circle circle" :class="{'slide-up' : isPlayed}"></div>
-      <div class="base__circle circle " :class="{'slide-down' : isPlayed}"></div>
-      <div class="technology">
-        <img class="technology__logo" src="/icons/nuxt.svg" alt="">
-        <p class="technology__text text">Create with Nuxt.js</p>
+      <div class="background">
+        <div class="base__circle circle" :class="{'slide-up' : isPlayed}"></div>
+        <div class="base__circle circle " :class="{'slide-down' : isPlayed}"></div>
       </div>
-      <section class="slider">
-        <ul class="slider__list" :style="sliderLength" v-for="song in trackData" :key="song.id">
-          <li class="slider__item" :style="slidePosition">
-            <v-slider-items :data="song"/>
-          </li>
-        </ul>
-      </section>
-      <section class="info-track">
-        <header class="info-track__header">
-          <h3 class="info-track__title title"> {{ currentSong.title }}</h3>
-        </header>
-      </section>
-      <section class="timeline">
-        <div class="timeline__base" ref="progressContainer" @click="setProgress">
-          <div class="timeline__progress" :style="{width: progress + '%'}">
-            <div class="range" v-if="progress > 1"></div>
+      <section class="body">
+        <div class="technology">
+          <img class="technology__logo" src="/icons/nuxt.svg" alt="">
+          <p class="technology__text text">Create with Nuxt.js</p>
+        </div>
+        <section class="slider">
+          <ul class="slider__list" :style="sliderLength" v-for="song in trackData" :key="song.id">
+            <li class="slider__item" :style="slidePosition">
+              <v-slider-items :data="song"/>
+            </li>
+          </ul>
+        </section>
+        <section class="info-track">
+          <header class="info-track__header">
+            <h3 class="info-track__title title"> {{ currentSong.title }}</h3>
+          </header>
+        </section>
+        <section class="timeline">
+          <div class="timeline__base" ref="progressContainer" @click="setProgress">
+            <div class="timeline__progress" :style="{width: progress + '%'}">
+              <div class="range" v-if="progress > 1"></div>
+            </div>
           </div>
-        </div>
-        <div class="time-code">
-          <span class="begin-time time" v-html="currentTime()"> 00:00 </span>
-          <span class="end-time time" v-html="totalTime()"> 00:00 </span>
-        </div>
-      </section>
-      <audio id="audio-player" ref="player" :loop="loop"
-             :src="'/music/'+ currentSong.src +'.mp3'">
-        Your browser does not support audio tag.
-      </audio>
-      <section class="panel">
-        <div class="shuffle">
-          <img :src="'/icons/'+ shuffleIcon +'.svg'" alt="shuffle" width="30px" title="shuffle"
-               @click="shuffleTracks()" @mousedown="shuffleIcon = 'shuffle_active'"
-               @mouseup=" shuffleIcon = 'shuffle'">
-        </div>
-        <div class="panel__main">
-          <div class="previous-song btn">
-            <img src="/icons/previous-song.svg" alt="previous song" width="30px" title="previous song"
-                 @click="songListStepper(-1)">
+          <div class="time-code">
+            <span class="begin-time time" v-html="currentTime()"> 00:00 </span>
+            <span class="end-time time" v-html="totalTime()"> 00:00 </span>
           </div>
-          <div class="play-song btn" v-if="isPlayed === false" @click="playToggle()">
-            <img src="/icons/play.svg" alt="play" title="play" width="40px">
+        </section>
+        <audio id="audio-player" ref="player" :loop="loop"
+               :src="'/music/'+ currentSong.src +'.mp3'">
+          Your browser does not support audio tag.
+        </audio>
+        <section class="panel">
+          <div class="shuffle btn">
+            <img :src="'/icons/'+ shuffleIcon +'.svg'" alt="shuffle" width="30px" title="shuffle"
+                 @click="shuffleTracks()" @mousedown="shuffleIcon = 'shuffle_active'"
+                 @mouseup=" shuffleIcon = 'shuffle'">
           </div>
-          <div class="pause-song btn" v-if="isPlayed === true" @click="playToggle()">
-            <img src="/icons/pause.svg" alt="pause" title="pause" width="40px">
+          <div class="panel__main">
+            <div class="previous-song btn">
+              <img src="/icons/previous-song.svg" alt="previous song" width="30px" title="previous song"
+                   @click="songListStepper(-1)">
+            </div>
+            <div class="play-song btn" v-if="isPlayed === false" @click="playToggle()">
+              <img src="/icons/play.svg" alt="play" title="play" width="40px">
+            </div>
+            <div class="pause-song btn" v-if="isPlayed === true" @click="playToggle()">
+              <img src="/icons/pause.svg" alt="pause" title="pause" width="40px">
+            </div>
+            <div class="next-song btn">
+              <img src="/icons/next-song.svg" alt="next song" title="next song" width="30px" @click="songListStepper(1)">
+            </div>
           </div>
-          <div class="next-song btn">
-            <img src="/icons/next-song.svg" alt="next song" title="next song" width="30px" @click="songListStepper(1)">
+          <div class="repeat btn">
+            <img src="/icons/repeat.svg" alt="repeat" width="30px" title="repeat" v-if="loop === false"
+                 @click="loopTrack()">
+            <img src="/icons/repeat_active.svg" alt="repeat" title="repeat active" width="30px" v-else
+                 @click="loopTrack()">
           </div>
-        </div>
-        <div class="repeat btn">
-          <img src="/icons/repeat.svg" alt="repeat" width="30px" title="repeat" v-if="loop === false"
-               @click="loopTrack()">
-          <img src="/icons/repeat_active.svg" alt="repeat" title="repeat active" width="30px" v-else
-               @click="loopTrack()">
-        </div>
-      </section>
-      <section class="sound" @mouseleave="showSoundSlider = false">
-        <div class="sound__slider-box">
-          <input type="range" min="0" max="1" step="0.1" class="sound__slider" v-model="volume"
-                 :style="progressSoundSlider"
-                 @input="setVolume()" :class="{'sound__slider_show': showSoundSlider}">
-        </div>
-        <div class="sound__icon-box">
-          <img :src='`/icons/${soundIcon}.svg`' alt="" class="sound__icon" @click="soundToggle()" @mouseover="showSoundSlider = true">
-        </div>
+        </section>
+        <section class="sound" @mouseleave="showSoundSlider = false">
+          <div class="sound__slider-box">
+            <input type="range" min="0" max="1" step="0.1" class="sound__slider" v-model="volume"
+                   :style="progressSoundSlider"
+                   @input="setVolume()" :class="{'sound__slider_show': showSoundSlider}">
+          </div>
+          <div class="sound__icon-box">
+            <img :src='`/icons/${soundIcon}.svg`' alt="" class="sound__icon" @click="soundToggle()" @mouseover="showSoundSlider = true">
+          </div>
+        </section>
       </section>
     </section>
   </section>
