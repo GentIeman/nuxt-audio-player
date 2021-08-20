@@ -1,8 +1,8 @@
 <template>
   <section class="page">
     <section class="base">
-      <div class="base_circle circle" :class="{'slide-up' : isPlayed}"></div>
-      <div class="base_circle circle " :class="{'slide-down' : isPlayed}"></div>
+      <div class="base__circle circle" :class="{'slide-up' : isPlayed}"></div>
+      <div class="base__circle circle " :class="{'slide-down' : isPlayed}"></div>
       <div class="technology">
         <img class="technology__logo" src="/icons/nuxt.svg" alt="">
         <p class="technology__text text">Create with Nuxt.js</p>
@@ -299,20 +299,16 @@ export default {
       z-index 1
     }
 
-    &__circle {
-      position relative
-    }
-
     .circle {
       position absolute
-      width 350px
-      height 350px
+      width 450px
+      height 450px
       border-radius 100%
       background-color #2ED573
 
       &:first-child {
-        width 450px
-        height 450px
+        width 550px
+        height 550px
         bottom 0
         left 0
         transform translate(-40%, 30%)
@@ -367,7 +363,7 @@ export default {
       }
     }
 
-    .slider__wrapper {
+    .slider {
       position absolute
       top 35%
       left 50%
@@ -377,177 +373,178 @@ export default {
       z-index 1
       overflow hidden
 
-      .slider {
+      &__list {
         display flex
         list-style none
 
-        &__item {
+        .slider__item {
           padding 0 50px
           transition all .8s ease
         }
       }
     }
-  }
 
-  .info-track {
-    position absolute
-    top 61%
-    left 50%
-    transform translate(-50%, -50%)
-    z-index 2
-    max-width 800px
-    width 500px
+    .info-track {
+      position absolute
+      top 61%
+      left 50%
+      transform translate(-50%, -50%)
+      z-index 2
+      max-width 800px
+      width 500px
 
-    &__title {
-      display flex
-      justify-content center
-      align-items center
-    }
-
-    .title {
-      font normal 1.2em sans-serif
-      color #333
-    }
-  }
-
-  .timeline {
-    position absolute
-    top 75%
-    left 50%
-    transform translate(-50%, -50%)
-    width 486px
-    height 5px
-    border-radius 6px
-    z-index 2
-
-    &__base {
-      background #dbd5d5
-      border-radius 5px
-      height 6px
-      width 100%
-
-      .timeline__progress {
+      &__title {
         display flex
-        justify-content flex-end
+        justify-content center
         align-items center
-        position relative
-        background-color #1DD1A1
-        border-radius 5px
-        height 100%
-        transition width 0s linear
+      }
 
-        .range {
-          opacity 0
-          position absolute
-          width 0
-          height 0
-          border-radius 50%
-          background-color #fff
-          cursor pointer
-          box-shadow rgba(0, 0, 0, 0.24) 0px 3px 8px
-          transition all .2s ease
+      .title {
+        font normal 1.2em sans-serif
+        color #333
+      }
+    }
+
+    .timeline {
+      position absolute
+      top 75%
+      left 50%
+      transform translate(-50%, -50%)
+      width 486px
+      height 5px
+      border-radius 6px
+      z-index 2
+
+      &__base {
+        background #dbd5d5
+        border-radius 5px
+        height 6px
+        width 100%
+
+        .timeline__progress {
+          display flex
+          justify-content flex-end
+          align-items center
+          position relative
+          background-color #1DD1A1
+          border-radius 5px
+          height 100%
+          transition width 0s linear
+
+          .range {
+            opacity 0
+            position absolute
+            width 0
+            height 0
+            border-radius 50%
+            background-color #fff
+            cursor pointer
+            box-shadow rgba(0, 0, 0, 0.24) 0px 3px 8px
+            transition all .2s ease
+          }
+        }
+
+        &:hover .range {
+          opacity 1
+          width 13px
+          height 13px
         }
       }
 
-      &:hover .range {
-        opacity 1
-        width 13px
-        height 13px
+      .time-code {
+        display flex
+        position absolute
+        top -25px
+        justify-content space-between
+        width 100%
+        height auto
+        cursor default
+
+        .time {
+          font normal 0.9em sans-serif
+          color #B7B3B3
+        }
       }
     }
 
-    .time-code {
-      display flex
-      position absolute
-      top -25px
-      justify-content space-between
-      width 100%
-      height auto
-      cursor default
-
-      .time {
-        font normal 0.9em sans-serif
-        color #B7B3B3
-      }
-    }
-  }
-
-  .panel {
-    display flex
-    justify-content space-between
-    align-items center
-    position absolute
-    bottom 5%
-    left 50%
-    transform translate(-50%, -40%)
-    width 486px
-    z-index 2
-
-    & > div {
-      cursor pointer
-    }
-
-    .main-btns {
+    .panel {
       display flex
       justify-content space-between
       align-items center
-      width 200px
-      cursor default
+      position absolute
+      bottom 5%
+      left 50%
+      transform translate(-50%, -40%)
+      width 486px
+      height 40px
+      z-index 2
 
       & > div {
         cursor pointer
       }
+
+      .main-btns {
+        display flex
+        justify-content space-between
+        align-items center
+        width 200px
+        cursor default
+
+        & > div {
+          cursor pointer
+        }
+      }
     }
-  }
 
-  @media screen and (max-width 465px ) {
-    .panel {
-      width 370px
+    @media screen and (max-width 465px ) {
+      .panel {
+        width 370px
+      }
     }
-  }
 
-  .music-panel {
-    display flex
-    justify-content center
-    align-items center
-    position absolute
-    top 79%
-    left 85%
-    transform translate(-50%, -50%) rotate(-90deg)
-    z-index 2
-
-    &__slider {
+    .sound {
       display flex
       justify-content center
       align-items center
-      position relative
-      order 1
+      position absolute
+      top 79%
+      left 85%
+      transform translate(-50%, -50%) rotate(-90deg)
+      z-index 2
 
-      .sound-slider {
-        opacity 0
-        width 80px
-        visibility hidden
-        transition all .2s ease
+      &__slider-wrapper {
+        display flex
+        justify-content center
+        align-items center
+        position relative
+        order 1
+
+        .sound__slider {
+          opacity 0
+          width 80px
+          visibility hidden
+          transition all .2s ease
+        }
+
+        .sound__slider_show {
+          opacity 1
+          visibility visible
+        }
       }
 
-      .sound-slider_show {
-        opacity 1
-        visibility visible
+      &__icon-wrapper {
+        position relative
+        margin-right 10px
+        width 100%
+        height 100%
+        transform rotate(90deg)
+        cursor pointer
       }
     }
-
-    &__sound-icon {
-      position relative
-      margin-right 10px
-      width 100%
-      height 100%
-      transform rotate(90deg)
-      cursor pointer
-    }
-  }
-  @media screen and (max-width 1023px ) {
-    .music-panel {
-      display none
+    @media screen and (max-width 1023px ) {
+      .sound {
+        display none
+      }
     }
   }
 }
