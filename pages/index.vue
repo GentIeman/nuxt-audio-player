@@ -7,12 +7,12 @@
         <img class="technology__logo" src="/icons/nuxt.svg" alt="">
         <p class="technology__text text">Create with Nuxt.js</p>
       </div>
-      <section class="slider__wrapper">
-        <div class="slider" :style="sliderLength" v-for="song in trackData" :key="song.id">
-          <div class="slider__item" :style="slidePosition">
+      <section class="slider">
+        <ul class="slider__list" :style="sliderLength" v-for="song in trackData" :key="song.id">
+          <li class="slider__item" :style="slidePosition">
             <v-slider-items :data="song"/>
-          </div>
-        </div>
+          </li>
+        </ul>
       </section>
       <section class="info-track">
         <header class="info-track__header">
@@ -35,41 +35,41 @@
         Your browser does not support audio tag.
       </audio>
       <section class="panel">
-        <div class="panel__shuffle">
+        <div class="shuffle">
           <img :src="'/icons/'+ shuffleIcon +'.svg'" alt="shuffle" width="30px" title="shuffle"
                @click="shuffleTracks()" @mousedown="shuffleIcon = 'shuffle_active'"
                @mouseup=" shuffleIcon = 'shuffle'">
         </div>
-        <div class="main-btns">
-          <div class="main-btns__previous-song">
+        <div class="panel__main">
+          <div class="previous-song btn">
             <img src="/icons/previous-song.svg" alt="previous song" width="30px" title="previous song"
                  @click="songListStepper(-1)">
           </div>
-          <div class="main-btns__play-song" v-if="isPlayed === false" @click="playToggle()">
+          <div class="play-song btn" v-if="isPlayed === false" @click="playToggle()">
             <img src="/icons/play.svg" alt="play" title="play" width="40px">
           </div>
-          <div class="main-btns__pause-song" v-if="isPlayed === true" @click="playToggle()">
+          <div class="pause-song btn" v-if="isPlayed === true" @click="playToggle()">
             <img src="/icons/pause.svg" alt="pause" title="pause" width="40px">
           </div>
-          <div class="main-btns__next-song">
+          <div class="next-song btn">
             <img src="/icons/next-song.svg" alt="next song" title="next song" width="30px" @click="songListStepper(1)">
           </div>
         </div>
-        <div class="panel__repeat">
+        <div class="repeat btn">
           <img src="/icons/repeat.svg" alt="repeat" width="30px" title="repeat" v-if="loop === false"
                @click="loopTrack()">
           <img src="/icons/repeat_active.svg" alt="repeat" title="repeat active" width="30px" v-else
                @click="loopTrack()">
         </div>
       </section>
-      <section class="music-panel" @mouseleave="showSoundSlider = false">
-        <div class="music-panel__slider">
-          <input type="range" min="0" max="1" step="0.1" class="sound-slider" v-model="volume"
+      <section class="sound" @mouseleave="showSoundSlider = false">
+        <div class="sound__slider-box">
+          <input type="range" min="0" max="1" step="0.1" class="sound__slider" v-model="volume"
                  :style="progressSoundSlider"
-                 @input="setVolume()" :class="{'sound-slider_show': showSoundSlider}">
+                 @input="setVolume()" :class="{'sound__slider_show': showSoundSlider}">
         </div>
-        <div class="music-panel__sound-icon">
-          <img :src='`/icons/${soundIcon}.svg`' alt="" @click="soundToggle()" @mouseover="showSoundSlider = true">
+        <div class="sound__icon-box">
+          <img :src='`/icons/${soundIcon}.svg`' alt="" class="sound__icon" @click="soundToggle()" @mouseover="showSoundSlider = true">
         </div>
       </section>
     </section>
@@ -479,20 +479,16 @@ export default {
       height 40px
       z-index 2
 
-      & > div {
+      & .btn {
         cursor pointer
       }
 
-      .main-btns {
+      &__main {
         display flex
         justify-content space-between
         align-items center
         width 200px
         cursor default
-
-        & > div {
-          cursor pointer
-        }
       }
     }
 
@@ -507,12 +503,12 @@ export default {
       justify-content center
       align-items center
       position absolute
-      top 79%
+      top 80%
       left 85%
       transform translate(-50%, -50%) rotate(-90deg)
       z-index 2
 
-      &__slider-wrapper {
+      &__slider-box {
         display flex
         justify-content center
         align-items center
@@ -532,7 +528,7 @@ export default {
         }
       }
 
-      &__icon-wrapper {
+      &__icon-box {
         position relative
         margin-right 10px
         width 100%
