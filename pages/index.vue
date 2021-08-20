@@ -267,9 +267,141 @@ export default {
     height 520px
     margin auto
     border-radius 18px
-    border solid 1px #B7B3B3
     z-index 1
-    overflow hidden
+
+    .background {
+      position absolute
+      width 100%
+      height 100%
+      overflow hidden
+      border-radius 18px
+      border solid 1px #B7B3B3
+
+      &:before {
+        content ''
+        position absolute
+        top 0
+        left 0
+        width 110%
+        height 110%
+        border-radius 18px
+        background rgba(255, 255, 255, 0.7)
+        backdrop-filter blur(5px)
+        z-index 1
+      }
+
+      .circle {
+        position absolute
+        width 450px
+        height 450px
+        border-radius 100%
+        background-color #2ED573
+
+        &:first-child {
+          width 550px
+          height 550px
+          bottom 0
+          left 0
+          transform translate(-40%, 30%)
+        }
+
+        &:nth-child(2) {
+          top 0
+          right 0
+          transform translate(30%, -30%)
+        }
+      }
+
+      @media screen and (max-width 1023px) {
+        .circle {
+          width 350px
+          height 350px
+
+          &:first-child {
+            width 450px
+            height 450px
+          }
+        }
+      }
+
+      @media screen and (max-width 465px) {
+        .circle {
+          width 250px
+          height 250px
+
+          &:first-child {
+            width 300px
+            height 300px
+          }
+        }
+      }
+
+      @media (prefers-reduced-motion: no-preference) {
+        .slide-up {
+          animation slide-up 10s linear infinite
+        }
+
+        .slide-down {
+          animation slide-down 10s linear infinite
+        }
+      }
+
+      @keyframes slide-up {
+        0%, 100% {
+          transform translate(-40%, 30%)
+        }
+        50% {
+          transition 5s
+          transform translate(-40%, -20%)
+        }
+      }
+
+      @keyframes slide-down {
+        0%, 100% {
+          transform translate(30%, -30%)
+        }
+        50% {
+          transition 5s
+          transform translate(40%, 60%)
+        }
+      }
+    }
+
+    @media screen and (max-width 768px) {
+      .background {
+        width 100vw
+        border-radius 0
+
+        &:before {
+          border-radius 0
+        }
+      }
+    }
+
+    @media screen and (max-width 465px) {
+      .background {
+        width 100vw
+        top 0
+        height 350px
+        border-radius 0 0 18px 18px
+      }
+    }
+
+    .body {
+      position absolute
+      width 100%
+      height 100%
+      overflow hidden
+    }
+
+    @media screen and (max-width 768px) {
+      @media screen and (max-width 465px) {
+        .body {
+          width 100vw
+          height 100vh
+        }
+      }
+    }
 
     .technology {
       display flex
@@ -286,88 +418,24 @@ export default {
 
       .text {
         color #929090
-        font normal 1em 'Roboto', sans-serif
-      }
-    }
-
-    &:before {
-      content ''
-      position absolute
-      top 0
-      left 0
-      width 110%
-      height 110%
-      background rgba(255, 255, 255, 0.7)
-      border-radius 18px
-      backdrop-filter blur(5px)
-      z-index 1
-    }
-
-    .circle {
-      position absolute
-      width 450px
-      height 450px
-      border-radius 100%
-      background-color #2ED573
-
-      &:first-child {
-        width 550px
-        height 550px
-        bottom 0
-        left 0
-        transform translate(-40%, 30%)
-      }
-
-      &:nth-child(2) {
-        top 0
-        right 0
-        transform translate(30%, -30%)
+        font normal 1rem 'Roboto', sans-serif
       }
     }
 
     @media screen and (max-width 465px) {
-      .circle {
-        width 250px
-        height 250px
+      .technology {
+        top 94%
+        left 50%
+        transform translate(-50%, -50%)
 
-        &:first-child {
-          width 250px
-          height 250px
+        .text {
+          font-size 0.95rem
         }
       }
     }
 
-    @media (prefers-reduced-motion: no-preference) {
-      .slide-up {
-        animation slide-up 10s linear infinite
-      }
-
-      .slide-down {
-        animation slide-down 10s linear infinite
-      }
-    }
-
-    @keyframes slide-up {
-      0%, 100% {
-        transform translate(-40%, 30%)
-      }
-      50% {
-        transition 5s
-        transform translate(-40%, -20%)
-      }
-    }
-
-    @keyframes slide-down {
-      0%, 100% {
-        transform translate(30%, -30%)
-      }
-      50% {
-        transition 5s
-        transform translate(40%, 60%)
-      }
-    }
-
     .slider {
+      display flex
       position absolute
       top 35%
       left 50%
@@ -388,6 +456,12 @@ export default {
       }
     }
 
+    @media screen and (max-width 465px) {
+      .slider {
+        top 25%
+      }
+    }
+
     .info-track {
       position absolute
       top 61%
@@ -397,15 +471,25 @@ export default {
       max-width 800px
       width 500px
 
-      &__title {
+      &__header {
         display flex
         justify-content center
         align-items center
       }
 
       .title {
-        font normal 1.2em sans-serif
+        font normal 1.2rem sans-serif
         color #333
+      }
+    }
+
+    @media screen and (max-width 465px) {
+      .info-track {
+        top 50%
+
+        .title {
+          font-size 1.3rem
+        }
       }
     }
 
@@ -471,6 +555,13 @@ export default {
       }
     }
 
+    @media screen and (max-width: 468px) {
+      .timeline {
+        top 70%
+        width 340px
+      }
+    }
+
     .panel {
       display flex
       justify-content space-between
@@ -498,7 +589,8 @@ export default {
 
     @media screen and (max-width 465px ) {
       .panel {
-        width 370px
+        bottom 13%
+        width 340px
       }
     }
 
@@ -545,6 +637,13 @@ export default {
       .sound {
         display none
       }
+    }
+  }
+
+  @media screen and (max-width 465px ) {
+    .base {
+      width 100vw
+      height 100vh
     }
   }
 }
