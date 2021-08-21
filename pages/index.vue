@@ -1,76 +1,80 @@
 <template>
   <section class="page">
     <section class="base">
-      <div class="base__circle circle" :class="{'slide-up' : isPlayed}"></div>
-      <div class="base__circle circle " :class="{'slide-down' : isPlayed}"></div>
-      <div class="technology">
-        <img class="technology__logo" src="/icons/nuxt.svg" alt="">
-        <p class="technology__text text">Create with Nuxt.js</p>
+      <div class="background">
+        <div class="base__circle circle" :class="{'slide-up' : isPlayed}"></div>
+        <div class="base__circle circle " :class="{'slide-down' : isPlayed}"></div>
       </div>
-      <section class="slider">
-        <ul class="slider__list" :style="sliderLength" v-for="song in trackData" :key="song.id">
-          <li class="slider__item" :style="slidePosition">
-            <v-slider-items :data="song"/>
-          </li>
-        </ul>
-      </section>
-      <section class="info-track">
-        <header class="info-track__header">
-          <h3 class="info-track__title title"> {{ currentSong.title }}</h3>
-        </header>
-      </section>
-      <section class="timeline">
-        <div class="timeline__base" ref="progressContainer" @click="setProgress">
-          <div class="timeline__progress" :style="{width: progress + '%'}">
-            <div class="range" v-if="progress > 1"></div>
+      <section class="body">
+        <div class="technology">
+          <img class="technology__logo" src="/icons/nuxt.svg" alt="">
+          <p class="technology__text text">Create with Nuxt.js</p>
+        </div>
+        <section class="slider">
+          <ul class="slider__list" :style="sliderLength" v-for="song in trackData" :key="song.id">
+            <li class="slider__item" :style="slidePosition">
+              <v-slider-items :data="song"/>
+            </li>
+          </ul>
+        </section>
+        <section class="info-track">
+          <header class="info-track__header">
+            <h3 class="info-track__title title"> {{ currentSong.title }}</h3>
+          </header>
+        </section>
+        <section class="timeline">
+          <div class="timeline__base" ref="progressContainer" @click="setProgress">
+            <div class="timeline__progress" :style="{width: progress + '%'}">
+              <div class="range" v-if="progress > 1"></div>
+            </div>
           </div>
-        </div>
-        <div class="time-code">
-          <span class="begin-time time" v-html="currentTime()"> 00:00 </span>
-          <span class="end-time time" v-html="totalTime()"> 00:00 </span>
-        </div>
-      </section>
-      <audio id="audio-player" ref="player" :loop="loop"
-             :src="'/music/'+ currentSong.src +'.mp3'">
-        Your browser does not support audio tag.
-      </audio>
-      <section class="panel">
-        <div class="shuffle">
-          <img :src="'/icons/'+ shuffleIcon +'.svg'" alt="shuffle" width="30px" title="shuffle"
-               @click="shuffleTracks()" @mousedown="shuffleIcon = 'shuffle_active'"
-               @mouseup=" shuffleIcon = 'shuffle'">
-        </div>
-        <div class="panel__main">
-          <div class="previous-song btn">
-            <img src="/icons/previous-song.svg" alt="previous song" width="30px" title="previous song"
-                 @click="songListStepper(-1)">
+          <div class="time-code">
+            <span class="begin-time time" v-html="currentTime()"> 00:00 </span>
+            <span class="end-time time" v-html="totalTime()"> 00:00 </span>
           </div>
-          <div class="play-song btn" v-if="isPlayed === false" @click="playToggle()">
-            <img src="/icons/play.svg" alt="play" title="play" width="40px">
+        </section>
+        <audio id="audio-player" ref="player" :loop="loop"
+               :src="'/music/'+ currentSong.src +'.mp3'">
+          Your browser does not support audio tag.
+        </audio>
+        <section class="panel">
+          <div class="shuffle btn">
+            <img :src="'/icons/'+ shuffleIcon +'.svg'" alt="shuffle" width="30px" title="shuffle"
+                 @click="shuffleTracks()" @mousedown="shuffleIcon = 'shuffle_active'"
+                 @mouseup=" shuffleIcon = 'shuffle'">
           </div>
-          <div class="pause-song btn" v-if="isPlayed === true" @click="playToggle()">
-            <img src="/icons/pause.svg" alt="pause" title="pause" width="40px">
+          <div class="panel__main">
+            <div class="previous-song btn">
+              <img src="/icons/previous-song.svg" alt="previous song" width="30px" title="previous song"
+                   @click="songListStepper(-1)">
+            </div>
+            <div class="play-song btn" v-if="isPlayed === false" @click="playToggle()">
+              <img src="/icons/play.svg" alt="play" title="play" width="40px">
+            </div>
+            <div class="pause-song btn" v-if="isPlayed === true" @click="playToggle()">
+              <img src="/icons/pause.svg" alt="pause" title="pause" width="40px">
+            </div>
+            <div class="next-song btn">
+              <img src="/icons/next-song.svg" alt="next song" title="next song" width="30px" @click="songListStepper(1)">
+            </div>
           </div>
-          <div class="next-song btn">
-            <img src="/icons/next-song.svg" alt="next song" title="next song" width="30px" @click="songListStepper(1)">
+          <div class="repeat btn">
+            <img src="/icons/repeat.svg" alt="repeat" width="30px" title="repeat" v-if="loop === false"
+                 @click="loopTrack()">
+            <img src="/icons/repeat_active.svg" alt="repeat" title="repeat active" width="30px" v-else
+                 @click="loopTrack()">
           </div>
-        </div>
-        <div class="repeat btn">
-          <img src="/icons/repeat.svg" alt="repeat" width="30px" title="repeat" v-if="loop === false"
-               @click="loopTrack()">
-          <img src="/icons/repeat_active.svg" alt="repeat" title="repeat active" width="30px" v-else
-               @click="loopTrack()">
-        </div>
-      </section>
-      <section class="sound" @mouseleave="showSoundSlider = false">
-        <div class="sound__slider-box">
-          <input type="range" min="0" max="1" step="0.1" class="sound__slider" v-model="volume"
-                 :style="progressSoundSlider"
-                 @input="setVolume()" :class="{'sound__slider_show': showSoundSlider}">
-        </div>
-        <div class="sound__icon-box">
-          <img :src='`/icons/${soundIcon}.svg`' alt="" class="sound__icon" @click="soundToggle()" @mouseover="showSoundSlider = true">
-        </div>
+        </section>
+        <section class="sound" @mouseleave="showSoundSlider = false">
+          <div class="sound__slider-box">
+            <input type="range" min="0" max="1" step="0.1" class="sound__slider" v-model="volume"
+                   :style="progressSoundSlider"
+                   @input="setVolume()" :class="{'sound__slider_show': showSoundSlider}">
+          </div>
+          <div class="sound__icon-box">
+            <img :src='`/icons/${soundIcon}.svg`' alt="" class="sound__icon" @click="soundToggle()" @mouseover="showSoundSlider = true">
+          </div>
+        </section>
       </section>
     </section>
   </section>
@@ -263,9 +267,141 @@ export default {
     height 520px
     margin auto
     border-radius 18px
-    border solid 1px #B7B3B3
     z-index 1
-    overflow hidden
+
+    .background {
+      position absolute
+      width 100%
+      height 100%
+      overflow hidden
+      border-radius 18px
+      border solid 1px #B7B3B3
+
+      &:before {
+        content ''
+        position absolute
+        top 0
+        left 0
+        width 110%
+        height 110%
+        border-radius 18px
+        background rgba(255, 255, 255, 0.7)
+        backdrop-filter blur(5px)
+        z-index 1
+      }
+
+      .circle {
+        position absolute
+        width 450px
+        height 450px
+        border-radius 100%
+        background-color #2ED573
+
+        &:first-child {
+          width 550px
+          height 550px
+          bottom 0
+          left 0
+          transform translate(-40%, 30%)
+        }
+
+        &:nth-child(2) {
+          top 0
+          right 0
+          transform translate(30%, -30%)
+        }
+      }
+
+      @media screen and (max-width 1023px) {
+        .circle {
+          width 350px
+          height 350px
+
+          &:first-child {
+            width 450px
+            height 450px
+          }
+        }
+      }
+
+      @media screen and (max-width 465px) {
+        .circle {
+          width 250px
+          height 250px
+
+          &:first-child {
+            width 300px
+            height 300px
+          }
+        }
+      }
+
+      @media (prefers-reduced-motion: no-preference) {
+        .slide-up {
+          animation slide-up 10s linear infinite
+        }
+
+        .slide-down {
+          animation slide-down 10s linear infinite
+        }
+      }
+
+      @keyframes slide-up {
+        0%, 100% {
+          transform translate(-40%, 30%)
+        }
+        50% {
+          transition 5s
+          transform translate(-40%, -20%)
+        }
+      }
+
+      @keyframes slide-down {
+        0%, 100% {
+          transform translate(30%, -30%)
+        }
+        50% {
+          transition 5s
+          transform translate(40%, 60%)
+        }
+      }
+    }
+
+    @media screen and (max-width 768px) {
+      .background {
+        width 100vw
+        border-radius 0
+
+        &:before {
+          border-radius 0
+        }
+      }
+    }
+
+    @media screen and (max-width 465px) {
+      .background {
+        width 100vw
+        top 0
+        height 350px
+        border-radius 0 0 18px 18px
+      }
+    }
+
+    .body {
+      position absolute
+      width 100%
+      height 100%
+      overflow hidden
+    }
+
+    @media screen and (max-width 768px) {
+      @media screen and (max-width 465px) {
+        .body {
+          width 100vw
+          height 100vh
+        }
+      }
+    }
 
     .technology {
       display flex
@@ -282,88 +418,24 @@ export default {
 
       .text {
         color #929090
-        font normal 1em 'Roboto', sans-serif
-      }
-    }
-
-    &:before {
-      content ''
-      position absolute
-      top 0
-      left 0
-      width 110%
-      height 110%
-      background rgba(255, 255, 255, 0.7)
-      border-radius 18px
-      backdrop-filter blur(5px)
-      z-index 1
-    }
-
-    .circle {
-      position absolute
-      width 450px
-      height 450px
-      border-radius 100%
-      background-color #2ED573
-
-      &:first-child {
-        width 550px
-        height 550px
-        bottom 0
-        left 0
-        transform translate(-40%, 30%)
-      }
-
-      &:nth-child(2) {
-        top 0
-        right 0
-        transform translate(30%, -30%)
+        font normal 1rem 'Roboto', sans-serif
       }
     }
 
     @media screen and (max-width 465px) {
-      .circle {
-        width 250px
-        height 250px
+      .technology {
+        top 94%
+        left 50%
+        transform translate(-50%, -50%)
 
-        &:first-child {
-          width 250px
-          height 250px
+        .text {
+          font-size 0.95rem
         }
       }
     }
 
-    @media (prefers-reduced-motion: no-preference) {
-      .slide-up {
-        animation slide-up 10s linear infinite
-      }
-
-      .slide-down {
-        animation slide-down 10s linear infinite
-      }
-    }
-
-    @keyframes slide-up {
-      0%, 100% {
-        transform translate(-40%, 30%)
-      }
-      50% {
-        transition 5s
-        transform translate(-40%, -20%)
-      }
-    }
-
-    @keyframes slide-down {
-      0%, 100% {
-        transform translate(30%, -30%)
-      }
-      50% {
-        transition 5s
-        transform translate(40%, 60%)
-      }
-    }
-
     .slider {
+      display flex
       position absolute
       top 35%
       left 50%
@@ -384,6 +456,12 @@ export default {
       }
     }
 
+    @media screen and (max-width 465px) {
+      .slider {
+        top 25%
+      }
+    }
+
     .info-track {
       position absolute
       top 61%
@@ -393,15 +471,25 @@ export default {
       max-width 800px
       width 500px
 
-      &__title {
+      &__header {
         display flex
         justify-content center
         align-items center
       }
 
       .title {
-        font normal 1.2em sans-serif
+        font normal 1.2rem sans-serif
         color #333
+      }
+    }
+
+    @media screen and (max-width 465px) {
+      .info-track {
+        top 50%
+
+        .title {
+          font-size 1.3rem
+        }
       }
     }
 
@@ -467,6 +555,13 @@ export default {
       }
     }
 
+    @media screen and (max-width: 468px) {
+      .timeline {
+        top 70%
+        width 340px
+      }
+    }
+
     .panel {
       display flex
       justify-content space-between
@@ -494,7 +589,8 @@ export default {
 
     @media screen and (max-width 465px ) {
       .panel {
-        width 370px
+        bottom 13%
+        width 340px
       }
     }
 
@@ -541,6 +637,13 @@ export default {
       .sound {
         display none
       }
+    }
+  }
+
+  @media screen and (max-width 465px ) {
+    .base {
+      width 100vw
+      height 100vh
     }
   }
 }
