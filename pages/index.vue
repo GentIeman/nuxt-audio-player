@@ -158,8 +158,7 @@ export default {
     },
     currentSlideIndex() {
       return this.trackData.findIndex(item => item.id === this.currentSong.id)
-    },
-
+    }
   },
   methods: {
     songListStepper(dir) {
@@ -206,7 +205,7 @@ export default {
     },
     updateProgress() {
       let audio = this.$refs.player
-      setInterval(() => this.progress = (audio.currentTime / audio.duration) * 100, audio.currentTime)
+      setInterval(() => this.progress = (audio.currentTime / audio.duration) * 100, 1000)
       audio.onended = () => this.songListStepper(1)
     },
     setProgress(e) {
@@ -224,11 +223,11 @@ export default {
       setTimeout(() => audio.play())
       this.isPlayed = true
       let tempIndex = this.currentSlideIndex
-      let currentIndex = this.trackData.length, temporaryValue, randomIndex
+      let currentIndex = this.trackData.length
       while (0 !== currentIndex) {
         currentIndex -= 1
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        temporaryValue = this.trackData[currentIndex];
+        let randomIndex = Math.floor(Math.random() * currentIndex);
+        let temporaryValue = this.trackData[currentIndex];
         this.trackData[currentIndex] = this.trackData[randomIndex];
         this.trackData[randomIndex] = temporaryValue;
       }
@@ -310,7 +309,7 @@ export default {
       height 100%
       overflow hidden
       border-radius 18px
-      border solid 1px #B7B3B3
+      border solid 2px #ded8d8
 
       &:before {
         content ''
@@ -451,11 +450,11 @@ export default {
       left 36px
       z-index 1
 
-      &__text {
+      &__name {
         margin-left 10px
       }
 
-      .text {
+      .name {
         color #929090
         font normal 1rem 'Roboto', sans-serif
       }
