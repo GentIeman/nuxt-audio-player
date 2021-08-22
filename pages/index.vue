@@ -557,7 +557,7 @@ export default {
         height 6px
         width 100%
 
-        .timeline__progress {
+        .progress {
           display flex
           justify-content flex-end
           align-items center
@@ -668,14 +668,14 @@ export default {
         position relative
         order 1
 
-        .sound__slider {
+        .sound__progress {
           opacity 0
           width 80px
           visibility hidden
           transition all .2s ease
         }
 
-        .sound__slider_show {
+        .sound__progress_show {
           opacity 1
           visibility visible
         }
@@ -705,25 +705,29 @@ export default {
   }
 }
 
-input[type=range] {
+.progress {
   -webkit-appearance none
   border-radius 20px
   outline none
 }
 
 
-input[type=range]::-webkit-slider-thumb {
+.progress::-webkit-slider-thumb {
   -webkit-appearance none
+  visibility hidden
+  opacity 0
   position relative
   width 13px
   height 13px
   margin-top -4px
+  margin-right 5px
   background-color #fff
   border-radius 50%
   box-shadow rgba(0, 0, 0, 0.24) -3px 0px 8px
+  transition all .2s ease
 }
 
-input[type=range]::-webkit-slider-runnable-track {
+.progress::-webkit-slider-runnable-track {
   width 100%
   height 5px
   cursor pointer
