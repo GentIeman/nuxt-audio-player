@@ -308,7 +308,7 @@ export default {
       width 100%
       height 100%
       overflow hidden
-      border-radius 18px
+      border-radius 20px
       border solid 2px #ded8d8
 
       &:before {
@@ -318,7 +318,6 @@ export default {
         left 0
         width 110%
         height 110%
-        border-radius 18px
         background rgba(255, 255, 255, 0.7)
         backdrop-filter blur(5px)
         z-index 1
@@ -409,19 +408,18 @@ export default {
       .background {
         width 100vw
         border-radius 0
-
-        &:before {
-          border-radius 0
-        }
       }
     }
 
     @media screen and (max-width 465px) {
+      .background.background_dark {
+        border none
+      }
       .background {
         width 100vw
         top 0
         height 350px
-        border-radius 0 0 18px 18px
+        border-radius 0 0 20px 20px
       }
     }
 
