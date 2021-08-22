@@ -1,14 +1,14 @@
 <template>
-  <section class="page">
+  <section class="page" :class="{'page_dark': $colorMode.value == 'dark'}">
     <section class="base">
-      <div class="background">
-        <div class="base__circle circle" :class="{'slide-up' : isPlayed}"></div>
-        <div class="base__circle circle " :class="{'slide-down' : isPlayed}"></div>
+      <div class="background" :class="{'background_dark': $colorMode.value == 'dark'}">
+        <div class="background__circle circle" :class="{'slide-up' : isPlayed, 'background__circle_dark': $colorMode.value == 'dark'}"></div>
+        <div class="background__circle circle " :class="{'slide-down' : isPlayed, 'background__circle_dark': $colorMode.value == 'dark'}"></div>
       </div>
       <section class="body">
         <div class="technology">
           <img class="technology__logo" src="/icons/nuxt.svg" alt="">
-          <p class="technology__text text">Create with Nuxt.js</p>
+          <p class="technology__name name">Create with Nuxt.js</p>
         </div>
         <section class="slider">
           <ul class="slider__list" :style="sliderLength" v-for="song in trackData" :key="song.id">
@@ -19,12 +19,12 @@
         </section>
         <section class="info-track">
           <header class="info-track__header">
-            <h3 class="info-track__title title"> {{ currentSong.title }}</h3>
+            <h3 class="info-track__title title" :class="{'title_dark': $colorMode.value == 'dark'}"> {{ currentSong.title }}</h3>
           </header>
         </section>
         <section class="timeline">
-          <div class="timeline__base" ref="progressContainer" @click="setProgress">
-            <div class="timeline__progress" :style="{width: progress + '%'}">
+          <div class="timeline__base" ref="progressContainer" @click="setProgress" :class="{'timeline__base_dark': $colorMode.value == 'dark'}">
+            <div class="progress" :style="{width: progress + '%'}">
               <div class="range" v-if="progress > 1"></div>
             </div>
           </div>
@@ -37,6 +37,9 @@
                :src="'/music/'+ currentSong.src +'.mp3'">
           Your browser does not support audio tag.
         </audio>
+        <section class="theme" @click="themeToggle()">
+          <img :src="'/icons/'+ themeIcon + '_mode' +'.svg'" alt="theme">
+        </section>
         <section class="panel">
           <div class="shuffle btn">
             <img :src="'/icons/'+ shuffleIcon +'.svg'" alt="shuffle" width="30px" title="shuffle"
@@ -55,7 +58,8 @@
               <img src="/icons/pause.svg" alt="pause" title="pause" width="40px">
             </div>
             <div class="next-song btn">
-              <img src="/icons/next-song.svg" alt="next song" title="next song" width="30px" @click="songListStepper(1)">
+              <img src="/icons/next-song.svg" alt="next song" title="next song" width="30px"
+                   @click="songListStepper(1)">
             </div>
           </div>
           <div class="repeat btn">
@@ -67,12 +71,13 @@
         </section>
         <section class="sound" @mouseleave="showSoundSlider = false">
           <div class="sound__slider-box">
-            <input type="range" min="0" max="1" step="0.1" class="sound__slider" v-model="volume"
+            <input type="range" min="0" max="1" step="0.1" class="sound__progress progress" v-model="volume"
                    :style="progressSoundSlider"
-                   @input="setVolume()" :class="{'sound__slider_show': showSoundSlider}">
+                   @input="setVolume()" :class="{'sound__progress_show': showSoundSlider}">
           </div>
           <div class="sound__icon-box">
-            <img :src='`/icons/${soundIcon}.svg`' alt="" class="sound__icon" @click="soundToggle()" @mouseover="showSoundSlider = true">
+            <img :src='`/icons/${soundIcon}.svg`' alt="" class="sound__icon" @click="muteToggle()"
+                 @mouseover="showSoundSlider = true">
           </div>
         </section>
       </section>
@@ -86,6 +91,11 @@ export default {
     isPlayed: false,
     progress: 0,
     currentSong: '',
+    themeIcon: 'light',
+    colorMode: {
+      preference: 'system',
+      fallback: 'light'
+    },
     loop: false,
     shuffleIcon: 'shuffle',
     volume: 0.5,
@@ -140,7 +150,11 @@ export default {
       return {transform: `translateX(-${this.currentSlideIndex * 100}%)`}
     },
     progressSoundSlider() {
-      return {background: `linear-gradient(to right, #1DD1A1 ${this.volume * 100}%, #dbd5d5 0%)`}
+      if (this.$colorMode.value === 'light') {
+        return {background: `linear-gradient(to right, #1DD1A1 ${this.volume * 100}%, #dbd5d5 0%)`}
+      } else {
+        return {background: `linear-gradient(to right, #1DD1A1 ${this.volume * 100}%, #353b48 0%)`}
+      }
     },
     currentSlideIndex() {
       return this.trackData.findIndex(item => item.id === this.currentSong.id)
@@ -220,7 +234,7 @@ export default {
       }
       this.currentSong = this.trackData[tempIndex]
     },
-    soundToggle() {
+    muteToggle() {
       let audio = this.$refs.player
       if (!audio.muted) {
         audio.muted = true
@@ -233,6 +247,15 @@ export default {
     setVolume() {
       let audio = this.$refs.player
       audio.volume = this.volume
+    },
+    themeToggle() {
+      if (this.$colorMode.value == 'dark') {
+        this.$colorMode.value = 'light'
+        this.themeIcon = 'dark'
+      } else {
+        this.$colorMode.value = 'dark'
+        this.themeIcon = 'light'
+      }
     }
   },
   mounted() {
@@ -252,6 +275,11 @@ export default {
   padding 0
 }
 
+
+.page.page_dark {
+  background-color #2f3640
+}
+
 .page {
   display flex
   width 100vw
@@ -268,6 +296,13 @@ export default {
     margin auto
     border-radius 18px
     z-index 1
+
+    .background.background_dark {
+      border solid 2px #222f3e
+      &:before {
+        background rgba(0, 0, 0, 0.7)
+      }
+    }
 
     .background {
       position absolute
@@ -288,6 +323,10 @@ export default {
         background rgba(255, 255, 255, 0.7)
         backdrop-filter blur(5px)
         z-index 1
+      }
+
+      .background__circle.background__circle_dark {
+        background-color #535c68
       }
 
       .circle {
@@ -477,6 +516,11 @@ export default {
         align-items center
       }
 
+
+      .title.title_dark {
+        color #A09F9FFF
+      }
+
       .title {
         font normal 1.2rem sans-serif
         color #333
@@ -502,6 +546,10 @@ export default {
       height 5px
       border-radius 6px
       z-index 2
+
+      &__base.timeline__base_dark {
+        background-color #353b48
+      }
 
       &__base {
         background #dbd5d5
@@ -560,6 +608,15 @@ export default {
         top 70%
         width 340px
       }
+    }
+
+    .theme {
+      position absolute
+      top 88%
+      left 15%
+      transform translate(-50%, -50%)
+      z-index 2
+      cursor pointer
     }
 
     .panel {
@@ -670,5 +727,10 @@ input[type=range]::-webkit-slider-runnable-track {
   width 100%
   height 5px
   cursor pointer
+}
+
+.progress:hover::-webkit-slider-thumb {
+  visibility visible
+  opacity 1
 }
 </style>
