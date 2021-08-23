@@ -633,6 +633,13 @@ export default {
       position relative
       z-index 2
       cursor pointer
+
+      @media screen and (max-width 465px) {
+        & {
+          position absolute
+          top 150%
+        }
+      }
     }
 
     .panel {
