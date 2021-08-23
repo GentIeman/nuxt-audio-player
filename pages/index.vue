@@ -6,9 +6,9 @@
         <div class="background__circle circle " :class="{'slide-down' : isPlayed, 'background__circle_dark': $colorMode.value == 'dark'}"></div>
       </div>
       <section class="body">
-        <div class="technology">
+        <div class="technology" :class="{'technology_dark': $colorMode.value == 'dark'}">
           <img class="technology__logo" src="/icons/nuxt.svg" alt="">
-          <p class="technology__name name">Create with Nuxt.js</p>
+          <p class="technology__name name">Created with Nuxt.js</p>
         </div>
         <section class="slider">
           <ul class="slider__list" :style="sliderLength" v-for="song in trackData" :key="song.id">
@@ -24,7 +24,7 @@
         </section>
         <section class="timeline">
           <div class="timeline__base" ref="progressContainer" @click="setProgress" :class="{'timeline__base_dark': $colorMode.value == 'dark'}">
-            <div class="progress" :style="{width: progress + '%'}">
+            <div class="timeline__progress" :style="{width: progress + '%'}">
               <div class="range" v-if="progress > 1"></div>
             </div>
           </div>
@@ -404,9 +404,13 @@ export default {
     }
 
     @media screen and (max-width 768px) {
+      .background.background_dark {
+        border none
+      }
       .background {
         width 100vw
         border-radius 0
+        border none
       }
     }
 
@@ -430,11 +434,9 @@ export default {
     }
 
     @media screen and (max-width 768px) {
-      @media screen and (max-width 465px) {
-        .body {
-          width 100vw
-          height 100vh
-        }
+      .body {
+        width 100vw
+        height 100vh
       }
     }
 
@@ -458,14 +460,35 @@ export default {
     }
 
     @media screen and (max-width 465px) {
+      .technology.technology_dark {
+        background-color #2f3640
+      }
+
       .technology {
-        top 94%
+        padding 0.6rem
+        border-radius 10px
+        box-shadow rgba(0, 0, 0, 0.24) 0px 3px 8px
+        background-color #fff
+        top -100%
         left 50%
         transform translate(-50%, -50%)
+        animation fade-down 5s ease both
+        transition all 1s
 
-        .text {
-          font-size 0.95rem
+        @keyframes fade-down {
+          0%, 100% {
+            top -100%
+            animation-delay 7s
+          }
+          50% {
+            top 60px
+            animation-delay 7s
+          }
         }
+      }
+
+      .text {
+        font-size 0.95rem
       }
     }
 
@@ -553,7 +576,7 @@ export default {
         height 6px
         width 100%
 
-        .progress {
+        .timeline__progress {
           display flex
           justify-content flex-end
           align-items center
@@ -610,6 +633,13 @@ export default {
       position relative
       z-index 2
       cursor pointer
+
+      @media screen and (max-width 465px) {
+        & {
+          position absolute
+          top 150%
+        }
+      }
     }
 
     .panel {
@@ -637,10 +667,16 @@ export default {
       }
     }
 
+    @media screen and (max-width 796px ) {
+      .panel {
+        width 600px
+      }
+    }
+
     @media screen and (max-width 465px ) {
       .panel {
-        bottom 13%
-        width 340px
+        bottom 10%
+        width 360px
       }
     }
 
@@ -685,14 +721,14 @@ export default {
       }
     }
 
-    @media screen and (max-width 1023px ) {
+    @media screen and (max-width 465px ) {
       .sound {
         display none
       }
     }
   }
 
-  @media screen and (max-width 465px ) {
+  @media screen and (max-width 1024px ) {
     .base {
       width 100vw
       height 100vh
