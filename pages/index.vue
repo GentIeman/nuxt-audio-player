@@ -37,10 +37,10 @@
                :src="'/music/'+ currentSong.src +'.mp3'">
           Your browser does not support audio tag.
         </audio>
-        <section class="theme" @click="themeToggle()">
-          <img :src="'/icons/'+ themeIcon + '_mode' +'.svg'" alt="theme">
-        </section>
         <section class="panel">
+          <section class="theme" @click="themeToggle()">
+            <img :src="'/icons/'+ themeIcon + '_mode' +'.svg'" alt="theme switch" title="theme">
+          </section>
           <div class="shuffle btn">
             <img :src="'/icons/'+ shuffleIcon +'.svg'" alt="shuffle" width="30px" title="shuffle"
                  @click="shuffleTracks()" @mousedown="shuffleIcon = 'shuffle_active'"
@@ -68,17 +68,16 @@
             <img src="/icons/repeat_active.svg" alt="repeat" title="repeat active" width="30px" v-else
                  @click="loopTrack()">
           </div>
-        </section>
-        <section class="sound" @mouseleave="showSoundSlider = false">
-          <div class="sound__slider-box">
-            <input type="range" min="0" max="1" step="0.1" class="sound__progress progress" v-model="volume"
-                   :style="progressSoundSlider"
-                   @input="setVolume()" :class="{'sound__progress_show': showSoundSlider}">
-          </div>
-          <div class="sound__icon-box">
-            <img :src='`/icons/${soundIcon}.svg`' alt="" class="sound__icon" @click="muteToggle()"
-                 @mouseover="showSoundSlider = true">
-          </div>
+          <section class="sound">
+            <div class="sound__icon-box">
+              <img :src='`/icons/${soundIcon}.svg`' alt="" class="sound__icon" @click="muteToggle()">
+            </div>
+            <div class="sound__slider-box">
+              <input type="range" min="0" max="1" step="0.1" class="sound__progress progress" v-model="volume"
+                     :style="progressSoundSlider"
+                     @input="setVolume()">
+            </div>
+          </section>
         </section>
       </section>
     </section>
@@ -308,7 +307,7 @@ export default {
       width 100%
       height 100%
       overflow hidden
-      border-radius 18px
+      border-radius 20px
       border solid 2px #ded8d8
 
       &:before {
@@ -318,7 +317,6 @@ export default {
         left 0
         width 110%
         height 110%
-        border-radius 18px
         background rgba(255, 255, 255, 0.7)
         backdrop-filter blur(5px)
         z-index 1
@@ -409,19 +407,18 @@ export default {
       .background {
         width 100vw
         border-radius 0
-
-        &:before {
-          border-radius 0
-        }
       }
     }
 
     @media screen and (max-width 465px) {
+      .background.background_dark {
+        border none
+      }
       .background {
         width 100vw
         top 0
         height 350px
-        border-radius 0 0 18px 18px
+        border-radius 0 0 20px 20px
       }
     }
 
@@ -610,10 +607,7 @@ export default {
     }
 
     .theme {
-      position absolute
-      top 88%
-      left 15%
-      transform translate(-50%, -50%)
+      position relative
       z-index 2
       cursor pointer
     }
@@ -626,7 +620,7 @@ export default {
       bottom 5%
       left 50%
       transform translate(-50%, -40%)
-      width 486px
+      width 786px
       height 40px
       z-index 2
 
@@ -651,44 +645,46 @@ export default {
     }
 
     .sound {
-      display flex
-      justify-content center
-      align-items center
-      position absolute
-      top 80%
-      left 85%
-      transform translate(-50%, -50%) rotate(-90deg)
-      z-index 2
+      display inline-block
+      position relative
 
-      &__slider-box {
-        display flex
-        justify-content center
-        align-items center
-        position relative
-        order 1
-
-        .sound__progress {
-          opacity 0
-          width 80px
-          visibility hidden
-          transition all .2s ease
-        }
-
-        .sound__progress_show {
-          opacity 1
-          visibility visible
-        }
+      &:hover > .sound__slider-box {
+        opacity 1
+        visibility visible
       }
 
       &__icon-box {
+        display flex
         position relative
-        margin-right 10px
         width 100%
         height 100%
-        transform rotate(90deg)
         cursor pointer
+
+        .sound__icon {
+          margin auto
+        }
+      }
+
+      &__slider-box {
+        display flex
+        position absolute
+        top -36px
+        left 50%
+        transform translate(-50%, -50%) rotate(-90deg)
+        height 30px
+        opacity 0
+        visibility hidden
+        transition all .2s linear
+        padding-left 10px
+
+        .sound__progress {
+          display block
+          width 60px
+          margin auto
+        }
       }
     }
+
     @media screen and (max-width 1023px ) {
       .sound {
         display none
@@ -709,7 +705,6 @@ export default {
   border-radius 20px
   outline none
 }
-
 
 .progress::-webkit-slider-thumb {
   -webkit-appearance none
