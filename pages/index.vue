@@ -607,10 +607,7 @@ export default {
     }
 
     .theme {
-      position absolute
-      top 88%
-      left 15%
-      transform translate(-50%, -50%)
+      position relative
       z-index 2
       cursor pointer
     }
@@ -623,7 +620,7 @@ export default {
       bottom 5%
       left 50%
       transform translate(-50%, -40%)
-      width 486px
+      width 786px
       height 40px
       z-index 2
 
@@ -648,44 +645,46 @@ export default {
     }
 
     .sound {
-      display flex
-      justify-content center
-      align-items center
-      position absolute
-      top 80%
-      left 85%
-      transform translate(-50%, -50%) rotate(-90deg)
-      z-index 2
+      display inline-block
+      position relative
 
-      &__slider-box {
-        display flex
-        justify-content center
-        align-items center
-        position relative
-        order 1
-
-        .sound__progress {
-          opacity 0
-          width 80px
-          visibility hidden
-          transition all .2s ease
-        }
-
-        .sound__progress_show {
-          opacity 1
-          visibility visible
-        }
+      &:hover > .sound__slider-box {
+        opacity 1
+        visibility visible
       }
 
       &__icon-box {
+        display flex
         position relative
-        margin-right 10px
         width 100%
         height 100%
-        transform rotate(90deg)
         cursor pointer
+
+        .sound__icon {
+          margin auto
+        }
+      }
+
+      &__slider-box {
+        display flex
+        position absolute
+        top -36px
+        left 50%
+        transform translate(-50%, -50%) rotate(-90deg)
+        height 30px
+        opacity 0
+        visibility hidden
+        transition all .2s linear
+        padding-left 10px
+
+        .sound__progress {
+          display block
+          width 60px
+          margin auto
+        }
       }
     }
+
     @media screen and (max-width 1023px ) {
       .sound {
         display none
@@ -706,7 +705,6 @@ export default {
   border-radius 20px
   outline none
 }
-
 
 .progress::-webkit-slider-thumb {
   -webkit-appearance none
