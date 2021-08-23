@@ -434,11 +434,9 @@ export default {
     }
 
     @media screen and (max-width 768px) {
-      @media screen and (max-width 465px) {
-        .body {
-          width 100vw
-          height 100vh
-        }
+      .body {
+        width 100vw
+        height 100vh
       }
     }
 
