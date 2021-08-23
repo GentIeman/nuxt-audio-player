@@ -24,7 +24,7 @@
         </section>
         <section class="timeline">
           <div class="timeline__base" ref="progressContainer" @click="setProgress" :class="{'timeline__base_dark': $colorMode.value == 'dark'}">
-            <div class="progress" :style="{width: progress + '%'}">
+            <div class="timeline__progress" :style="{width: progress + '%'}">
               <div class="range" v-if="progress > 1"></div>
             </div>
           </div>
