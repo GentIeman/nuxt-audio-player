@@ -460,14 +460,35 @@ export default {
     }
 
     @media screen and (max-width 465px) {
+      .technology.technology_dark {
+        background-color #2f3640
+      }
+
       .technology {
-        top 94%
+        padding 0.6rem
+        border-radius 10px
+        box-shadow rgba(0, 0, 0, 0.24) 0px 3px 8px
+        background-color #fff
+        top -100%
         left 50%
         transform translate(-50%, -50%)
+        animation fade-down 5s ease both
+        transition all 1s
 
-        .text {
-          font-size 0.95rem
+        @keyframes fade-down {
+          0%, 100% {
+            top -100%
+            animation-delay 7s
+          }
+          50% {
+            top 60px
+            animation-delay 7s
+          }
         }
+      }
+
+      .text {
+        font-size 0.95rem
       }
     }
 
@@ -555,7 +576,7 @@ export default {
         height 6px
         width 100%
 
-        .progress {
+        .timeline__progress {
           display flex
           justify-content flex-end
           align-items center
