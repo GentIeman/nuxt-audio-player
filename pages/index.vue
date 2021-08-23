@@ -37,10 +37,10 @@
                :src="'/music/'+ currentSong.src +'.mp3'">
           Your browser does not support audio tag.
         </audio>
-        <section class="theme" @click="themeToggle()">
-          <img :src="'/icons/'+ themeIcon + '_mode' +'.svg'" alt="theme">
-        </section>
         <section class="panel">
+          <section class="theme" @click="themeToggle()">
+            <img :src="'/icons/'+ themeIcon + '_mode' +'.svg'" alt="theme switch" title="theme">
+          </section>
           <div class="shuffle btn">
             <img :src="'/icons/'+ shuffleIcon +'.svg'" alt="shuffle" width="30px" title="shuffle"
                  @click="shuffleTracks()" @mousedown="shuffleIcon = 'shuffle_active'"
@@ -68,17 +68,16 @@
             <img src="/icons/repeat_active.svg" alt="repeat" title="repeat active" width="30px" v-else
                  @click="loopTrack()">
           </div>
-        </section>
-        <section class="sound" @mouseleave="showSoundSlider = false">
-          <div class="sound__slider-box">
-            <input type="range" min="0" max="1" step="0.1" class="sound__progress progress" v-model="volume"
-                   :style="progressSoundSlider"
-                   @input="setVolume()" :class="{'sound__progress_show': showSoundSlider}">
-          </div>
-          <div class="sound__icon-box">
-            <img :src='`/icons/${soundIcon}.svg`' alt="" class="sound__icon" @click="muteToggle()"
-                 @mouseover="showSoundSlider = true">
-          </div>
+          <section class="sound">
+            <div class="sound__icon-box">
+              <img :src='`/icons/${soundIcon}.svg`' alt="" class="sound__icon" @click="muteToggle()">
+            </div>
+            <div class="sound__slider-box">
+              <input type="range" min="0" max="1" step="0.1" class="sound__progress progress" v-model="volume"
+                     :style="progressSoundSlider"
+                     @input="setVolume()">
+            </div>
+          </section>
         </section>
       </section>
     </section>
