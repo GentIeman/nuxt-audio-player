@@ -404,9 +404,13 @@ export default {
     }
 
     @media screen and (max-width 768px) {
+      .background.background_dark {
+        border none
+      }
       .background {
         width 100vw
         border-radius 0
+        border none
       }
     }
 
