@@ -6,9 +6,9 @@
         <div class="background__circle circle " :class="{'slide-down' : isPlayed, 'background__circle_dark': $colorMode.value == 'dark'}"></div>
       </div>
       <section class="body">
-        <div class="technology">
+        <div class="technology" :class="{'technology_dark': $colorMode.value == 'dark'}">
           <img class="technology__logo" src="/icons/nuxt.svg" alt="">
-          <p class="technology__name name">Create with Nuxt.js</p>
+          <p class="technology__name name">Created with Nuxt.js</p>
         </div>
         <section class="slider">
           <ul class="slider__list" :style="sliderLength" v-for="song in trackData" :key="song.id">
