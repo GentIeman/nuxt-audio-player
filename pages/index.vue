@@ -721,14 +721,14 @@ export default {
       }
     }
 
-    @media screen and (max-width 1023px ) {
+    @media screen and (max-width 465px ) {
       .sound {
         display none
       }
     }
   }
 
-  @media screen and (max-width 465px ) {
+  @media screen and (max-width 1024px ) {
     .base {
       width 100vw
       height 100vh
