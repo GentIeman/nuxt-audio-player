@@ -660,10 +660,16 @@ export default {
       }
     }
 
+    @media screen and (max-width 796px ) {
+      .panel {
+        width 600px
+      }
+    }
+
     @media screen and (max-width 465px ) {
       .panel {
-        bottom 13%
-        width 340px
+        bottom 10%
+        width 360px
       }
     }
 
