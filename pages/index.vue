@@ -7,7 +7,7 @@
       </div>
       <section class="body">
         <div class="technology" :class="{'technology_dark': $colorMode.value == 'dark'}">
-          <img class="technology__logo" src="/icons/nuxt.svg" alt="">
+          <img class="technology__logo" src="@/assets/icons/nuxt.svg" alt="">
           <p class="technology__name name">Created with Nuxt.js</p>
         </div>
         <section class="slider">
@@ -19,7 +19,7 @@
         </section>
         <section class="info-track">
           <header class="info-track__header">
-            <h3 class="info-track__title title" :class="{'title_dark': $colorMode.value == 'dark'}"> {{ currentSong.title }}</h3>
+            <h3 class="info-track__title title" :class="{'title_dark': $colorMode.value == 'dark'}">{{ currentSong.title }}</h3>
           </header>
         </section>
         <section class="timeline">
@@ -34,43 +34,43 @@
           </div>
         </section>
         <audio id="audio-player" ref="player" :loop="loop"
-               :src="'/music/'+ currentSong.src +'.mp3'">
+               :src="`/music/${currentSong.src}.mp3`">
           Your browser does not support audio tag.
         </audio>
         <section class="panel">
           <section class="theme" @click="themeToggle()">
-            <img :src="'/icons/'+ themeIcon + '_mode' +'.svg'" alt="theme switch" title="theme">
+            <img :src="require(`@/assets/icons/${themeIcon}_mode.svg`)" alt="theme switch" title="theme">
           </section>
           <div class="shuffle btn">
-            <img :src="'/icons/'+ shuffleIcon +'.svg'" alt="shuffle" width="30px" title="shuffle"
+            <img :src="require(`@/assets/icons/${shuffleIcon}.svg`)" alt="shuffle" width="30px" title="shuffle"
                  @click="shuffleTracks()" @mousedown="shuffleIcon = 'shuffle_active'"
                  @mouseup=" shuffleIcon = 'shuffle'">
           </div>
           <div class="panel__main">
             <div class="previous-song btn">
-              <img src="/icons/previous-song.svg" alt="previous song" width="30px" title="previous song"
+              <img src="@/assets/icons/previous-song.svg" alt="previous song" width="30px" title="previous song"
                    @click="songListStepper(-1)">
             </div>
             <div class="play-song btn" v-if="isPlayed === false" @click="playToggle()">
-              <img src="/icons/play.svg" alt="play" title="play" width="40px">
+              <img src="@/assets/icons/play.svg" alt="play" title="play" width="40px">
             </div>
             <div class="pause-song btn" v-if="isPlayed === true" @click="playToggle()">
-              <img src="/icons/pause.svg" alt="pause" title="pause" width="40px">
+              <img src="@/assets/icons/pause.svg" alt="pause" title="pause" width="40px">
             </div>
             <div class="next-song btn">
-              <img src="/icons/next-song.svg" alt="next song" title="next song" width="30px"
+              <img src="@/assets/icons/next-song.svg" alt="next song" title="next song" width="30px"
                    @click="songListStepper(1)">
             </div>
           </div>
           <div class="repeat btn">
-            <img src="/icons/repeat.svg" alt="repeat" width="30px" title="repeat" v-if="loop === false"
+            <img src="@/assets/icons/repeat.svg" alt="repeat" width="30px" title="repeat" v-if="loop === false"
                  @click="loopTrack()">
-            <img src="/icons/repeat_active.svg" alt="repeat" title="repeat active" width="30px" v-else
+            <img src="@/assets/icons/repeat_active.svg" alt="repeat" title="repeat active" width="30px" v-else
                  @click="loopTrack()">
           </div>
           <section class="sound">
             <div class="sound__icon-box">
-              <img :src='`/icons/${soundIcon}.svg`' alt="" class="sound__icon" @click="muteToggle()">
+              <img :src="require(`@/assets/icons/${soundIcon}.svg`)" alt="" class="sound__icon" @click="muteToggle()">
             </div>
             <div class="sound__slider-box">
               <input type="range" min="0" max="1" step="0.1" class="sound__progress progress" v-model="volume"
@@ -447,7 +447,7 @@ export default {
       position absolute
       top 27px
       left 36px
-      z-index 1
+      z-index 2
 
       &__name {
         margin-left 10px
