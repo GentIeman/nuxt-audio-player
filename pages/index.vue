@@ -403,7 +403,7 @@ export default {
       }
     }
 
-    @media screen and (max-width 768px) {
+    @media screen and (max-width 1024px) {
       .background.background_dark {
         border none
       }
@@ -433,14 +433,7 @@ export default {
       overflow hidden
     }
 
-    @media screen and (max-width 768px) {
-      .body {
-        width 100vw
-        height 100vh
-      }
-    }
-
-    @media screen and (max-width 465px) {
+    @media screen and (max-width 1000px) {
       .body {
         width 100vw
         height 100vh
@@ -523,7 +516,7 @@ export default {
 
     @media screen and (max-width 465px) {
       .slider {
-        top 25%
+        top 20%
       }
     }
 
@@ -555,7 +548,7 @@ export default {
 
     @media screen and (max-width 465px) {
       .info-track {
-        top 50%
+        top 38%
 
         .title {
           font-size 1.3rem
@@ -631,7 +624,7 @@ export default {
 
     @media screen and (max-width: 468px) {
       .timeline {
-        top 70%
+        top 60%
         width 340px
       }
     }
@@ -682,7 +675,7 @@ export default {
 
     @media screen and (max-width 465px ) {
       .panel {
-        bottom 10%
+        bottom 20%
         width 360px
       }
     }
@@ -738,7 +731,7 @@ export default {
   @media screen and (max-width 1024px ) {
     .base {
       width 100vw
-      height 100vh
+      height 100%
     }
   }
 }
