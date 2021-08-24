@@ -440,6 +440,13 @@ export default {
       }
     }
 
+    @media screen and (max-width 465px) {
+      .body {
+        width 100vw
+        height 100vh
+      }
+    }
+
     .technology {
       display flex
       justify-content center
