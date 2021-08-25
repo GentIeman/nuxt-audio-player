@@ -2,8 +2,10 @@
   <section class="page" :class="{'page_dark': $colorMode.value == 'dark'}">
     <section class="base">
       <div class="background" :class="{'background_dark': $colorMode.value == 'dark'}">
-        <div class="background__circle circle" :class="{'slide-up' : isPlayed, 'background__circle_dark': $colorMode.value == 'dark'}"></div>
-        <div class="background__circle circle " :class="{'slide-down' : isPlayed, 'background__circle_dark': $colorMode.value == 'dark'}"></div>
+        <div class="background__circle circle"
+             :class="{'slide-up' : isPlayed, 'background__circle_dark': $colorMode.value == 'dark'}"></div>
+        <div class="background__circle circle "
+             :class="{'slide-down' : isPlayed, 'background__circle_dark': $colorMode.value == 'dark'}"></div>
       </div>
       <section class="body">
         <div class="technology" :class="{'technology_dark': $colorMode.value == 'dark'}">
@@ -476,6 +478,30 @@ export default {
               }
               50% {
                 opacity 1
+                top 70%
+              }
+            }
+          }
+        }
+
+        @media screen and (max-width 375px) {
+          & {
+            top -100%
+            left 50%
+            transform translate(-50%, -50%)
+            background-color #2f3640
+            padding 0.6rem 0.8rem
+            border-radius 10px
+            transition all .5s ease
+            animation fade-up 4s ease forwards
+
+            @keyframes fade-up {
+              0%, 100% {
+                opacity 0
+                top -100%
+              }
+              50% {
+                opacity 1
                 top 100%
               }
             }
@@ -503,10 +529,15 @@ export default {
       height auto
       z-index 2
 
-      @media screen and (max-width 465px) {
+      @media screen and (min-device-width 320px) and (max-device-width 767px) {
         & {
-          top -35%
+          grid-row-gap 0
         }
+      }
+
+      @media screen and (orientation portrait) {
+        top -35%
+        grid-row-gap 30px
       }
 
       .slider {
@@ -533,7 +564,7 @@ export default {
             padding 0 50px
             transition all .8s ease
 
-            @media screen and (max-width 376px) {
+            @media screen and (max-width 768px) {
               & {
                 padding 0 65px
               }
@@ -637,6 +668,14 @@ export default {
               cursor pointer
               box-shadow rgba(0, 0, 0, 0.24) 0px 3px 8px
               transition all .2s ease
+
+              @media screen and (max-width 768px) {
+                & {
+                  opacity 1
+                  width 13px
+                  height 13px
+                }
+              }
             }
           }
 
@@ -670,9 +709,15 @@ export default {
         width 768px
         height 40px
 
-        @media screen and (max-width 768px) {
+        @media only screen and (min-device-width 320px) and (max-device-width 768px) {
           & {
             width 100%
+          }
+        }
+
+        @media only screen and (min-device-width 768px) and (max-device-width 1023px) {
+          & {
+            width 500px
           }
         }
 
@@ -690,7 +735,15 @@ export default {
           position relative
           cursor pointer
 
-          @media screen and (max-width 768px) {
+          @media screen and (max-width 1023px) {
+            & {
+              position absolute
+              top 3px
+              left -70px
+            }
+          }
+
+          @media screen and (max-width 465px) {
             & {
               position absolute
               top 50px
@@ -717,7 +770,7 @@ export default {
           display inline-block
           position relative
 
-          @media screen and (max-width 768px) {
+          @media screen and (min-device-width 320px) and (max-device-width 1023px) {
             & {
               display none
             }
@@ -785,8 +838,6 @@ export default {
 
 .progress::-webkit-slider-thumb {
   -webkit-appearance none
-  visibility hidden
-  opacity 0
   position relative
   width 13px
   height 13px
@@ -804,8 +855,4 @@ export default {
   cursor pointer
 }
 
-.progress:hover::-webkit-slider-thumb {
-  visibility visible
-  opacity 1
-}
 </style>
