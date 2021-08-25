@@ -288,7 +288,7 @@ export default {
 
 .page {
   display flex
-  width 100vw
+  width 100%
   height 100vh
 
   audio {
@@ -517,6 +517,12 @@ export default {
         z-index 2
         overflow hidden
 
+        @media screen and (max-width 465px) {
+          & {
+            top 30px
+          }
+        }
+
         &__list {
           display flex
           justify-content center
@@ -526,6 +532,12 @@ export default {
           .slider__item {
             padding 0 50px
             transition all .8s ease
+
+            @media screen and (max-width 376px) {
+              & {
+                padding 0 65px
+              }
+            }
           }
         }
       }
@@ -561,7 +573,7 @@ export default {
 
     .control-panel {
       display grid
-      grid-auto-rows repeat(auto-fit, 1fr)
+      grid-auto-rows repeat(auto-fill, 1fr)
       grid-row-gap 20px
       margin-bottom 20px
       place-items center
@@ -573,6 +585,7 @@ export default {
         & {
           top -35%
           width 100vw
+          padding 0 20px
         }
       }
 
@@ -582,8 +595,15 @@ export default {
         align-items center
         flex-direction column
         position relative
+        width 486px
         height 40px
         z-index 2
+
+        @media screen and (max-width 465px) {
+          & {
+            width 100%
+          }
+        }
 
         &__base.timeline__base_dark {
           background-color #353b48
@@ -595,13 +615,7 @@ export default {
           margin auto
           border-radius 5px
           height 6px
-          width 486px
-
-          @media screen and (max-width 426px) {
-            & {
-              width 350px
-            }
-          }
+          width 100%
 
           .timeline__progress {
             display flex
@@ -658,7 +672,7 @@ export default {
 
         @media screen and (max-width 768px) {
           & {
-            width 386px
+            width 100%
           }
         }
 
@@ -679,9 +693,8 @@ export default {
           @media screen and (max-width 768px) {
             & {
               position absolute
-              top 50%
-              left -30%
-              transform translate(-50%, -50%)
+              top 50px
+              left -2px
             }
           }
         }
@@ -692,6 +705,12 @@ export default {
           align-items center
           width 200px
           cursor default
+
+          @media screen and (max-width 320px) {
+            & {
+              width 160px
+            }
+          }
         }
 
         .sound {
