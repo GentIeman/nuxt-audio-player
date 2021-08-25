@@ -630,7 +630,7 @@ export default {
         height 40px
         z-index 2
 
-        @media screen and (max-width 465px) {
+        @media screen and (min-device-width 320px) and (max-device-width 465px) {
           & {
             width 100%
           }
