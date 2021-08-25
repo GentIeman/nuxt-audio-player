@@ -10,75 +10,81 @@
           <img class="technology__logo" src="@/assets/icons/nuxt.svg" alt="">
           <p class="technology__name name">Created with Nuxt.js</p>
         </div>
-        <section class="slider">
-          <ul class="slider__list" :style="sliderLength" v-for="song in trackData" :key="song.id">
-            <li class="slider__item" :style="slidePosition">
-              <v-slider-items :data="song"/>
-            </li>
-          </ul>
-        </section>
-        <section class="info-track">
-          <header class="info-track__header">
-            <h3 class="info-track__title title" :class="{'title_dark': $colorMode.value == 'dark'}">{{ currentSong.title }}</h3>
-          </header>
-        </section>
-        <section class="timeline">
-          <div class="timeline__base" ref="progressContainer" @click="setProgress" :class="{'timeline__base_dark': $colorMode.value == 'dark'}">
-            <div class="timeline__progress" :style="{width: progress + '%'}">
-              <div class="range" v-if="progress > 1"></div>
-            </div>
-          </div>
-          <div class="time-code">
-            <span class="begin-time time" v-html="currentTime()"> 00:00 </span>
-            <span class="end-time time" v-html="totalTime()"> 00:00 </span>
-          </div>
-        </section>
-        <audio id="audio-player" ref="player" :loop="loop"
-               :src="`/music/${currentSong.src}.mp3`">
-          Your browser does not support audio tag.
-        </audio>
-        <section class="panel">
-          <section class="theme" @click="themeToggle()">
-            <img :src="require(`@/assets/icons/${themeIcon}_mode.svg`)" alt="theme switch" title="theme">
+        <div class="track-reference">
+          <section class="slider">
+            <ul class="slider__list" :style="sliderLength" v-for="song in trackData" :key="song.id">
+              <li class="slider__item" :style="slidePosition">
+                <v-slider-items :data="song"/>
+              </li>
+            </ul>
           </section>
-          <div class="shuffle btn">
-            <img :src="require(`@/assets/icons/${shuffleIcon}.svg`)" alt="shuffle" width="30px" title="shuffle"
-                 @click="shuffleTracks()" @mousedown="shuffleIcon = 'shuffle_active'"
-                 @mouseup=" shuffleIcon = 'shuffle'">
-          </div>
-          <div class="panel__main">
-            <div class="previous-song btn">
-              <img src="@/assets/icons/previous-song.svg" alt="previous song" width="30px" title="previous song"
-                   @click="songListStepper(-1)">
+          <section class="info-track">
+            <header class="info-track__header">
+              <h3 class="info-track__title title" :class="{'title_dark': $colorMode.value == 'dark'}">
+                {{ currentSong.title }}</h3>
+            </header>
+          </section>
+        </div>
+        <div class="control-panel">
+          <section class="timeline">
+            <div class="time-code">
+              <span class="begin-time time" v-html="currentTime()"> 00:00 </span>
+              <span class="end-time time" v-html="totalTime()"> 00:00 </span>
             </div>
-            <div class="play-song btn" v-if="isPlayed === false" @click="playToggle()">
-              <img src="@/assets/icons/play.svg" alt="play" title="play" width="40px">
-            </div>
-            <div class="pause-song btn" v-if="isPlayed === true" @click="playToggle()">
-              <img src="@/assets/icons/pause.svg" alt="pause" title="pause" width="40px">
-            </div>
-            <div class="next-song btn">
-              <img src="@/assets/icons/next-song.svg" alt="next song" title="next song" width="30px"
-                   @click="songListStepper(1)">
-            </div>
-          </div>
-          <div class="repeat btn">
-            <img src="@/assets/icons/repeat.svg" alt="repeat" width="30px" title="repeat" v-if="loop === false"
-                 @click="loopTrack()">
-            <img src="@/assets/icons/repeat_active.svg" alt="repeat" title="repeat active" width="30px" v-else
-                 @click="loopTrack()">
-          </div>
-          <section class="sound">
-            <div class="sound__icon-box">
-              <img :src="require(`@/assets/icons/${soundIcon}.svg`)" alt="" class="sound__icon" @click="muteToggle()">
-            </div>
-            <div class="sound__slider-box">
-              <input type="range" min="0" max="1" step="0.1" class="sound__progress progress" v-model="volume"
-                     :style="progressSoundSlider"
-                     @input="setVolume()">
+            <div class="timeline__base" ref="progressContainer" @click="setProgress"
+                 :class="{'timeline__base_dark': $colorMode.value == 'dark'}">
+              <div class="timeline__progress" :style="{width: progress + '%'}">
+                <div class="range" v-if="progress > 1"></div>
+              </div>
             </div>
           </section>
-        </section>
+          <audio id="audio-player" ref="player" :loop="loop"
+                 :src="`/music/${currentSong.src}.mp3`">
+            Your browser does not support audio tag.
+          </audio>
+          <section class="panel">
+            <section class="theme .btn" @click="themeToggle()">
+              <img :src="require(`@/assets/icons/${themeIcon}_mode.svg`)" alt="theme switch" title="theme">
+            </section>
+            <div class="shuffle btn">
+              <img :src="require(`@/assets/icons/${shuffleIcon}.svg`)" alt="shuffle" width="30px" title="shuffle"
+                   @click="shuffleTracks()" @mousedown="shuffleIcon = 'shuffle_active'"
+                   @mouseup=" shuffleIcon = 'shuffle'">
+            </div>
+            <div class="panel__main">
+              <div class="previous-song btn">
+                <img src="@/assets/icons/previous-song.svg" alt="previous song" width="30px" title="previous song"
+                     @click="songListStepper(-1)">
+              </div>
+              <div class="play-song btn" v-if="isPlayed === false" @click="playToggle()">
+                <img src="@/assets/icons/play.svg" alt="play" title="play" width="40px">
+              </div>
+              <div class="pause-song btn" v-if="isPlayed === true" @click="playToggle()">
+                <img src="@/assets/icons/pause.svg" alt="pause" title="pause" width="40px">
+              </div>
+              <div class="next-song btn">
+                <img src="@/assets/icons/next-song.svg" alt="next song" title="next song" width="30px"
+                     @click="songListStepper(1)">
+              </div>
+            </div>
+            <div class="repeat btn">
+              <img src="@/assets/icons/repeat.svg" alt="repeat" width="30px" title="repeat" v-if="loop === false"
+                   @click="loopTrack()">
+              <img src="@/assets/icons/repeat_active.svg" alt="repeat" title="repeat active" width="30px" v-else
+                   @click="loopTrack()">
+            </div>
+            <section class="sound">
+              <div class="sound__icon-box">
+                <img :src="require(`@/assets/icons/${soundIcon}.svg`)" alt="" class="sound__icon" @click="muteToggle()">
+              </div>
+              <div class="sound__slider-box">
+                <input type="range" min="0" max="1" step="0.1" class="sound__progress progress" v-model="volume"
+                       :style="progressSoundSlider"
+                       @input="setVolume()">
+              </div>
+            </section>
+          </section>
+        </div>
       </section>
     </section>
   </section>
@@ -271,8 +277,8 @@ export default {
 *:after {
   margin 0
   padding 0
+  box-sizing border-box
 }
-
 
 .page.page_dark {
   background-color #2f3640
@@ -289,14 +295,21 @@ export default {
 
   .base {
     position relative
+    margin auto
     width 1000px
     height 520px
-    margin auto
     border-radius 18px
     z-index 1
 
     .background.background_dark {
-      border solid 2px #222f3e
+      border solid 1px #222f3e
+
+      @media screen and (max-width 1024px) {
+        & {
+          border none
+        }
+      }
+
       &:before {
         background rgba(0, 0, 0, 0.7)
       }
@@ -306,17 +319,31 @@ export default {
       position absolute
       width 100%
       height 100%
-      overflow hidden
       border-radius 20px
       border solid 2px #ded8d8
+      overflow hidden
+
+      @media screen and (max-width 1024px) {
+        & {
+          width 100vw
+          border-radius 0
+        }
+      }
+
+      @media screen and (max-width 465px) {
+        & {
+          border-radius 0 0 20px 20px
+          height 50%
+        }
+      }
 
       &:before {
         content ''
         position absolute
         top 0
         left 0
-        width 110%
-        height 110%
+        width 100%
+        height 100%
         background rgba(255, 255, 255, 0.7)
         backdrop-filter blur(5px)
         z-index 1
@@ -348,7 +375,7 @@ export default {
         }
       }
 
-      @media screen and (max-width 1023px) {
+      @media screen and (max-width 1024px) {
         .circle {
           width 350px
           height 350px
@@ -403,50 +430,22 @@ export default {
       }
     }
 
-    @media screen and (max-width 1024px) {
-      .background.background_dark {
-        border none
-      }
-      .background {
-        width 100vw
-        border-radius 0
-        border none
-      }
-    }
-
-    @media screen and (max-width 465px) {
-      .background.background_dark {
-        border none
-      }
-      .background {
-        width 100vw
-        top 0
-        height 350px
-        border-radius 0 0 20px 20px
-      }
-    }
-
     .body {
-      position absolute
+      display grid
+      grid-template-rows repeat(auto-fill, 1fr)
+      place-items center
+      position relative
       width 100%
       height 100%
-      overflow hidden
-    }
-
-    @media screen and (max-width 1000px) {
-      .body {
-        width 100vw
-        height 100vh
-      }
     }
 
     .technology {
       display flex
-      justify-content center
+      justify-content flex-start
       align-items center
-      position absolute
-      top 27px
-      left 36px
+      position relative
+      width 100%
+      height auto
       z-index 2
 
       &__name {
@@ -459,235 +458,221 @@ export default {
       }
     }
 
-    @media screen and (max-width 465px) {
-      .technology.technology_dark {
-        background-color #2f3640
-      }
-
-      .technology {
-        padding 0.6rem
-        border-radius 10px
-        box-shadow rgba(0, 0, 0, 0.24) 0px 3px 8px
-        background-color #fff
-        top -100%
-        left 50%
-        transform translate(-50%, -50%)
-        animation fade-down 5s ease both
-        transition all 1s
-
-        @keyframes fade-down {
-          0%, 100% {
-            top -100%
-            animation-delay 7s
-          }
-          50% {
-            top 60px
-            animation-delay 7s
-          }
-        }
-      }
-
-      .text {
-        font-size 0.95rem
-      }
-    }
-
-    .slider {
-      display flex
-      position absolute
-      top 35%
-      left 50%
-      transform translate(-50%, -50%)
-      width 300px
-      height 200px
-      z-index 1
-      overflow hidden
-
-      &__list {
-        display flex
-        list-style none
-
-        .slider__item {
-          padding 0 50px
-          transition all .8s ease
-        }
-      }
-    }
-
-    @media screen and (max-width 465px) {
-      .slider {
-        top 20%
-      }
-    }
-
-    .info-track {
-      position absolute
-      top 61%
-      left 50%
-      transform translate(-50%, -50%)
-      z-index 2
-      max-width 800px
-      width 500px
-
-      &__header {
-        display flex
-        justify-content center
-        align-items center
-      }
-
-
-      .title.title_dark {
-        color #A09F9FFF
-      }
-
-      .title {
-        font normal 1.2rem sans-serif
-        color #333
-      }
-    }
-
-    @media screen and (max-width 465px) {
-      .info-track {
-        top 38%
-
-        .title {
-          font-size 1.3rem
-        }
-      }
-    }
-
-    .timeline {
-      position absolute
-      top 75%
-      left 50%
-      transform translate(-50%, -50%)
-      width 486px
-      height 5px
-      border-radius 6px
-      z-index 2
-
-      &__base.timeline__base_dark {
-        background-color #353b48
-      }
-
-      &__base {
-        background #dbd5d5
-        border-radius 5px
-        height 6px
-        width 100%
-
-        .timeline__progress {
-          display flex
-          justify-content flex-end
-          align-items center
-          position relative
-          background-color #1DD1A1
-          border-radius 5px
-          height 100%
-          transition width 0s linear
-
-          .range {
-            opacity 0
-            position absolute
-            width 0
-            height 0
-            border-radius 50%
-            background-color #fff
-            cursor pointer
-            box-shadow rgba(0, 0, 0, 0.24) 0px 3px 8px
-            transition all .2s ease
-          }
-        }
-
-        &:hover .range {
-          opacity 1
-          width 13px
-          height 13px
-        }
-      }
-
-      .time-code {
-        display flex
-        position absolute
-        top -25px
-        justify-content space-between
-        width 100%
-        height auto
-        cursor default
-
-        .time {
-          font normal 0.9em sans-serif
-          color #B7B3B3
-        }
-      }
-    }
-
-    @media screen and (max-width: 468px) {
-      .timeline {
-        top 60%
-        width 340px
-      }
-    }
-
-    .theme {
+    .track-reference {
+      display grid
+      grid-auto-rows repeat(auto-fit, 1fr)
+      grid-row-gap 30px
+      place-content center
       position relative
+      width 100%
+      height auto
       z-index 2
-      cursor pointer
 
       @media screen and (max-width 465px) {
         & {
-          position absolute
-          top 150%
+          top -35%
+        }
+      }
+
+      .slider {
+        display flex
+        position relative
+        width 300px
+        height 200px
+        z-index 2
+        overflow hidden
+
+        &__list {
+          display flex
+          justify-content center
+          align-items center
+          list-style none
+
+          .slider__item {
+            padding 0 50px
+            transition all .8s ease
+          }
+        }
+      }
+
+      .info-track {
+        position relative
+        z-index 2
+        width 100%
+        max-width 800px
+
+        &__header {
+          display flex
+          justify-content center
+          align-items center
+        }
+
+        .title.title_dark {
+          color #A09F9FFF
+        }
+
+        .title {
+          font normal 1.2rem sans-serif
+          color #333
+        }
+
+        @media screen and (max-width 1024px) {
+          & {
+            top 20px
+          }
         }
       }
     }
 
-    .panel {
-      display flex
-      justify-content space-between
-      align-items center
-      position absolute
-      bottom 5%
-      left 50%
-      transform translate(-50%, -40%)
-      width 786px
-      height 40px
+    .control-panel {
+      display grid
+      grid-auto-rows repeat(auto-fit, 1fr)
+      grid-row-gap 20px
+      margin-bottom 20px
+      place-items center
+      position relative
+      height auto
       z-index 2
 
-      & .btn {
-        cursor pointer
+      @media screen and (max-width 465px) {
+        & {
+          top -35%
+          width 100vw
+        }
       }
 
-      &__main {
+      .timeline {
         display flex
         justify-content space-between
         align-items center
-        width 200px
-        cursor default
-      }
-    }
+        flex-direction column
+        position relative
+        height 40px
+        z-index 2
 
-    @media screen and (max-width 796px ) {
+        &__base.timeline__base_dark {
+          background-color #353b48
+        }
+
+        &__base {
+          position relative
+          background #dbd5d5
+          margin auto
+          border-radius 5px
+          height 6px
+          width 486px
+
+          @media screen and (max-width 426px) {
+            & {
+              width 350px
+            }
+          }
+
+          .timeline__progress {
+            display flex
+            justify-content flex-end
+            align-items center
+            position relative
+            background-color #1DD1A1
+            border-radius 5px
+            height 100%
+            transition width 0s linear
+
+            .range {
+              opacity 0
+              position absolute
+              width 0
+              height 0
+              border-radius 50%
+              background-color #fff
+              cursor pointer
+              box-shadow rgba(0, 0, 0, 0.24) 0px 3px 8px
+              transition all .2s ease
+            }
+          }
+
+          &:hover .range {
+            opacity 1
+            width 13px
+            height 13px
+          }
+        }
+
+        .time-code {
+          display flex
+          justify-content space-between
+          position relative
+          width 100%
+          height auto
+          cursor default
+
+          .time {
+            font normal 0.9em sans-serif
+            color #B7B3B3
+          }
+        }
+      }
+
       .panel {
-        width 600px
-      }
-    }
+        display flex
+        justify-content space-between
+        align-items center
+        position relative
+        width 768px
+        height 40px
 
-    @media screen and (max-width 465px ) {
-      .panel {
-        bottom 20%
-        width 360px
-      }
-    }
+        @media screen and (max-width 768px) {
+          & {
+            width 386px
+          }
+        }
 
-    .sound {
-      display inline-block
-      position relative
+        & .btn {
+          display flex
+          justify-content center
+          align-items center
+          cursor pointer
+        }
 
-      &:hover > .sound__slider-box {
-        opacity 1
-        visibility visible
-      }
+        .theme {
+          display flex
+          justify-content center
+          align-items center
+          position relative
+          cursor pointer
+
+          @media screen and (max-width 768px) {
+            & {
+              position absolute
+              top 50%
+              left -30%
+              transform translate(-50%, -50%)
+            }
+          }
+        }
+
+        &__main {
+          display flex
+          justify-content space-between
+          align-items center
+          width 200px
+          cursor default
+        }
+
+        .sound {
+          display inline-block
+          position relative
+
+          @media screen and (max-width 768px) {
+            & {
+              display none
+            }
+          }
+
+          &:hover > .sound__slider-box {
+            opacity 1
+            visibility visible
+          }
 
       &__icon-box {
         display flex
@@ -713,25 +698,27 @@ export default {
         transition all .2s linear
         padding-left 10px
 
-        .sound__progress {
-          display block
-          width 60px
-          margin auto
+            .sound__progress {
+              display block
+              width 60px
+              margin auto
+            }
+          }
         }
-      }
-    }
-
-    @media screen and (max-width 465px ) {
-      .sound {
-        display none
       }
     }
   }
 
-  @media screen and (max-width 1024px ) {
+  @media screen and (max-width 1024px) {
     .base {
       width 100vw
-      height 100%
+      height 100vh
+      border-radius 0
+
+      .body {
+        width 100vw
+        height 100vh
+      }
     }
   }
 }
