@@ -19,7 +19,7 @@ export default {
   height 200px
   overflow hidden
 
-  @media only screen and (min-device-width 320px) and (max-device-width 768px) {
+  @media only screen and (min-device-width 320px) and (max-device-width 1023px) {
     & {
       width 170px
       height 170px

@@ -478,7 +478,7 @@ export default {
               }
               50% {
                 opacity 1
-                top 70%
+                top 50%
               }
             }
           }
@@ -564,7 +564,7 @@ export default {
             padding 0 50px
             transition all .8s ease
 
-            @media screen and (max-width 768px) {
+            @media only screen and (min-device-width 320px) and (max-device-width 1023px) {
               & {
                 padding 0 65px
               }
@@ -739,7 +739,7 @@ export default {
             & {
               position absolute
               top 3px
-              left -70px
+              left -90px
             }
           }
 
