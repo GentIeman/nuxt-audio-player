@@ -612,7 +612,7 @@ export default {
       height auto
       z-index 2
 
-      @media screen and (min-device-width 320px) and (max-device-width 465px) {
+      @media only screen and (max-device-width 465px) {
         & {
           top -35%
           width 100vw
