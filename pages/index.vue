@@ -529,7 +529,7 @@ export default {
       height auto
       z-index 2
 
-      @media screen and (min-device-width 320px) and (max-device-width 767px) {
+      @media screen and (min-device-width 320px) and (max-device-width 1023px) {
         & {
           grid-row-gap 0
         }
