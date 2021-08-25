@@ -674,29 +674,29 @@ export default {
             visibility visible
           }
 
-      &__icon-box {
-        display flex
-        position relative
-        width 100%
-        height 100%
-        cursor pointer
+          &__icon-box {
+            display flex
+            position relative
+            width 100%
+            height 100%
+            cursor pointer
 
-        .sound__icon {
-          margin auto
-        }
-      }
+            .sound__icon {
+              margin auto
+            }
+          }
 
-      &__slider-box {
-        display flex
-        position absolute
-        top -36px
-        left 50%
-        transform translate(-50%, -50%) rotate(-90deg)
-        height 30px
-        opacity 0
-        visibility hidden
-        transition all .2s linear
-        padding-left 10px
+          &__slider-box {
+            display flex
+            position absolute
+            top -36px
+            left 50%
+            transform translate(-50%, -50%) rotate(-90deg)
+            height 30px
+            opacity 0
+            visibility hidden
+            transition all .2s linear
+            padding-left 10px
 
             .sound__progress {
               display block
