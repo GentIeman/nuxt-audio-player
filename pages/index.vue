@@ -306,12 +306,6 @@ export default {
     .background.background_dark {
       border solid 1px #222f3e
 
-      @media screen and (max-width 1024px) {
-        & {
-          border none
-        }
-      }
-
       &:before {
         background rgba(0, 0, 0, 0.7)
       }
@@ -324,20 +318,6 @@ export default {
       border-radius 20px
       border solid 2px #ded8d8
       overflow hidden
-
-      @media screen and (max-width 1024px) {
-        & {
-          width 100vw
-          border-radius 0
-        }
-      }
-
-      @media screen and (max-width 465px) {
-        & {
-          border-radius 0 0 20px 20px
-          height 50%
-        }
-      }
 
       &:before {
         content ''
@@ -374,30 +354,6 @@ export default {
           top 0
           right 0
           transform translate(30%, -30%)
-        }
-      }
-
-      @media screen and (max-width 1024px) {
-        .circle {
-          width 350px
-          height 350px
-
-          &:first-child {
-            width 450px
-            height 450px
-          }
-        }
-      }
-
-      @media screen and (max-width 465px) {
-        .circle {
-          width 250px
-          height 250px
-
-          &:first-child {
-            width 300px
-            height 300px
-          }
         }
       }
 
@@ -457,30 +413,6 @@ export default {
         position absolute
         top 30px
         left 30px
-
-        @media screen and (max-width 465px) {
-          & {
-            top -100%
-            left 50%
-            transform translate(-50%, -50%)
-            background-color #2f3640
-            padding 0.6rem 0.8rem
-            border-radius 10px
-            transition all .5s ease
-            animation fade-up 4s ease forwards
-
-            @keyframes fade-up {
-              0%, 100% {
-                opacity 0
-                top -100%
-              }
-              50% {
-                opacity 1
-                top 100%
-              }
-            }
-          }
-        }
       }
 
       &__name {
@@ -503,11 +435,6 @@ export default {
       height auto
       z-index 2
 
-      @media screen and (max-width 465px) {
-        & {
-          top -35%
-        }
-      }
 
       .slider {
         display flex
@@ -516,12 +443,6 @@ export default {
         height 200px
         z-index 2
         overflow hidden
-
-        @media screen and (max-width 465px) {
-          & {
-            top 30px
-          }
-        }
 
         &__list {
           display flex
@@ -532,12 +453,6 @@ export default {
           .slider__item {
             padding 0 50px
             transition all .8s ease
-
-            @media screen and (max-width 376px) {
-              & {
-                padding 0 65px
-              }
-            }
           }
         }
       }
@@ -562,12 +477,6 @@ export default {
           font normal 1.2rem sans-serif
           color #333
         }
-
-        @media screen and (max-width 1024px) {
-          & {
-            top 20px
-          }
-        }
       }
     }
 
@@ -581,14 +490,6 @@ export default {
       height auto
       z-index 2
 
-      @media screen and (max-width 465px) {
-        & {
-          top -35%
-          width 100vw
-          padding 0 20px
-        }
-      }
-
       .timeline {
         display flex
         justify-content space-between
@@ -598,12 +499,6 @@ export default {
         width 486px
         height 40px
         z-index 2
-
-        @media screen and (max-width 465px) {
-          & {
-            width 100%
-          }
-        }
 
         &__base.timeline__base_dark {
           background-color #353b48
@@ -670,12 +565,6 @@ export default {
         width 768px
         height 40px
 
-        @media screen and (max-width 768px) {
-          & {
-            width 100%
-          }
-        }
-
         & .btn {
           display flex
           justify-content center
@@ -689,14 +578,6 @@ export default {
           align-items center
           position relative
           cursor pointer
-
-          @media screen and (max-width 768px) {
-            & {
-              position absolute
-              top 50px
-              left -2px
-            }
-          }
         }
 
         &__main {
@@ -705,23 +586,11 @@ export default {
           align-items center
           width 200px
           cursor default
-
-          @media screen and (max-width 320px) {
-            & {
-              width 160px
-            }
-          }
         }
 
         .sound {
           display inline-block
           position relative
-
-          @media screen and (max-width 768px) {
-            & {
-              display none
-            }
-          }
 
           &:hover > .sound__slider-box {
             opacity 1
@@ -759,19 +628,6 @@ export default {
             }
           }
         }
-      }
-    }
-  }
-
-  @media screen and (max-width 1024px) {
-    .base {
-      width 100vw
-      height 100vh
-      border-radius 0
-
-      .body {
-        width 100vw
-        height 100vh
       }
     }
   }
