@@ -615,7 +615,7 @@ export default {
       @media screen and (max-width 465px) {
         & {
           top -35%
-          width 100vw
+          width 100%
           padding 0 20px
         }
       }
