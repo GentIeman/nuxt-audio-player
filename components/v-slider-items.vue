@@ -19,6 +19,13 @@ export default {
   height 200px
   overflow hidden
 
+  @media screen and (max-width 376px) {
+    & {
+      width 170px
+      height 170px
+    }
+  }
+
   .album {
     position absolute
     top 0
