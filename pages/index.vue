@@ -8,12 +8,15 @@
              :class="{'slide-down' : isPlayed, 'background__circle_dark': $colorMode.value == 'dark'}"></div>
       </div>
       <section class="body">
-        <div class="technology" :class="{'technology_dark': $colorMode.value == 'dark'}">
-          <div class="technology__inner">
+        <header class="body__header">
+          <section class="technology" :class="{'technology_dark': $colorMode.value == 'dark'}">
             <img class="technology__logo" src="@/assets/icons/nuxt.svg" alt="">
             <p class="technology__name name">Created with Nuxt.js</p>
-          </div>
-        </div>
+          </section>
+          <section class="theme" @click="themeToggle()">
+            <img :src="require(`@/assets/icons/${themeIcon}_mode.svg`)" alt="theme switch" title="theme">
+          </section>
+        </header>
         <div class="track-reference">
           <section class="slider">
             <ul class="slider__list" :style="sliderLength" v-for="song in trackData" :key="song.id">
@@ -398,28 +401,29 @@ export default {
       width 100%
       height 100%
 
-      .technology {
+      &__header {
         display flex
+        justify-content space-between
+        align-items center
         position relative
         top 10px
-        width 100%
+        width 90%
         height 100%
         z-index 2
 
-        &__inner {
+        @media screen and (min-device-width 376px) and (max-device-width 465px) {
+          & {
+            top -20%
+          }
+        }
+
+        .theme {
           display flex
           align-items center
+          justify-content center
           position relative
-          left 40px
-        }
-
-        &__name {
-          margin-left 10px
-        }
-
-        .name {
-          color #929090
-          font normal 1rem 'Roboto', sans-serif
+          cursor pointer
+          z-index 2
         }
       }
 
