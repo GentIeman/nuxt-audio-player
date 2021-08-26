@@ -32,7 +32,7 @@
             </header>
           </section>
         </div>
-        <div class="control-panel">
+        <section class="control-panel">
           <section class="timeline">
             <div class="time-code">
               <span class="begin-time time" v-html="currentTime()"> 00:00 </span>
@@ -50,9 +50,6 @@
             Your browser does not support audio tag.
           </audio>
           <section class="panel">
-            <section class="theme .btn" @click="themeToggle()">
-              <img :src="require(`@/assets/icons/${themeIcon}_mode.svg`)" alt="theme switch" title="theme">
-            </section>
             <div class="shuffle btn">
               <img :src="require(`@/assets/icons/${shuffleIcon}.svg`)" alt="shuffle" width="30px" title="shuffle"
                    @click="shuffleTracks()" @mousedown="shuffleIcon = 'shuffle_active'"
@@ -80,18 +77,18 @@
               <img src="@/assets/icons/repeat_active.svg" alt="repeat" title="repeat active" width="30px" v-else
                    @click="loopTrack()">
             </div>
-            <section class="sound">
-              <div class="sound__icon-box">
-                <img :src="require(`@/assets/icons/${soundIcon}.svg`)" alt="" class="sound__icon" @click="muteToggle()">
-              </div>
-              <div class="sound__slider-box">
-                <input type="range" min="0" max="1" step="0.1" class="sound__progress progress" v-model="volume"
-                       :style="progressSoundSlider"
-                       @input="setVolume()">
-              </div>
-            </section>
           </section>
-        </div>
+        </section>
+        <section class="sound">
+          <div class="sound__icon-box">
+            <img :src="require(`@/assets/icons/${soundIcon}.svg`)" alt="" class="sound__icon" @click="muteToggle()">
+          </div>
+          <div class="sound__slider-box">
+            <input type="range" min="0" max="1" step="0.1" class="sound__progress progress" v-model="volume"
+                   :style="progressSoundSlider"
+                   @input="setVolume()">
+          </div>
+        </section>
       </section>
     </section>
   </section>
@@ -305,7 +302,6 @@ export default {
     margin auto
     width 1000px
     height 520px
-    border-radius 18px
     z-index 1
 
     .background.background_dark {
@@ -323,6 +319,32 @@ export default {
       border-radius 20px
       border solid 2px #ded8d8
       overflow hidden
+
+      @media screen and (max-width: 1023px) {
+        & {
+          border-radius 0
+          border none
+
+          &.background_dark {
+            border none
+          }
+        }
+      }
+
+      @media screen and (max-width 465px) {
+        & {
+          height 50%
+          border solid 2px #ded8d8
+          border-radius 0 0 20px 20px
+        }
+      }
+
+      @media screen and (max-width 376px) {
+        & {
+          height 60%
+          border-radius 0 0 20px 20px
+        }
+      }
 
       &:before {
         content ''
@@ -347,12 +369,26 @@ export default {
         border-radius 100%
         background-color #2ED573
 
+        @media screen and (max-width 465px) {
+          & {
+            width 250px
+            height 250px
+          }
+        }
+
         &:first-child {
           width 550px
           height 550px
           bottom 0
           left 0
           transform translate(-40%, 30%)
+
+          @media screen and (max-width 465px) {
+            & {
+              width 250px
+              height 250px
+            }
+          }
         }
 
         &:nth-child(2) {
@@ -437,6 +473,18 @@ export default {
         height auto
         z-index 2
 
+        @media screen and (max-width 465px) {
+          & {
+            top -35%
+          }
+        }
+
+        @media screen and (max-width 376px) {
+          & {
+            top -15%
+            grid-row-gap 0
+          }
+        }
 
         .slider {
           display flex
@@ -455,6 +503,12 @@ export default {
             .slider__item {
               padding 0 50px
               transition all .8s ease
+
+              @media screen and (max-width 376px) {
+                & {
+                  padding 0 65px
+                }
+              }
             }
           }
         }
@@ -489,8 +543,30 @@ export default {
         margin-bottom 20px
         place-items center
         position relative
+        width 486px
         height auto
         z-index 2
+
+        @media screen and (max-width 767px) {
+          & {
+            top -35%
+            width 100%
+            padding 0 20px
+          }
+        }
+
+        @media screen and (orientation landscape) {
+          width 486px
+          top 0
+        }
+
+        @media screen and (max-width: 376px) {
+          & {
+            top -15%
+            width 100%
+            padding 0 20px
+          }
+        }
 
         .timeline {
           display flex
@@ -498,7 +574,7 @@ export default {
           align-items center
           flex-direction column
           position relative
-          width 486px
+          width 100%
           height 40px
           z-index 2
 
@@ -564,7 +640,7 @@ export default {
           justify-content space-between
           align-items center
           position relative
-          width 768px
+          width 100%
           height 40px
 
           & .btn {
@@ -574,65 +650,96 @@ export default {
             cursor pointer
           }
 
-          .theme {
-            display flex
-            justify-content center
-            align-items center
-            position relative
-            cursor pointer
-          }
-
           &__main {
             display flex
             justify-content space-between
             align-items center
             width 200px
             cursor default
-          }
 
-          .sound {
-            display inline-block
-            position relative
-
-            &:hover > .sound__slider-box {
-              opacity 1
-              visibility visible
-            }
-
-            &__icon-box {
-              display flex
-              position relative
-              width 100%
-              height 100%
-              cursor pointer
-
-              .sound__icon {
-                margin auto
-              }
-            }
-
-            &__slider-box {
-              display flex
-              position absolute
-              top -36px
-              left 50%
-              transform translate(-50%, -50%) rotate(-90deg)
-              height 30px
-              opacity 0
-              visibility hidden
-              transition all .2s linear
-              padding-left 10px
-
-              .sound__progress {
-                display block
-                width 60px
-                margin auto
+            @media screen and (max-width: 376px) {
+              & {
+                width 170px
               }
             }
           }
         }
       }
+
+      .sound {
+        display block
+        position absolute
+        top 89%
+        left 93%
+        transform translate(-50%, -50%)
+        z-index 2
+
+        @media screen and (max-width: 1023px) {
+          & {
+            display none
+          }
+        }
+
+        &:hover > .sound__slider-box {
+          opacity 1
+          visibility visible
+        }
+
+        &__icon-box {
+          display flex
+          position relative
+          width 100%
+          height 100%
+          cursor pointer
+
+          .sound__icon {
+            margin auto
+          }
+        }
+
+        &__slider-box {
+          display flex
+          position absolute
+          top -36px
+          left 50%
+          transform translate(-50%, -50%) rotate(-90deg)
+          height 30px
+          opacity 0
+          visibility hidden
+          transition all .2s linear
+          padding-left 10px
+
+          .sound__progress {
+            display block
+            width 60px
+            margin auto
+          }
+        }
+      }
     }
+
+    @media screen and (max-width 1023px) {
+      & {
+        width 100%
+        height 100%
+        border-radius 0
+      }
+    }
+  }
+}
+
+.technology {
+  display flex
+  align-items center
+  position relative
+
+  &__name {
+    margin-left 10px
+  }
+
+  .name {
+    color #929090
+    font normal 1rem 'Roboto', sans-serif
   }
 }
 
