@@ -604,7 +604,7 @@ export default {
 
     .control-panel {
       display grid
-      grid-auto-rows repeat(auto-fill, 1fr)
+      grid-auto-rows repeat(auto-fit, 1fr)
       grid-row-gap 20px
       margin-bottom 20px
       place-items center
@@ -612,7 +612,7 @@ export default {
       height auto
       z-index 2
 
-      @media only screen and (max-device-width 465px) {
+      @media screen and (max-width 465px) {
         & {
           top -35%
           width 100vw
@@ -715,7 +715,7 @@ export default {
           }
         }
 
-        @media only screen and (min-device-width 768px) and (max-device-width 1023px) {
+        @media screen and (min-width 768px) and (max-width 1023px) {
           & {
             width 500px
           }
