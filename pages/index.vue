@@ -2,8 +2,10 @@
   <section class="page" :class="{'page_dark': $colorMode.value == 'dark'}">
     <section class="base">
       <div class="background" :class="{'background_dark': $colorMode.value == 'dark'}">
-        <div class="background__circle circle" :class="{'slide-up' : isPlayed, 'background__circle_dark': $colorMode.value == 'dark'}"></div>
-        <div class="background__circle circle " :class="{'slide-down' : isPlayed, 'background__circle_dark': $colorMode.value == 'dark'}"></div>
+        <div class="background__circle circle"
+             :class="{'slide-up' : isPlayed, 'background__circle_dark': $colorMode.value == 'dark'}"></div>
+        <div class="background__circle circle "
+             :class="{'slide-down' : isPlayed, 'background__circle_dark': $colorMode.value == 'dark'}"></div>
       </div>
       <section class="body">
         <div class="technology" :class="{'technology_dark': $colorMode.value == 'dark'}">
@@ -457,30 +459,6 @@ export default {
         position absolute
         top 30px
         left 30px
-
-        @media screen and (max-width 465px) {
-          & {
-            top -100%
-            left 50%
-            transform translate(-50%, -50%)
-            background-color #2f3640
-            padding 0.6rem 0.8rem
-            border-radius 10px
-            transition all .5s ease
-            animation fade-up 4s ease forwards
-
-            @keyframes fade-up {
-              0%, 100% {
-                opacity 0
-                top -100%
-              }
-              50% {
-                opacity 1
-                top 100%
-              }
-            }
-          }
-        }
       }
 
       &__name {
@@ -503,12 +481,6 @@ export default {
       height auto
       z-index 2
 
-      @media screen and (max-width 465px) {
-        & {
-          top -35%
-        }
-      }
-
       .slider {
         display flex
         position relative
@@ -516,12 +488,6 @@ export default {
         height 200px
         z-index 2
         overflow hidden
-
-        @media screen and (max-width 465px) {
-          & {
-            top 30px
-          }
-        }
 
         &__list {
           display flex
@@ -532,12 +498,6 @@ export default {
           .slider__item {
             padding 0 50px
             transition all .8s ease
-
-            @media screen and (max-width 376px) {
-              & {
-                padding 0 65px
-              }
-            }
           }
         }
       }
@@ -562,12 +522,6 @@ export default {
           font normal 1.2rem sans-serif
           color #333
         }
-
-        @media screen and (max-width 1024px) {
-          & {
-            top 20px
-          }
-        }
       }
     }
 
@@ -580,198 +534,145 @@ export default {
       position relative
       height auto
       z-index 2
+    }
 
-      @media screen and (max-width 465px) {
-        & {
-          top -35%
-          width 100vw
-          padding 0 20px
-        }
+    .timeline {
+      display flex
+      justify-content space-between
+      align-items center
+      flex-direction column
+      position relative
+      width 486px
+      height 40px
+      z-index 2
+
+      &__base.timeline__base_dark {
+        background-color #353b48
       }
 
-      .timeline {
-        display flex
-        justify-content space-between
-        align-items center
-        flex-direction column
+      &__base {
         position relative
-        width 486px
-        height 40px
-        z-index 2
+        background #dbd5d5
+        margin auto
+        border-radius 5px
+        height 6px
+        width 100%
 
-        @media screen and (max-width 465px) {
-          & {
-            width 100%
-          }
-        }
-
-        &__base.timeline__base_dark {
-          background-color #353b48
-        }
-
-        &__base {
+        .timeline__progress {
+          display flex
+          justify-content flex-end
+          align-items center
           position relative
-          background #dbd5d5
-          margin auto
+          background-color #1DD1A1
           border-radius 5px
-          height 6px
-          width 100%
+          height 100%
+          transition width 0s linear
 
-          .timeline__progress {
-            display flex
-            justify-content flex-end
-            align-items center
-            position relative
-            background-color #1DD1A1
-            border-radius 5px
-            height 100%
-            transition width 0s linear
-
-            .range {
-              opacity 0
-              position absolute
-              width 0
-              height 0
-              border-radius 50%
-              background-color #fff
-              cursor pointer
-              box-shadow rgba(0, 0, 0, 0.24) 0px 3px 8px
-              transition all .2s ease
-            }
-          }
-
-          &:hover .range {
-            opacity 1
-            width 13px
-            height 13px
+          .range {
+            opacity 0
+            position absolute
+            width 0
+            height 0
+            border-radius 50%
+            background-color #fff
+            cursor pointer
+            box-shadow rgba(0, 0, 0, 0.24) 0px 3px 8px
+            transition all .2s ease
           }
         }
 
-        .time-code {
-          display flex
-          justify-content space-between
-          position relative
-          width 100%
-          height auto
-          cursor default
-
-          .time {
-            font normal 0.9em sans-serif
-            color #B7B3B3
-          }
+        &:hover .range {
+          opacity 1
+          width 13px
+          height 13px
         }
       }
 
-      .panel {
+      .time-code {
         display flex
         justify-content space-between
-        align-items center
         position relative
-        width 768px
-        height 40px
+        width 100%
+        height auto
+        cursor default
 
-        @media screen and (max-width 768px) {
-          & {
-            width 100%
-          }
-        }
-
-        & .btn {
-          display flex
-          justify-content center
-          align-items center
-          cursor pointer
-        }
-
-        .theme {
-          display flex
-          justify-content center
-          align-items center
-          position relative
-          cursor pointer
-
-          @media screen and (max-width 768px) {
-            & {
-              position absolute
-              top 50px
-              left -2px
-            }
-          }
-        }
-
-        &__main {
-          display flex
-          justify-content space-between
-          align-items center
-          width 200px
-          cursor default
-
-          @media screen and (max-width 320px) {
-            & {
-              width 160px
-            }
-          }
-        }
-
-        .sound {
-          display inline-block
-          position relative
-
-          @media screen and (max-width 768px) {
-            & {
-              display none
-            }
-          }
-
-          &:hover > .sound__slider-box {
-            opacity 1
-            visibility visible
-          }
-
-          &__icon-box {
-            display flex
-            position relative
-            width 100%
-            height 100%
-            cursor pointer
-
-            .sound__icon {
-              margin auto
-            }
-          }
-
-          &__slider-box {
-            display flex
-            position absolute
-            top -36px
-            left 50%
-            transform translate(-50%, -50%) rotate(-90deg)
-            height 30px
-            opacity 0
-            visibility hidden
-            transition all .2s linear
-            padding-left 10px
-
-            .sound__progress {
-              display block
-              width 60px
-              margin auto
-            }
-          }
+        .time {
+          font normal 0.9em sans-serif
+          color #B7B3B3
         }
       }
     }
-  }
 
-  @media screen and (max-width 1024px) {
-    .base {
-      width 100vw
-      height 100vh
-      border-radius 0
+    .panel {
+      display flex
+      justify-content space-between
+      align-items center
+      position relative
+      width 768px
+      height 40px
 
-      .body {
-        width 100vw
-        height 100vh
+      & .btn {
+        display flex
+        justify-content center
+        align-items center
+        cursor pointer
+      }
+
+      .theme {
+        display flex
+        justify-content center
+        align-items center
+        position relative
+        cursor pointer
+      }
+
+      &__main {
+        display flex
+        justify-content space-between
+        align-items center
+        width 200px
+        cursor default
+      }
+
+      .sound {
+        display inline-block
+        position relative
+
+        &:hover > .sound__slider-box {
+          opacity 1
+          visibility visible
+        }
+
+        &__icon-box {
+          display flex
+          position relative
+          width 100%
+          height 100%
+          cursor pointer
+
+          .sound__icon {
+            margin auto
+          }
+        }
+
+        &__slider-box {
+          display flex
+          position absolute
+          top -36px
+          left 50%
+          transform translate(-50%, -50%) rotate(-90deg)
+          height 30px
+          opacity 0
+          visibility hidden
+          transition all .2s linear
+          padding-left 10px
+
+          .sound__progress {
+            display block
+            width 60px
+            margin auto
+          }
+        }
       }
     }
   }
