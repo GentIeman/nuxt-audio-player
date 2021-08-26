@@ -40,7 +40,7 @@
             </div>
             <div class="timeline__base" ref="progressContainer" @click="setProgress"
                  :class="{'timeline__base_dark': $colorMode.value == 'dark'}">
-              <div class="timeline__progress" :style="{width: progress + '%'}">
+              <div class="timeline__progress" :style="{width: `${progress}%`}">
                 <div class="range" v-if="progress > 1"></div>
               </div>
             </div>
@@ -597,6 +597,7 @@ export default {
               position relative
               background-color #1DD1A1
               border-radius 5px
+              width 0
               height 100%
               transition width 0s linear
 

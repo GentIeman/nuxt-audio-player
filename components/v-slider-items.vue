@@ -26,13 +26,6 @@ export default {
     }
   }
 
-  @media only screen and (max-width 376px) {
-    & {
-      width 170px
-      height 170px
-    }
-  }
-
   .album {
     position absolute
     top 0
