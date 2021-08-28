@@ -381,17 +381,10 @@ export default {
     margin auto
     width 1000px
     height 520px
-    border-radius 18px
     z-index 1
 
     .background.background_dark {
       border solid 1px #222f3e
-
-      @media screen and (max-width 1024px) {
-        & {
-          border none
-        }
-      }
 
       &:before {
         background rgba(0, 0, 0, 0.7)
@@ -406,22 +399,34 @@ export default {
       border solid 2px #ded8d8
       overflow hidden
 
-      @media screen and (max-width 1024px) {
+      @media screen and (max-width: 1023px) {
         & {
-          width 100vw
           border-radius 0
+          border none
+
+          &.background_dark {
+            border none
+          }
         }
       }
 
       @media screen and (max-width 465px) {
         & {
-          border-radius 0 0 20px 20px
           height 50%
+          border solid 2px #ded8d8
+          border-radius 0 0 20px 20px
+        }
+      }
+
+      @media screen and (max-width 376px) {
+        & {
+          height 60%
+          border-radius 0 0 20px 20px
         }
       }
 
       &:before {
-        content ''
+        content ""
         position absolute
         top 0
         left 0
@@ -443,42 +448,32 @@ export default {
         border-radius 100%
         background-color #2ED573
 
+        @media screen and (max-width 465px) {
+          & {
+            width 250px
+            height 250px
+          }
+        }
+
         &:first-child {
           width 550px
           height 550px
           bottom 0
           left 0
           transform translate(-40%, 30%)
+
+          @media screen and (max-width 465px) {
+            & {
+              width 250px
+              height 250px
+            }
+          }
         }
 
         &:nth-child(2) {
           top 0
           right 0
           transform translate(30%, -30%)
-        }
-      }
-
-      @media screen and (max-width 1024px) {
-        .circle {
-          width 350px
-          height 350px
-
-          &:first-child {
-            width 450px
-            height 450px
-          }
-        }
-      }
-
-      @media screen and (max-width 465px) {
-        .circle {
-          width 250px
-          height 250px
-
-          &:first-child {
-            width 300px
-            height 300px
-          }
         }
       }
 
@@ -520,392 +515,311 @@ export default {
       position relative
       width 100%
       height 100%
-    }
 
-    .technology {
-      display flex
-      justify-content flex-start
-      align-items center
-      position relative
-      width 100%
-      height 100%
-      z-index 3
-
-      &__inner {
-        display flex
-        align-items center
-        margin auto
-        position absolute
-        top 30px
-        left 30px
-
-        @media screen and (max-width 465px) {
-          & {
-            top -100%
-            left 50%
-            transform translate(-50%, -50%)
-            background-color #2f3640
-            padding 0.6rem 0.8rem
-            border-radius 10px
-            transition all .5s ease
-            animation fade-up 4s ease forwards
-
-            @keyframes fade-up {
-              0%, 100% {
-                opacity 0
-                top -100%
-              }
-              50% {
-                opacity 1
-                top 50%
-              }
-            }
-          }
-        }
-
-        @media screen and (max-width 375px) {
-          & {
-            top -100%
-            left 50%
-            transform translate(-50%, -50%)
-            background-color #2f3640
-            padding 0.6rem 0.8rem
-            border-radius 10px
-            transition all .5s ease
-            animation fade-up 4s ease forwards
-
-            @keyframes fade-up {
-              0%, 100% {
-                opacity 0
-                top -100%
-              }
-              50% {
-                opacity 1
-                top 100%
-              }
-            }
-          }
-        }
-      }
-
-      &__name {
-        margin-left 10px
-      }
-
-      .name {
-        color #929090
-        font normal 1rem 'Roboto', sans-serif
-      }
-    }
-
-    .track-reference {
-      display grid
-      grid-auto-rows repeat(auto-fit, 1fr)
-      grid-row-gap 30px
-      place-content center
-      position relative
-      width 100%
-      height auto
-      z-index 2
-
-      @media screen and (min-device-width 320px) and (max-device-width 1023px) {
-        & {
-          grid-row-gap 0
-        }
-      }
-
-      @media screen and (orientation portrait) {
-        top -35%
-        grid-row-gap 30px
-      }
-
-      .slider {
-        display flex
-        position relative
-        width 300px
-        height 200px
-        z-index 2
-        overflow hidden
-
-        @media screen and (max-width 465px) {
-          & {
-            top 30px
-          }
-        }
-
-        &__list {
-          display flex
-          justify-content center
-          align-items center
-          list-style none
-
-          .slider__item {
-            padding 0 50px
-            transition all .8s ease
-
-            @media only screen and (min-device-width 320px) and (max-device-width 1023px) {
-              & {
-                padding 0 65px
-              }
-            }
-          }
-        }
-      }
-
-      .info-track {
-        position relative
-        z-index 2
-        width 100%
-        max-width 800px
-
-        &__header {
-          display flex
-          justify-content center
-          align-items center
-        }
-
-        .title.title_dark {
-          color #A09F9FFF
-        }
-
-        .title {
-          font normal 1.2rem sans-serif
-          color #333
-        }
-
-        @media screen and (max-width 1024px) {
-          & {
-            top 20px
-          }
-        }
-      }
-    }
-
-    .control-panel {
-      display grid
-      grid-auto-rows repeat(auto-fit, 1fr)
-      grid-row-gap 20px
-      margin-bottom 20px
-      place-items center
-      position relative
-      height auto
-      z-index 2
-
-      @media screen and (max-width 465px) {
-        & {
-          top -35%
-          width 100%
-          padding 0 20px
-        }
-      }
-
-      .timeline {
-        display flex
-        justify-content space-between
-        align-items center
-        flex-direction column
-        position relative
-        width 486px
-        height 40px
-        z-index 2
-
-        @media screen and (min-device-width 320px) and (max-device-width 465px) {
-          & {
-            width 100%
-          }
-        }
-
-        &__base.timeline__base_dark {
-          background-color #353b48
-        }
-
-        &__base {
-          position relative
-          background #dbd5d5
-          margin auto
-          border-radius 5px
-          height 6px
-          width 100%
-
-          .timeline__progress {
-            display flex
-            justify-content flex-end
-            align-items center
-            position relative
-            background-color #1DD1A1
-            border-radius 5px
-            height 100%
-            transition width 0s linear
-
-            .range {
-              opacity 0
-              position absolute
-              width 0
-              height 0
-              border-radius 50%
-              background-color #fff
-              cursor pointer
-              box-shadow rgba(0, 0, 0, 0.24) 0px 3px 8px
-              transition all .2s ease
-
-              @media screen and (max-width 768px) {
-                & {
-                  opacity 1
-                  width 13px
-                  height 13px
-                }
-              }
-            }
-          }
-
-          &:hover .range {
-            opacity 1
-            width 13px
-            height 13px
-          }
-        }
-
-        .time-code {
-          display flex
-          justify-content space-between
-          position relative
-          width 100%
-          height auto
-          cursor default
-
-          .time {
-            font normal 0.9em sans-serif
-            color #B7B3B3
-          }
-        }
-      }
-
-      .panel {
+      &__header {
         display flex
         justify-content space-between
         align-items center
         position relative
-        width 768px
-        height 40px
+        top 10px
+        width 90%
+        height 100%
+        z-index 2
 
-        @media only screen and (min-device-width 320px) and (max-device-width 768px) {
+        @media screen and (min-device-width 376px) and (max-device-width 465px) {
           & {
-            width 100%
+            top -20%
           }
-        }
-
-        @media screen and (min-width 768px) and (max-width 1023px) {
-          & {
-            width 500px
-          }
-        }
-
-        & .btn {
-          display flex
-          justify-content center
-          align-items center
-          cursor pointer
         }
 
         .theme {
           display flex
-          justify-content center
           align-items center
+          justify-content center
           position relative
           cursor pointer
+          z-index 2
+        }
+      }
 
-          @media screen and (max-width 1023px) {
-            & {
-              position absolute
-              top 3px
-              left -90px
-            }
+      .track-reference {
+        display grid
+        grid-auto-rows repeat(auto-fit, 1fr)
+        grid-row-gap 30px
+        place-content center
+        position relative
+        width 100%
+        height auto
+        z-index 2
+
+        @media screen and (max-width 465px) {
+          & {
+            top -35%
           }
+        }
 
-          @media screen and (max-width 465px) {
-            & {
-              position absolute
-              top 50px
-              left -2px
+        @media screen and (max-width 376px) {
+          & {
+            top -15%
+            grid-row-gap 0
+          }
+        }
+
+        .slider {
+          display flex
+          position relative
+          width 300px
+          height 200px
+          z-index 2
+          overflow hidden
+
+          &__list {
+            display flex
+            justify-content center
+            align-items center
+            list-style none
+
+            .slider__item {
+              padding 0 50px
+              transition all .8s ease
+
+              @media screen and (max-width 376px) {
+                & {
+                  padding 0 65px
+                }
+              }
             }
           }
         }
 
-        &__main {
+        .info-track {
+          position relative
+          z-index 2
+          width 100%
+          max-width 800px
+
+          &__header {
+            display flex
+            justify-content center
+            align-items center
+          }
+
+          .title.title_dark {
+            color #A09F9FFF
+          }
+
+          .title {
+            font normal 1.2rem sans-serif
+            color #333
+          }
+        }
+      }
+
+      .control-panel {
+        display grid
+        grid-auto-rows repeat(auto-fill, 1fr)
+        grid-row-gap 20px
+        margin-bottom 20px
+        place-items center
+        position relative
+        width 486px
+        height auto
+        z-index 2
+
+        @media screen and (max-width 767px) {
+          & {
+            top -35%
+            width 100%
+            padding 0 20px
+          }
+        }
+
+        @media screen and (orientation landscape) {
+          width 486px
+          top 0
+        }
+
+        @media screen and (max-width: 376px) {
+          & {
+            top -15%
+            width 100%
+            padding 0 20px
+          }
+        }
+
+        .timeline {
           display flex
           justify-content space-between
           align-items center
-          width 200px
-          cursor default
-
-          @media screen and (max-width 320px) {
-            & {
-              width 160px
-            }
-          }
-        }
-
-        .sound {
-          display inline-block
+          flex-direction column
           position relative
+          width 100%
+          height 40px
+          z-index 2
 
-          @media screen and (min-device-width 320px) and (max-device-width 1023px) {
-            & {
-              display none
+          &__base.timeline__base_dark {
+            background-color #353b48
+          }
+
+          &__base {
+            position relative
+            background #dbd5d5
+            margin auto
+            border-radius 5px
+            height 6px
+            width 100%
+
+            .timeline__progress {
+              display flex
+              justify-content flex-end
+              align-items center
+              position relative
+              background-color #1DD1A1
+              border-radius 5px
+              width 0
+              height 100%
+              transition width 0s linear
+
+              .range {
+                opacity 0
+                position absolute
+                width 0
+                height 0
+                border-radius 50%
+                background-color #fff
+                cursor pointer
+                box-shadow rgba(0, 0, 0, 0.24) 0px 3px 8px
+                transition all .2s ease
+              }
+            }
+
+            &:hover .range {
+              opacity 1
+              width 13px
+              height 13px
             }
           }
 
-          &:hover > .sound__slider-box {
-            opacity 1
-            visibility visible
-          }
-
-          &__icon-box {
+          .time-code {
             display flex
+            justify-content space-between
             position relative
             width 100%
-            height 100%
-            cursor pointer
+            height auto
+            cursor default
 
-            .sound__icon {
-              margin auto
-            }
-          }
-
-          &__slider-box {
-            display flex
-            position absolute
-            top -36px
-            left 50%
-            transform translate(-50%, -50%) rotate(-90deg)
-            height 30px
-            opacity 0
-            visibility hidden
-            transition all .2s linear
-            padding-left 10px
-
-            .sound__progress {
-              display block
-              width 60px
-              margin auto
+            .time {
+              font normal 0.9em sans-serif
+              color #B7B3B3
             }
           }
         }
+
+        .panel {
+          display flex
+          justify-content space-between
+          align-items center
+          position relative
+          width 100%
+          height 40px
+
+          & .btn {
+            display flex
+            justify-content center
+            align-items center
+            cursor pointer
+          }
+
+          &__main {
+            display flex
+            justify-content space-between
+            align-items center
+            width 200px
+            cursor default
+
+            @media screen and (max-width: 376px) {
+              & {
+                width 170px
+              }
+            }
+          }
+        }
+      }
+
+      .sound {
+        display block
+        position absolute
+        top 89%
+        left 93%
+        transform translate(-50%, -50%)
+        z-index 2
+
+        @media screen and (max-width: 1023px) {
+          & {
+            display none
+          }
+        }
+
+        &:hover > .sound__slider-box {
+          opacity 1
+          visibility visible
+        }
+
+        &__icon-box {
+          display flex
+          position relative
+          width 100%
+          height 100%
+          cursor pointer
+
+          .sound__icon {
+            margin auto
+          }
+        }
+
+        &__slider-box {
+          display flex
+          position absolute
+          top -36px
+          left 50%
+          transform translate(-50%, -50%) rotate(-90deg)
+          height 30px
+          opacity 0
+          visibility hidden
+          transition all .2s linear
+          padding-left 10px
+
+          .sound__progress {
+            display block
+            width 60px
+            margin auto
+          }
+        }
+      }
+    }
+
+    @media screen and (max-width 1023px) {
+      & {
+        width 100%
+        height 100%
+        border-radius 0
       }
     }
   }
+}
 
-  @media screen and (max-width 1024px) {
-    .base {
-      width 100vw
-      height 100vh
-      border-radius 0
+.technology {
+  display flex
+  align-items center
+  position relative
 
-      .body {
-        width 100vw
-        height 100vh
-      }
-    }
+  &__name {
+    margin-left 10px
+  }
+
+  .name {
+    color #929090
+    font normal 1rem "Roboto", sans-serif
   }
 }
 
@@ -917,11 +831,12 @@ export default {
 
 .progress::-webkit-slider-thumb {
   -webkit-appearance none
+  visibility hidden
+  opacity 0
   position relative
   width 13px
   height 13px
   margin-top -4px
-  margin-right 5px
   background-color #fff
   border-radius 50%
   box-shadow rgba(0, 0, 0, 0.24) -3px 0px 8px
@@ -934,4 +849,8 @@ export default {
   cursor pointer
 }
 
+.progress:hover::-webkit-slider-thumb {
+  visibility hidden
+  opacity 1
+}
 </style>
