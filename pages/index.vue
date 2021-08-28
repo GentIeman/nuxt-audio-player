@@ -1,34 +1,51 @@
 <template>
-  <section class="page" :class="{'page_dark': $colorMode.value == 'dark'}">
+  <section class="page" :class="{ 'page_dark': $colorMode.value == 'dark' }">
     <section class="base">
-      <div class="background" :class="{'background_dark': $colorMode.value == 'dark'}">
-        <div class="background__circle circle"
-             :class="{'slide-up' : isPlayed, 'background__circle_dark': $colorMode.value == 'dark'}"></div>
-        <div class="background__circle circle "
-             :class="{'slide-down' : isPlayed, 'background__circle_dark': $colorMode.value == 'dark'}"></div>
+      <div class="background" :class="{ 'background_dark': $colorMode.value == 'dark' }">
+        <div
+          class="background__circle circle"
+          :class="{ 'slide-up': isPlayed, 'background__circle_dark': $colorMode.value == 'dark' }">
+        </div>
+        <div
+          class="background__circle circle"
+          :class="{ 'slide-down': isPlayed, 'background__circle_dark': $colorMode.value == 'dark' }">
+        </div>
       </div>
       <section class="body">
         <header class="body__header">
-          <section class="technology" :class="{'technology_dark': $colorMode.value == 'dark'}">
-            <img class="technology__logo" src="@/assets/icons/nuxt.svg" alt="">
+          <section class="technology" :class="{ 'technology_dark': $colorMode.value == 'dark' }">
+            <img
+              class="technology__logo"
+              src="@/assets/icons/nuxt.svg"
+              alt="technology logo"
+              width="37px"
+              height="37px"
+            />
             <p class="technology__name name">Created with Nuxt.js</p>
           </section>
           <section class="theme" @click="themeToggle()">
-            <img :src="require(`@/assets/icons/${themeIcon}_mode.svg`)" alt="theme switch" title="theme">
+            <img
+              :src="require(`@/assets/icons/${themeIcon}_mode.svg`)"
+              alt="theme switch"
+              title="theme"
+              width="33px"
+              height="33px"
+            />
           </section>
         </header>
         <div class="track-reference">
           <section class="slider">
             <ul class="slider__list" :style="sliderLength" v-for="song in trackData" :key="song.id">
               <li class="slider__item" :style="slidePosition">
-                <v-slider-items :data="song"/>
+                <v-slider-items :data="song" />
               </li>
             </ul>
           </section>
           <section class="info-track">
             <header class="info-track__header">
-              <h3 class="info-track__title title" :class="{'title_dark': $colorMode.value == 'dark'}">
-                {{ currentSong.title }}</h3>
+              <h3 class="info-track__title title" :class='{ "title_dark": $colorMode.value == "dark" }'>
+                {{ currentSong.title }}
+              </h3>
             </header>
           </section>
         </div>
@@ -38,55 +55,110 @@
               <span class="begin-time time" v-html="currentTime()"> 00:00 </span>
               <span class="end-time time" v-html="totalTime()"> 00:00 </span>
             </div>
-            <div class="timeline__base" ref="progressContainer" @click="setProgress"
+            <div class="timeline__base"
+                 ref="progressContainer"
+                 @click="setProgress"
                  :class="{'timeline__base_dark': $colorMode.value == 'dark'}">
-              <div class="timeline__progress" :style="{width: `${progress}%`}">
+              <div class="timeline__progress"
+                   :style="{width: `${progress}%`}"
+                   @draggable="true">
                 <div class="range" v-if="progress > 1"></div>
               </div>
             </div>
           </section>
-          <audio id="audio-player" ref="player" :loop="loop"
+          <audio id="audio-player"
+                 ref="player"
+                 :loop="loop"
                  :src="`/music/${currentSong.src}.mp3`">
             Your browser does not support audio tag.
           </audio>
           <section class="panel">
             <div class="shuffle btn">
-              <img :src="require(`@/assets/icons/${shuffleIcon}.svg`)" alt="shuffle" width="30px" title="shuffle"
-                   @click="shuffleTracks()" @mousedown="shuffleIcon = 'shuffle_active'"
-                   @mouseup=" shuffleIcon = 'shuffle'">
+              <img
+                :src="require(`@/assets/icons/${shuffleIcon}.svg`)"
+                alt="shuffle"
+                width="30px"
+                height="30px"
+                title="shuffle"
+                @click="shuffleTracks()"
+                @mousedown='shuffleIcon = "shuffle_active"'
+                @mouseup='shuffleIcon = "shuffle"'
+              />
             </div>
             <div class="panel__main">
               <div class="previous-song btn">
-                <img src="@/assets/icons/previous-song.svg" alt="previous song" width="30px" title="previous song"
-                     @click="songListStepper(-1)">
+                <img
+                  src="@/assets/icons/previous-song.svg"
+                  alt="previous song"
+                  width="30px"
+                  height="30px"
+                  title="previous song"
+                  @click="songListStepper(-1)"
+                />
               </div>
-              <div class="play-song btn" v-if="isPlayed === false" @click="playToggle()">
-                <img src="@/assets/icons/play.svg" alt="play" title="play" width="40px">
+              <div class="play-song btn"
+                   v-if="isPlayed === false"
+                   @click="playToggle()">
+                <img src="@/assets/icons/play.svg" alt="play" title="play" width="40px" height="40px" />
               </div>
               <div class="pause-song btn" v-if="isPlayed === true" @click="playToggle()">
-                <img src="@/assets/icons/pause.svg" alt="pause" title="pause" width="40px">
+                <img src="@/assets/icons/pause.svg" alt="pause" title="pause" width="40px" height="40px" />
               </div>
               <div class="next-song btn">
-                <img src="@/assets/icons/next-song.svg" alt="next song" title="next song" width="30px"
-                     @click="songListStepper(1)">
+                <img
+                  src="@/assets/icons/next-song.svg"
+                  alt="next song"
+                  title="next song"
+                  width="30px"
+                  height="30px"
+                  @click="songListStepper(1)"
+                />
               </div>
             </div>
             <div class="repeat btn">
-              <img src="@/assets/icons/repeat.svg" alt="repeat" width="30px" title="repeat" v-if="loop === false"
-                   @click="loopTrack()">
-              <img src="@/assets/icons/repeat_active.svg" alt="repeat" title="repeat active" width="30px" v-else
-                   @click="loopTrack()">
+              <img
+                src="@/assets/icons/repeat.svg"
+                alt="repeat"
+                width="30px"
+                height="30px"
+                title="repeat"
+                v-if="loop === false"
+                @click="loopTrack()"
+              />
+              <img
+                src="@/assets/icons/repeat_active.svg"
+                alt="repeat"
+                title="repeat active"
+                width="30px"
+                height="30px"
+                v-else
+                @click="loopTrack()"
+              />
             </div>
           </section>
         </section>
         <section class="sound">
           <div class="sound__icon-box">
-            <img :src="require(`@/assets/icons/${soundIcon}.svg`)" alt="" class="sound__icon" @click="muteToggle()">
+            <img
+              :src="require(`@/assets/icons/${soundIcon}.svg`)"
+              alt=""
+              class="sound__icon"
+              @click="muteToggle()"
+              width="33px"
+              height="33px"
+            />
           </div>
           <div class="sound__slider-box">
-            <input type="range" min="0" max="1" step="0.1" class="sound__progress progress" v-model="volume"
-                   :style="progressSoundSlider"
-                   @input="setVolume()">
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.1"
+              class="sound__progress progress"
+              v-model="volume"
+              :style="progressSoundSlider"
+              @input="setVolume()"
+            />
           </div>
         </section>
       </section>
@@ -153,16 +225,23 @@ export default {
   },
   computed: {
     sliderLength() {
-      return {width: `${this.trackData.length * 100}%`}
+      return { width: `${this.trackData.length * 100}%` }
     },
     slidePosition() {
-      return {transform: `translateX(-${this.currentSlideIndex * 100}%)`}
+      return { transform: `translateX(-${this.currentSlideIndex * 100}%)` }
+    },
+    progressSlider() {
+      if (this.$colorMode.value === 'light') {
+        return { background: `linear-gradient(to right, #1DD1A1 ${this.progress}%, #dbd5d5 0%)` }
+      } else {
+        return { background: `linear-gradient(to right, #1DD1A1 ${this.progress}%, #353b48 0%)` }
+      }
     },
     progressSoundSlider() {
       if (this.$colorMode.value === 'light') {
-        return {background: `linear-gradient(to right, #1DD1A1 ${this.volume * 100}%, #dbd5d5 0%)`}
+        return { background: `linear-gradient(to right, #1DD1A1 ${this.volume * 100}%, #dbd5d5 0%)` }
       } else {
-        return {background: `linear-gradient(to right, #1DD1A1 ${this.volume * 100}%, #353b48 0%)`}
+        return { background: `linear-gradient(to right, #1DD1A1 ${this.volume * 100}%, #353b48 0%)` }
       }
     },
     currentSlideIndex() {
@@ -172,14 +251,14 @@ export default {
   methods: {
     songListStepper(dir) {
       let pos = this.trackData.findIndex(item => item === this.currentSong)
-      this.currentSong = this.trackData[(pos + dir) > this.trackData.length - 1 ? 0 : (pos + dir) < 0 ? this.trackData.length - 1 : pos + dir]
+      this.currentSong = this.trackData[pos + dir > this.trackData.length - 1 ? 0 : pos + dir < 0 ? this.trackData.length - 1 : pos + dir]
       setTimeout(() => this.playToggle())
     },
     convertTime(seconds) {
       const format = val => `0${Math.floor(val)}`.slice(-2)
       let hours = seconds / 3600
       let minutes = (seconds % 3600) / 60
-      return [minutes, seconds % 60].map(format).join(":")
+      return [minutes, seconds % 60].map(format).join(':')
     },
     totalTime() {
       let audio = this.$refs.player
@@ -201,10 +280,10 @@ export default {
       return this.convertTime(seconds)
     },
     playToggle() {
-      let audio = this.$refs.player;
+      let audio = this.$refs.player
 
       if (audio.paused) {
-        audio.play();
+        audio.play()
         this.isPlayed = true
         this.updateProgress()
       } else {
@@ -214,18 +293,18 @@ export default {
     },
     updateProgress() {
       let audio = this.$refs.player
-      setInterval(() => this.progress = (audio.currentTime / audio.duration) * 100, 1000)
+      setInterval(() => this.progress = (audio.currentTime / audio.duration) * 100)
       audio.onended = () => this.songListStepper(1)
     },
     setProgress(e) {
       let audio = this.$refs.player
       let width = this.$refs.progressContainer.clientWidth
-      let clickX = e.offsetX;
-      audio.currentTime = (clickX / width) * audio.duration;
+      let clickX = e.offsetX
+      audio.currentTime = (clickX / width) * audio.duration
       if (audio.currentTime > 0) this.updateProgress()
     },
     loopTrack() {
-      this.loop = this.loop === false;
+      this.loop = this.loop === false
     },
     shuffleTracks() {
       let audio = this.$refs.player
@@ -235,10 +314,10 @@ export default {
       let currentIndex = this.trackData.length
       while (0 !== currentIndex) {
         currentIndex -= 1
-        let randomIndex = Math.floor(Math.random() * currentIndex);
-        let temporaryValue = this.trackData[currentIndex];
-        this.trackData[currentIndex] = this.trackData[randomIndex];
-        this.trackData[randomIndex] = temporaryValue;
+        let randomIndex = Math.floor(Math.random() * currentIndex)
+        let temporaryValue = this.trackData[currentIndex]
+        this.trackData[currentIndex] = this.trackData[randomIndex]
+        this.trackData[randomIndex] = temporaryValue
       }
       this.currentSong = this.trackData[tempIndex]
     },
@@ -320,7 +399,7 @@ export default {
       border solid 2px #ded8d8
       overflow hidden
 
-      @media screen and (max-width: 1023px) {
+      @media screen and (max-width 1023px) {
         & {
           border-radius 0
           border none
@@ -347,7 +426,7 @@ export default {
       }
 
       &:before {
-        content ''
+        content ""
         position absolute
         top 0
         left 0
@@ -485,7 +564,7 @@ export default {
             grid-row-gap 0
           }
         }
-
+        
         .slider {
           display flex
           position relative
@@ -560,7 +639,7 @@ export default {
           top 0
         }
 
-        @media screen and (max-width: 376px) {
+        @media screen and (max-width 376px) {
           & {
             top -15%
             width 100%
@@ -658,7 +737,7 @@ export default {
             width 200px
             cursor default
 
-            @media screen and (max-width: 376px) {
+            @media screen and (max-width 376px) {
               & {
                 width 170px
               }
@@ -675,7 +754,7 @@ export default {
         transform translate(-50%, -50%)
         z-index 2
 
-        @media screen and (max-width: 1023px) {
+        @media screen and (max-width 1023px) {
           & {
             display none
           }
@@ -740,7 +819,7 @@ export default {
 
   .name {
     color #929090
-    font normal 1rem 'Roboto', sans-serif
+    font normal 1rem "Roboto", sans-serif
   }
 }
 
@@ -758,7 +837,6 @@ export default {
   width 13px
   height 13px
   margin-top -4px
-  margin-right 5px
   background-color #fff
   border-radius 50%
   box-shadow rgba(0, 0, 0, 0.24) -3px 0px 8px
