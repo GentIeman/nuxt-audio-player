@@ -399,7 +399,7 @@ export default {
       border solid 2px #ded8d8
       overflow hidden
 
-      @media screen and (max-width: 1023px) {
+      @media screen and (max-width 1023px) {
         & {
           border-radius 0
           border none
@@ -564,7 +564,7 @@ export default {
             grid-row-gap 0
           }
         }
-
+        
         .slider {
           display flex
           position relative
@@ -639,7 +639,7 @@ export default {
           top 0
         }
 
-        @media screen and (max-width: 376px) {
+        @media screen and (max-width 376px) {
           & {
             top -15%
             width 100%
@@ -737,7 +737,7 @@ export default {
             width 200px
             cursor default
 
-            @media screen and (max-width: 376px) {
+            @media screen and (max-width 376px) {
               & {
                 width 170px
               }
@@ -754,7 +754,7 @@ export default {
         transform translate(-50%, -50%)
         z-index 2
 
-        @media screen and (max-width: 1023px) {
+        @media screen and (max-width 1023px) {
           & {
             display none
           }
@@ -850,7 +850,7 @@ export default {
 }
 
 .progress:hover::-webkit-slider-thumb {
-  visibility hidden
+  visibility visible
   opacity 1
 }
 </style>
