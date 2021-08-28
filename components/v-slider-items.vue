@@ -1,12 +1,16 @@
 <template>
   <div class="slider__slide">
-    <img class="album" :src="require(`@/assets/albums/${data.album}.jpg`)" alt="album">
+    <img class="album"
+         :src="require(`@/assets/albums/${data.album}.jpg`)"
+         alt="album">
   </div>
 </template>
 
 <script>
 export default {
-  props: ['data'],
+  props: {
+    data: Object
+  },
   name: "v-slider"
 }
 </script>
