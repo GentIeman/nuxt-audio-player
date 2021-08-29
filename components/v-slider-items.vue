@@ -1,7 +1,7 @@
 <template>
   <div class="slider__slide">
     <img class="album"
-         :src="require(`@/assets/albums/${data.album}.jpg`)"
+         :src="require(`@/assets/albums/${data.album}.webp`)"
          alt="album">
   </div>
 </template>
@@ -11,7 +11,7 @@ export default {
   props: {
     data: Object
   },
-  name: "v-slider"
+  name: 'v-slider'
 }
 </script>
 
