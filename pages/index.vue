@@ -1,19 +1,19 @@
 <template>
-  <section class="page" :class="{ 'page_dark': $colorMode.value == 'dark' }">
+  <section class="page" :class="{ page_dark: $colorMode.value == 'dark' }">
     <section class="base">
-      <div class="background" :class="{ 'background_dark': $colorMode.value == 'dark' }">
+      <div class="background" :class="{ background_dark: $colorMode.value == 'dark' }">
         <div
           class="background__circle circle"
-          :class="{ 'slide-up': isPlayed, 'background__circle_dark': $colorMode.value == 'dark' }">
-        </div>
+          :class="{ 'slide-up': isPlayed, background__circle_dark: $colorMode.value == 'dark' }"
+        ></div>
         <div
           class="background__circle circle"
-          :class="{ 'slide-down': isPlayed, 'background__circle_dark': $colorMode.value == 'dark' }">
-        </div>
+          :class="{ 'slide-down': isPlayed, background__circle_dark: $colorMode.value == 'dark' }"
+        ></div>
       </div>
       <section class="body">
         <header class="body__header">
-          <section class="technology" :class="{ 'technology_dark': $colorMode.value == 'dark' }">
+          <section class="technology" :class="{ technology_dark: $colorMode.value == 'dark' }">
             <img
               class="technology__logo"
               src="@/assets/icons/nuxt.svg"
@@ -43,7 +43,7 @@
           </section>
           <section class="info-track">
             <header class="info-track__header">
-              <h3 class="info-track__title title" :class='{ "title_dark": $colorMode.value == "dark" }'>
+              <h3 class="info-track__title title" :class="{ title_dark: $colorMode.value == 'dark' }">
                 {{ currentSong.title }}
               </h3>
             </header>
@@ -55,21 +55,18 @@
               <span class="begin-time time" v-html="currentTime()"> 00:00 </span>
               <span class="end-time time" v-html="totalTime()"> 00:00 </span>
             </div>
-            <div class="timeline__base"
-                 ref="progressContainer"
-                 @click="setProgress"
-                 :class="{'timeline__base_dark': $colorMode.value == 'dark'}">
-              <div class="timeline__progress"
-                   :style="{width: `${progress}%`}"
-                   @draggable="true">
+            <div
+              class="timeline__base"
+              ref="progressContainer"
+              @click="setProgress"
+              :class="{ timeline__base_dark: $colorMode.value == 'dark' }"
+            >
+              <div class="timeline__progress" :style="{ width: `${progress}%` }" @draggable="true">
                 <div class="range" v-if="progress > 1"></div>
               </div>
             </div>
           </section>
-          <audio id="audio-player"
-                 ref="player"
-                 :loop="loop"
-                 :src="`/music/${currentSong.src}.mp3`">
+          <audio id="audio-player" ref="player" :loop="loop" :src="`/music/${currentSong.src}.mp3`">
             Your browser does not support audio tag.
           </audio>
           <section class="panel">
@@ -81,8 +78,8 @@
                 height="30px"
                 title="shuffle"
                 @click="shuffleTracks()"
-                @mousedown='shuffleIcon = "shuffle_active"'
-                @mouseup='shuffleIcon = "shuffle"'
+                @mousedown="shuffleIcon = 'shuffle_active'"
+                @mouseup="shuffleIcon = 'shuffle'"
               />
             </div>
             <div class="panel__main">
@@ -96,9 +93,7 @@
                   @click="songListStepper(-1)"
                 />
               </div>
-              <div class="play-song btn"
-                   v-if="isPlayed === false"
-                   @click="playToggle()">
+              <div class="play-song btn" v-if="isPlayed === false" @click="playToggle()">
                 <img src="@/assets/icons/play.svg" alt="play" title="play" width="40px" height="40px" />
               </div>
               <div class="pause-song btn" v-if="isPlayed === true" @click="playToggle()">
@@ -212,12 +207,12 @@ export default {
   watch: {
     volume(value) {
       switch (true) {
-        case value >= 0.7 :
+        case value >= 0.7:
           this.soundIcon = 'sound'
-          break;
+          break
         case value > 0.1 && value < 0.7:
           this.soundIcon = 'sound_min'
-          break;
+          break
         case value == 0:
           this.soundIcon = 'sound_off'
       }
@@ -229,13 +224,6 @@ export default {
     },
     slidePosition() {
       return { transform: `translateX(-${this.currentSlideIndex * 100}%)` }
-    },
-    progressSlider() {
-      if (this.$colorMode.value === 'light') {
-        return { background: `linear-gradient(to right, #1DD1A1 ${this.progress}%, #dbd5d5 0%)` }
-      } else {
-        return { background: `linear-gradient(to right, #1DD1A1 ${this.progress}%, #353b48 0%)` }
-      }
     },
     progressSoundSlider() {
       if (this.$colorMode.value === 'light') {
@@ -251,7 +239,9 @@ export default {
   methods: {
     songListStepper(dir) {
       let pos = this.trackData.findIndex(item => item === this.currentSong)
-      this.currentSong = this.trackData[pos + dir > this.trackData.length - 1 ? 0 : pos + dir < 0 ? this.trackData.length - 1 : pos + dir]
+      this.currentSong = this.trackData[
+        pos + dir > this.trackData.length - 1 ? 0 : pos + dir < 0 ? this.trackData.length - 1 : pos + dir
+        ]
       setTimeout(() => this.playToggle())
     },
     convertTime(seconds) {
@@ -564,7 +554,7 @@ export default {
             grid-row-gap 0
           }
         }
-        
+
         .slider {
           display flex
           position relative
@@ -654,7 +644,7 @@ export default {
           flex-direction column
           position relative
           width 100%
-          height 40px
+          height 30px
           z-index 2
 
           &__base.timeline__base_dark {
