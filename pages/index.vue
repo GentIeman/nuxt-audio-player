@@ -172,6 +172,7 @@ export default {
       preference: 'system',
       fallback: 'light'
     },
+    audio: '',
     loop: false,
     shuffleIcon: 'shuffle',
     volume: 0.5,
@@ -251,54 +252,45 @@ export default {
       return [minutes, seconds % 60].map(format).join(':')
     },
     totalTime() {
-      let audio = this.$refs.player
+      if (!this.audio) return '00:00'
 
-      if (!audio) return '00:00'
-
-      let seconds = audio.duration
+      let seconds = this.audio.duration
       if (isNaN(seconds)) {
         return '00:00'
       }
       return this.convertTime(seconds)
     },
     currentTime() {
-      let audio = this.$refs.player
+      if (!this.audio) return '00:00'
 
-      if (!audio) return '00:00'
-
-      let seconds = audio.currentTime
+      let seconds = this.audio.currentTime
       return this.convertTime(seconds)
     },
     playToggle() {
-      let audio = this.$refs.player
-
-      if (audio.paused) {
-        audio.play()
+      if (this.audio.paused) {
+        this.audio.play()
         this.isPlayed = true
         this.updateProgress()
       } else {
-        audio.pause()
+        this.audio.pause()
         this.isPlayed = false
       }
     },
     updateProgress() {
-      let audio = this.$refs.player
-      setInterval(() => this.progress = (audio.currentTime / audio.duration) * 100)
-      audio.onended = () => this.songListStepper(1)
+      setInterval(() => this.progress = (this.audio.currentTime / this.audio.duration) * 100)
+      this.audio.onended = () => this.songListStepper(1)
     },
     setProgress(e) {
-      let audio = this.$refs.player
       let width = this.$refs.progressContainer.clientWidth
       let clickX = e.offsetX
-      audio.currentTime = (clickX / width) * audio.duration
-      if (audio.currentTime > 0) this.updateProgress()
+      this.audio.currentTime = (clickX / width) * this.audio.duration
+      if (this.audio.currentTime > 0) this.updateProgress()
     },
     loopTrack() {
       this.loop = this.loop === false
     },
     shuffleTracks() {
-      let audio = this.$refs.player
-      setTimeout(() => audio.play())
+      setTimeout(() => this.audio.play())
       this.isPlayed = true
       let tempIndex = this.currentSlideIndex
       let currentIndex = this.trackData.length
@@ -312,18 +304,16 @@ export default {
       this.currentSong = this.trackData[tempIndex]
     },
     muteToggle() {
-      let audio = this.$refs.player
-      if (!audio.muted) {
-        audio.muted = true
+      if (!this.audio.muted) {
+        this.audio.muted = true
         this.volume = 0
       } else {
-        audio.muted = false
-        this.volume = audio.volume
+        this.audio.muted = false
+        this.volume = this.audio.volume
       }
     },
     setVolume() {
-      let audio = this.$refs.player
-      audio.volume = this.volume
+      this.audio.volume = this.volume
     },
     themeToggle() {
       if (this.$colorMode.value == 'dark') {
@@ -336,8 +326,8 @@ export default {
     }
   },
   mounted() {
-    let audio = this.$refs.player
-    audio.volume = this.volume
+    this.audio = this.$refs.player
+    this.audio.volume = this.volume
   }
 }
 </script>
